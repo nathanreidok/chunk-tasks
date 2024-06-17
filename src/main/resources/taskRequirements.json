@@ -1,0 +1,254 @@
+{
+  "Access the novice lander for ~|Pest Control|~": {
+    "mapBoundary": {
+      "xMin": 2660,
+      "xMax": 2663,
+      "yMin": 2638,
+      "yMax": 2643
+    }
+  },
+  "Access the intermediate lander for ~|Pest Control|~": {
+    "mapBoundary": {
+      "xMin": 2638,
+      "xMax": 2641,
+      "yMin": 2642,
+      "yMax": 2647
+    }
+  },
+  "Access the veteran lander for ~|Pest Control|~": {
+    "mapBoundary": {
+      "xMin": 2632,
+      "xMax": 2635,
+      "yMin": 2649,
+      "yMax": 2654
+    }
+  },
+  "Receive a Slayer assignment from ~|Chaeldar|~ in Zanaris": {
+    "chatMessageType": 114,
+    "containedMessage": "Chaeldar|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Duradel|~ in Shilo Village": {
+    "chatMessageType": 114,
+    "containedMessage": "Duradel|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Konar quo Maten|~ in Mount Karuulm": {
+    "chatMessageType": 114,
+    "containedMessage": "Konar quo Maten|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Krystilia|~ in Edgeville": {
+    "chatMessageType": 114,
+    "containedMessage": "Krystilia|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Mazchna|~ in Canifis": {
+    "chatMessageType": 114,
+    "containedMessage": "Mazchna|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Nieve|~ in Tree Gnome Stronghold": {
+    "chatMessageType": 114,
+    "containedMessage": "Nieve|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Spria|~ in Draynor Village": {
+    "chatMessageType": 114,
+    "containedMessage": "Spria|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Turael|~ in Burthorpe": {
+    "chatMessageType": 114,
+    "containedMessage": "Turael|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Vannaka|~ in Edgeville Dungeon": {
+    "chatMessageType": 114,
+    "containedMessage": "Vannaka|Your new task"
+  },
+  "Burn ~|logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 40,
+      "max": 41
+    },
+    "usedItems": ["Logs"]
+  },
+  "Burn ~|achey tree logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 40,
+      "max": 41
+    },
+    "usedItems": ["Achey tree logs"]
+  },
+  "Burn ~|oak logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 60,
+      "max": 62
+    },
+    "usedItems": ["Oak logs"]
+  },
+  "Burn ~|willow logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 90,
+      "max": 93
+    },
+    "usedItems": ["Willow logs"]
+  },
+  "Burn ~|teak logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 105,
+      "max": 108
+    },
+    "usedItems": ["Teak logs"]
+  },
+  "Burn ~|arctic pine logs|~d": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 125,
+      "max": 129
+    },
+    "usedItems": ["Arctic pine logs"]
+  },
+  "Burn ~|maple logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 135,
+      "max": 139
+    },
+    "usedItems": ["Maple logs"]
+  },
+  "Burn ~|mahogany logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 157,
+      "max": 162
+    },
+    "usedItems": ["Mahogany logs"]
+  },
+  "Burn ~|yew logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 202,
+      "max": 208
+    },
+    "usedItems": ["Yew logs"]
+  },
+  "Burn ~|blisterwood logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 96,
+      "max": 99
+    },
+    "usedItems": ["Blisterwood logs"]
+  },
+  "Burn ~|magic logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 303,
+      "max": 312
+    },
+    "usedItems": ["Blisterwood logs"]
+  },
+  "Burn ~|redwood logs|~": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 350,
+      "max": 359
+    },
+    "usedItems": ["Redwood logs"]
+  },
+  "Burn ~|logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Logs"]
+  },
+  "Burn ~|achey tree logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Achey tree logs"]
+  },
+  "Burn ~|oak logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 20,
+      "max": 21
+    },
+    "usedItems": ["Oak logs"]
+  },
+  "Burn ~|willow logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 30,
+      "max": 31
+    },
+    "usedItems": ["Willow logs"]
+  },
+  "Burn ~|teak logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Teak logs"]
+  },
+  "Burn ~|arctic pine logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Arctic pine logs"]
+  },
+  "Burn ~|maple logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Maple logs"]
+  },
+  "Burn ~|mahogany logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Mahogany logs"]
+  },
+  "Burn ~|yew logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Yew logs"]
+  },
+  "Burn ~|blisterwood logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Blisterwood logs"]
+  },
+  "Burn ~|magic logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Magic logs"]
+  },
+  "Burn ~|redwood logs|~ at a forester's campfire": {
+    "xpThresholdSkill": "Firemaking",
+    "xpThreshold": {
+      "min": 13,
+      "max": 14
+    },
+    "usedItems": ["Redwood logs"]
+  }
+}

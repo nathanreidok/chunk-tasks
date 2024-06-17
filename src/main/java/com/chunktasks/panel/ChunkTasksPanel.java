@@ -1,162 +1,118 @@
 package com.chunktasks.panel;
 
+import com.chunktasks.ChunkTaskNotifier;
+import com.chunktasks.TaskGroup;
 import com.chunktasks.ChunkTasksPlugin;
-import com.google.common.base.MoreObjects;
+import com.chunktasks.TaskType;
+import com.chunktasks.manager.ChunkTask;
+import com.chunktasks.manager.ChunkTasksManager;
+import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
-import net.runelite.api.Client;
-import net.runelite.client.RuneLiteProperties;
-//import net.runelite.client.eventbus.EventBus;
-import net.runelite.client.eventbus.Subscribe;
-import net.runelite.client.events.SessionClose;
-import net.runelite.client.events.SessionOpen;
+import lombok.extern.slf4j.Slf4j;
+import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
-import net.runelite.client.ui.FontManager;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.util.ImageUtil;
-import net.runelite.client.util.LinkBrowser;
-
-import javax.annotation.Nullable;
-import javax.inject.Named;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static net.runelite.http.api.RuneLiteAPI.GSON;
+
+@Slf4j
 public class ChunkTasksPanel extends PluginPanel
 {
-    private final JLabel loggedLabel = new JLabel();
-    private JPanel actionsContainer;
+    @Inject private ChunkTasksManager chunkTasksManager;
+    @Inject private ChunkTaskNotifier chunkTaskNotifier;
+    @Inject private ClientThread clientThread;
 
-//    @Inject
-//    @Nullable
-//    private Client client;
+    private JPanel taskListPanel;
+    private JPanel topPanel;
+    private JLabel importButton;
 
 //    @Inject
 //    private EventBus eventBus;
 
-    private static ImageIcon IMPORT_ICON;
-    private static ImageIcon IMPORT_HOVER_ICON;
-
-    private final ChunkTasksPlugin plugin;
-//    private final JPanel northAnchoredPanel;
-//    private final JPanel overviewTopPanel;
-//    // The top panel when veiwing a setup
-////    private final JPanel setupTopPanel;
-//    private final JLabel mainTitle;
-//    private final JLabel importMarker;
-
+    private static final ImageIcon IMPORT_ICON;
+    private static final ImageIcon IMPORT_HOVER_ICON;
+    private static final ImageIcon BROKEN_LINK_ICON;
 
     static
     {
         final BufferedImage importIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/import_icon.png");
+        final BufferedImage brokenLinkIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/broken_link_icon.png");
         IMPORT_ICON = new ImageIcon(importIcon);
         IMPORT_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(importIcon, 0.53f));
+        BROKEN_LINK_ICON = new ImageIcon(brokenLinkIcon);
     }
 
-    public ChunkTasksPanel(ChunkTasksPlugin plugin)
-    {
-        super(false);
-        this.plugin = plugin;
-//
-//        //Main Title
-//        this.mainTitle = new JLabel();
-//        mainTitle.setText("Chunk Tasks");
-//        mainTitle.setForeground(Color.WHITE);
-//
-//        //Import Button
-//        this.importMarker = new JLabel(IMPORT_ICON);
-//        importMarker.setToolTipText("Import tasks");
-//        importMarker.addMouseListener(new MouseAdapter()
-//        {
-//            @Override
-//            public void mousePressed(MouseEvent e)
-//            {
-//                plugin.importChunkTasks();
-////                if (SwingUtilities.isLeftMouseButton(e))
-////                {
-////
-////                    final Point location = MouseInfo.getPointerInfo().getLocation();
-////                    SwingUtilities.convertPointFromScreen(location, importMarker);
-////                    singleImportExportMenu.show(importMarker, location.x, location.y);
-////                }
-//            }
-//
-//            @Override
-//            public void mouseEntered(MouseEvent e)
-//            {
-//                importMarker.setIcon(IMPORT_HOVER_ICON);
-//            }
-//
-//            @Override
-//            public void mouseExited(MouseEvent e)
-//            {
-//                importMarker.setIcon(IMPORT_ICON);
-//            }
-//        });
-//
-//
-//        JPanel overViewMarkers = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
-//        overViewMarkers.add(importMarker);
-//        importMarker.setBorder(new EmptyBorder(0, 8, 0, 0));
-//
-//        JPanel overviewTitleAndHelpButton = new JPanel();
-//        overviewTitleAndHelpButton.setLayout(new BorderLayout());
-//        overviewTitleAndHelpButton.add(mainTitle, BorderLayout.WEST);
-//
-//        // the panel on the top that holds the title and buttons
-//        this.overviewTopPanel = new JPanel();
-//        overviewTopPanel.setLayout(new BorderLayout());
-//        overviewTopPanel.add(overviewTitleAndHelpButton, BorderLayout.NORTH);
-//        overviewTopPanel.add(Box.createRigidArea(new Dimension(0, 3)), BorderLayout.CENTER);
-//        overviewTopPanel.add(overViewMarkers, BorderLayout.SOUTH);
-//
-//        overviewTopPanel.setVisible(true);
-//
-//
-////        this.setupTopPanel = new JPanel(new BorderLayout());
-////        setupTopPanel.add(setupTitleAndButtons, BorderLayout.CENTER);
-//
-//        final JPanel topPanel = new JPanel();
-//        topPanel.setLayout(new BorderLayout());
-//        topPanel.add(overviewTopPanel, BorderLayout.NORTH);
-////        topPanel.add(setupTopPanel, BorderLayout.SOUTH);
-//
-//
-//
-//        this.northAnchoredPanel = new JPanel();
-//        northAnchoredPanel.setLayout(new BoxLayout(northAnchoredPanel, BoxLayout.Y_AXIS));
-//        northAnchoredPanel.setBorder(new EmptyBorder(0, 0, 10, 0));
-//        northAnchoredPanel.add(topPanel);
-//        northAnchoredPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-////        northAnchoredPanel.add(searchBar);
-//
-//        setLayout(new BorderLayout());
-//        setBorder(new EmptyBorder(10, 10, 10, 10));
-//        add(northAnchoredPanel, BorderLayout.NORTH);
-//        add(this.contentWrapperPane, BorderLayout.CENTER);
-
-        // make sure the invEq panel isn't visible upon startup
-//        setupDisplayPanel.setVisible(false);
-//        helpButton.setVisible(!plugin.getConfig().hideButton());
-//        updateSectionViewMarker();
-//        updatePanelViewMarker();
-//        updateSortingMarker();
-    }
-
-    public void init()
-    {
+    public void init(boolean isLoggedIn) {
         setLayout(new BorderLayout());
         setBackground(ColorScheme.DARK_GRAY_COLOR);
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        taskListPanel = new JPanel();
+        taskListPanel.setLayout(new BoxLayout(taskListPanel, BoxLayout.Y_AXIS));
+
+        add(createTopPanel(isLoggedIn), BorderLayout.NORTH);
+        add(taskListPanel, BorderLayout.CENTER);
+
+//        updateLoggedIn();
+//        eventBus.register(this);
+    }
+
+    public void showHideImportButton(boolean isLoggedIn) {
+        if (isLoggedIn) {
+            topPanel.add(importButton, BorderLayout.LINE_END);
+        } else {
+            topPanel.remove(importButton);
+        }
+    }
+
+    public void redrawChunkTasks() {
+        List<ChunkTask> chunkTasks = chunkTasksManager.getChunkTasks();
+        taskListPanel.removeAll();
+
+        for (TaskGroup taskGroup : TaskGroup.values()) {
+            List<ChunkTask> taskGroupTasks = chunkTasks.stream().filter(t -> t.taskGroup == taskGroup).collect(Collectors.toList());
+            if (!taskGroupTasks.isEmpty()) {
+                taskListPanel.add(createTaskGroupPanel(taskGroup, taskGroupTasks));
+            }
+        }
+
+        revalidate();
+        repaint();
+    }
+
+    private JPanel createTopPanel(boolean isLoggedIn) {
         JLabel titleLabel = new JLabel();
         titleLabel.setText("Chunk Tasks");
         titleLabel.setForeground(Color.WHITE);
 
-        JLabel importButton = new JLabel(IMPORT_ICON);
-        importButton.setToolTipText("Import chunk tasks");
+        importButton = new JLabel(IMPORT_ICON);
+//        importButton.setToolTipText("Import chunk tasks and overwrite existing tasks");
+        importButton.setToolTipText("Import chunk tasks from clipboard");
         importButton.addMouseListener(new MouseAdapter()
         {
             @Override
@@ -164,7 +120,7 @@ public class ChunkTasksPanel extends PluginPanel
             {
                 if (SwingUtilities.isLeftMouseButton(e))
                 {
-                    plugin.importChunkTasks();
+                    importChunkTasks();
                 }
             }
 
@@ -181,154 +137,188 @@ public class ChunkTasksPanel extends PluginPanel
             }
         });
 
-        JPanel topPanel = new JPanel();
+        topPanel = new JPanel();
         topPanel.setLayout(new BorderLayout());
         topPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
         topPanel.add(titleLabel, BorderLayout.LINE_START);
-        topPanel.add(importButton, BorderLayout.LINE_END);
+        topPanel.setBorder(new EmptyBorder(0,0,5,0));
+        if (isLoggedIn) {
+            topPanel.add(importButton, BorderLayout.LINE_END);
+        }
 
-
-
-//        //Main Title
-//        this.mainTitle = new JLabel();
-//        mainTitle.setText("Chunk Tasks");
-//        mainTitle.setForeground(Color.WHITE);
-
-        JPanel versionPanel = new JPanel();
-        versionPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        versionPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        versionPanel.setLayout(new GridLayout(0, 1));
-
-        final Font smallFont = FontManager.getRunescapeSmallFont();
-
-        JLabel version = new JLabel(htmlLabel("RuneLite version: ", "0.0.0.0"));
-        version.setFont(smallFont);
-
-        JLabel revision = new JLabel();
-        revision.setFont(smallFont);
-
-        String engineVer = "Unknown";
-//        if (client != null)
-//        {
-//            engineVer = String.format("Rev %d", client.getRevision());
-//        }
-
-        revision.setText(htmlLabel("Oldschool revision: ", engineVer));
-
-        JLabel launcher = new JLabel(htmlLabel("Launcher version: ", MoreObjects
-                .firstNonNull(RuneLiteProperties.getLauncherVersion(), "Unknown")));
-        launcher.setFont(smallFont);
-
-        loggedLabel.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
-        loggedLabel.setFont(smallFont);
-
-        versionPanel.add(version);
-        versionPanel.add(revision);
-        versionPanel.add(launcher);
-        versionPanel.add(Box.createGlue());
-        versionPanel.add(loggedLabel);
-
-        actionsContainer = new JPanel();
-        actionsContainer.setBorder(new EmptyBorder(10, 0, 0, 0));
-        actionsContainer.setLayout(new GridLayout(0, 1, 0, 10));
-
-        add(topPanel, BorderLayout.NORTH);
-//        add(versionPanel, BorderLayout.NORTH);
-        add(actionsContainer, BorderLayout.CENTER);
-
-//        updateLoggedIn();
-//        eventBus.register(this);
+        return topPanel;
     }
 
-//    void deinit()
-//    {
-//        eventBus.unregister(this);
-//    }
+    private JPanel createTaskGroupPanel(TaskGroup taskGroup, List<ChunkTask> chunkTasks) {
+        JPanel tasksPanel = new JPanel();
+        tasksPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+        tasksPanel.setLayout(new BoxLayout(tasksPanel, BoxLayout.PAGE_AXIS));
+        tasksPanel.setBorder((new EmptyBorder(10,10,10,10)));
 
-    /**
-     * Builds a link panel with a given icon, text and url to redirect to.
-     */
-    private static JPanel buildLinkPanel(ImageIcon icon, String topText, String bottomText, String url)
-    {
-        return buildLinkPanel(icon, topText, bottomText, () -> LinkBrowser.browse(url));
-    }
+        JPanel taskGroupPanel = new JPanel();
+        taskGroupPanel.setLayout(new BorderLayout());
+        taskGroupPanel.setBorder(new EmptyBorder(5,10,5,0));
 
-    /**
-     * Builds a link panel with a given icon, text and callable to call.
-     */
-    private static JPanel buildLinkPanel(ImageIcon icon, String topText, String bottomText, Runnable callback)
-    {
-        JPanel container = new JPanel();
-        container.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        container.setLayout(new BorderLayout());
-        container.setBorder(new EmptyBorder(10, 10, 10, 10));
+        JLabel taskGroupLabel = new JLabel(taskGroup.displayText() + " Tasks");
+        taskGroupLabel.setForeground(Color.WHITE);
+        taskGroupLabel.setLayout(new BorderLayout());
+        taskGroupPanel.add(taskGroupLabel, BorderLayout.CENTER);
 
-        final Color hoverColor = ColorScheme.DARKER_GRAY_HOVER_COLOR;
-        final Color pressedColor = ColorScheme.DARKER_GRAY_COLOR.brighter();
+        tasksPanel.add(taskGroupPanel);
 
-        JLabel iconLabel = new JLabel(icon);
-        container.add(iconLabel, BorderLayout.WEST);
-
-        JPanel textContainer = new JPanel();
-        textContainer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-        textContainer.setLayout(new GridLayout(2, 1));
-        textContainer.setBorder(new EmptyBorder(5, 10, 5, 10));
-
-        container.addMouseListener(new MouseAdapter()
+        for (ChunkTask task : chunkTasks)
         {
-            @Override
-            public void mousePressed(MouseEvent mouseEvent)
-            {
-                container.setBackground(pressedColor);
-                textContainer.setBackground(pressedColor);
-            }
+            tasksPanel.add(createTaskPanel(task));
+        }
 
-            @Override
-            public void mouseReleased(MouseEvent e)
-            {
-                callback.run();
-                container.setBackground(hoverColor);
-                textContainer.setBackground(hoverColor);
-            }
+        return tasksPanel;
+    }
 
-            @Override
-            public void mouseEntered(MouseEvent e)
-            {
-                container.setBackground(hoverColor);
-                textContainer.setBackground(hoverColor);
-                container.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e)
-            {
-                container.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-                textContainer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
-                container.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+    private JPanel createTaskPanel(ChunkTask chunkTask) {
+        JCheckBox checkBox = new JCheckBox();
+        checkBox.setLayout(new BorderLayout());
+        checkBox.setText(getTaskNameHtml(chunkTask.name, chunkTask.isComplete));
+        checkBox.setSelected(chunkTask.isComplete);
+        checkBox.addActionListener(e -> {
+            JCheckBox cb = (JCheckBox)e.getSource();
+            if (cb.isSelected()) {
+                cb.setText(getTaskNameHtml(chunkTask.name, true));
+                clientThread.invokeLater(() -> {
+                    chunkTaskNotifier.completeTask(chunkTask);
+                });
+                redrawChunkTasks();
+            } else {
+                cb.setText(getTaskNameHtml(chunkTask.name, false));
+                chunkTasksManager.uncompleteTask(chunkTask);
+                redrawChunkTasks();
             }
         });
 
-        JLabel topLine = new JLabel(topText);
-        topLine.setForeground(Color.WHITE);
-        topLine.setFont(FontManager.getRunescapeSmallFont());
+        JPanel panel = new JPanel();
+        panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
+//        panel.setLayout(new BorderLayout());
+        panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+        panel.add(checkBox);
 
-        JLabel bottomLine = new JLabel(bottomText);
-        bottomLine.setForeground(Color.WHITE);
-        bottomLine.setFont(FontManager.getRunescapeSmallFont());
+        if (chunkTask.taskType == TaskType.UNKONWN) {
+            JLabel brokenLinkLabel = new JLabel(BROKEN_LINK_ICON);
+            brokenLinkLabel.setToolTipText("Auto-detection of this chunk task is not available");
+            panel.add(brokenLinkLabel);
+        }
 
-        textContainer.add(topLine);
-        textContainer.add(bottomLine);
-
-        container.add(textContainer, BorderLayout.CENTER);
-
-//        JLabel arrowLabel = new JLabel(ARROW_RIGHT_ICON);
-//        container.add(arrowLabel, BorderLayout.EAST);
-
-        return container;
+        return panel;
     }
 
-    private static String htmlLabel(String key, String value)
+    private String getTaskNameHtml(String taskName, boolean isComplete) {
+        String sanitizedTaskName = taskName
+                .replace("~", "")
+                .replace("|", "");
+        return isComplete
+                ? "<html><strike>" + sanitizedTaskName + "</strike></html>"
+                : "<html>" + sanitizedTaskName + "</html>";
+    }
+
+    public void importChunkTasks() {
+        try {
+            String chunkTasksString = (String)Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+
+            Type type = new TypeToken<ArrayList<ChunkTask>>(){}.getType();
+            final ArrayList<ChunkTask> chunkTasks = GSON.fromJson(chunkTasksString, type);
+
+            //Load task triggers
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream stream = classloader.getResourceAsStream("task-triggers.json");
+            Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+            Map<String, TaskType> taskTriggers = GSON.fromJson(reader,
+                    new TypeToken<HashMap<String, TaskType>>() {}.getType()
+            );
+
+            //Set task triggers
+            for (ChunkTask chunkTask : chunkTasks) {
+                for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
+                    if (Pattern.matches(entry.getKey(), chunkTask.name)) {
+                        chunkTask.taskType = entry.getValue();
+                        break;
+                    }
+                }
+            }
+
+            chunkTasksManager.importTasks(chunkTasks);
+            this.redrawChunkTasks();
+    //			SwingUtilities.invokeLater(this::redrawChunkTasks);
+
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Please copy tasks to clipboard from https://source-chunk.github.io/chunk-picker-v2 under Settings -> Export to clipboard -> Chunk Tasks Plugin",
+                    "Invalid Chunk Tasks Format",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public void importChunkTasksFromFile() {
+        try {
+            final Path path = showImportFolderDialog();
+            if (path == null)
+            {
+                return;
+            }
+
+            //Read tasks from file
+            final String json = new String(Files.readAllBytes(path));
+            Type typeSetups = new TypeToken<ArrayList<ChunkTask>>(){}.getType();
+            final ArrayList<ChunkTask> newChunkTasks = GSON.fromJson(json, typeSetups);
+
+            //Load task triggers
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream stream = classloader.getResourceAsStream("task-triggers.json");
+            Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+            Map<String, TaskType> taskTriggers = GSON.fromJson(reader,
+                new TypeToken<HashMap<String, TaskType>>() {}.getType()
+            );
+
+            //Set task triggers
+            for (ChunkTask chunkTask : newChunkTasks) {
+                for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
+                    if (Pattern.matches(entry.getKey(), chunkTask.name)) {
+                        chunkTask.taskType = entry.getValue();
+                        break;
+                    }
+                }
+            }
+
+            chunkTasksManager.importTasks(newChunkTasks);
+            this.redrawChunkTasks();
+//			SwingUtilities.invokeLater(this::redrawChunkTasks);
+
+        }
+        catch (Exception e) {
+            log.error("Couldn't mass import setups", e);
+            JOptionPane.showMessageDialog(this,
+                    "Invalid setup data.",
+                    "Mass Import Setup Failed",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private Path showImportFolderDialog()
     {
-        return "<html><body style = 'color:#a5a5a5'>" + key + "<span style = 'color:white'>" + value + "</span></body></html>";
+        final JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.setDialogTitle("Choose Import File");
+        FileFilter jsonFilter = new FileNameExtensionFilter("JSON files", "json");
+        fileChooser.setFileFilter(jsonFilter);
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+
+        int returnValue = fileChooser.showOpenDialog(this);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION)
+        {
+            return Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+        }
+        else
+        {
+            return null;
+        }
     }
 }

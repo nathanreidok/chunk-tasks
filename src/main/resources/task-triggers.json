@@ -1,0 +1,8 @@
+{
+  "(\\(.*\\) )?Obtain.*~\\|.*\\|~": "OBTAIN_ITEM",
+  "^Buy.*~\\|.*cape\\|~$": "OBTAIN_ITEM",
+  "^((Wield)|(Wear)).*~\\|.*\\|~": "EQUIP_ITEM",
+  "^((Catch)|(Craft)|(Cook)|(Make)|(Bake)|(Fletch)|(Cut)|(Create)|(Brew)|(Mix)|(String)).*~\\|.*\\|~": "SKILLING_ITEM",
+  "^((Smith)|(Churn)|(Prepare)|(Dissect)|(Chip)|(Mine)).*~\\|.*\\|~": "SKILLING_ITEM",
+  "^~\\|.*\\|~.*(skill requirement)$": "QUEST_SKILL_REQUIREMENT"
+}
