@@ -83,6 +83,13 @@ public class ChunkTasksPlugin extends Plugin {
 //		}
 	}
 
+	@Override
+	protected void shutDown() throws Exception {
+		if (navButton != null) {
+			clientToolbar.removeNavigation(navButton);
+		}
+	}
+
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged gameStateChanged) {
 		panel.showHideImportButton(gameStateChanged.getGameState() == GameState.LOGGED_IN);
@@ -111,9 +118,6 @@ public class ChunkTasksPlugin extends Plugin {
 
 		List<ChunkTask> completedMovementTasks = chunkTaskChecker.checkMovementTasks();
 		List<ChunkTask> completedLocationTasks = chunkTaskChecker.checkLocationTasks();
-		if (!completedMovementTasks.isEmpty()) {
-			completeTasks(completedMovementTasks);
-		}
 
 		List<ChunkTask> completedTasks = Stream.concat(
 				completedMovementTasks.stream(),

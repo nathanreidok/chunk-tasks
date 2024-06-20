@@ -17,5 +17,29 @@
     "xMax": 3221,
     "yMin": 9554,
     "yMax": 9554
+  },
+  "Access the (mith grapple) Karamja volcano ~|shortcut|~": {
+    "xMin": 2872,
+    "xMax": 2876,
+    "yMin": 3133,
+    "yMax": 3136
+  },
+  "Access the Taverley Dungeon pipe squeeze to Blue dragon lair ~|shortcut|~": {
+    "xMin": 2889,
+    "xMax": 2889,
+    "yMin": 9799,
+    "yMax": 9799
+  },
+  "Access the (mith grapple) over the River Lum to Al Kharid ~|shortcut|~": {
+    "xMin": 3252,
+    "xMax": 3253,
+    "yMin": 3179,
+    "yMax": 3180
+  },
+  "Access the (mith grapple) scale Catherby cliffside ~|shortcut|~": {
+    "xMin": 2867,
+    "xMax": 2868,
+    "yMin": 3429,
+    "yMax": 3429
   }
 }

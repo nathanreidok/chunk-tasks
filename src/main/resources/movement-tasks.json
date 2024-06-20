@@ -1,6 +1,10 @@
 {
   "Access the Ice Mountain western scramble ~|shortcut|~": [
-      { "x": 3002, "y": 3483 },
-      { "x": 2997, "y": 3483 }
+    { "x": 3002, "y": 3483 },
+    { "x": 2997, "y": 3483 }
+  ],
+  "Access the (mith grapple) escape from the Water Obelisk Island ~|shortcut|~": [
+    { "x": 2841, "y": 3427 },
+    { "x": 2841, "y": 3432 }
   ]
 }
