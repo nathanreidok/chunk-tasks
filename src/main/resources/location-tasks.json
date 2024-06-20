@@ -5,5 +5,17 @@
     "xMax": 1460,
     "yMin": 3128,
     "yMax": 3128
+  },
+  "Climb the ~|winch|~ at the digsite": {
+    "xMin": 3347,
+    "xMax": 3416,
+    "yMin": 9738,
+    "yMax": 9853
+  },
+  "Access the Lumbridge Swamp Caves stepping stones ~|shortcut|~": {
+    "xMin": 3221,
+    "xMax": 3221,
+    "yMin": 9554,
+    "yMax": 9554
   }
 }

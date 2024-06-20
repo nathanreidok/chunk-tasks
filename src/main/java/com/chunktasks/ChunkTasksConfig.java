@@ -4,7 +4,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
-@ConfigGroup("example")
+@ConfigGroup("chunktasks")
 public interface ChunkTasksConfig extends Config
 {
 	String CONFIG_GROUP = "chunk-tasks";
