@@ -10,17 +10,6 @@ public interface ChunkTasksConfig extends Config
 	String CONFIG_GROUP = "chunk-tasks";
 	String CONFIG_KEY = "tasks";
 
-	String SAVE_DATA_KEY = "data";
-	@ConfigItem(
-			keyName = "greeting",
-			name = "Welcome Greeting",
-			description = "The message to show to the user when they login"
-	)
-	default String greeting()
-	{
-		return "Hello";
-	}
-
 	@ConfigItem(
 			keyName = "volume",
 			name = "Volume",
@@ -32,9 +21,10 @@ public interface ChunkTasksConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "tasks",
-			name = "Chunk Tasks",
-			description = "JSON export from Source Chunk"
+			keyName = "notifyOnManualCheck",
+			name = "Notify on Manual Check",
+			description = "Show popups when manually marking tasks as complete",
+			position = 1
 	)
-	default String tasks() { return ""; }
+	default boolean notifyOnManualCheck() { return true; }
 }

@@ -3,13 +3,12 @@ package com.chunktasks;
 import lombok.Getter;
 import lombok.Setter;
 
+@Setter
+@Getter
 public class MapBoundary {
-    @Getter @Setter
     private int xMin;
-    @Getter @Setter
     private int xMax;
-    @Getter @Setter
-    private int yMin;    @Getter @Setter
+    private int yMin;
     private int yMax;
 
     public MapBoundary(int xMin, int xMax, int yMin, int yMax) {
@@ -19,7 +18,8 @@ public class MapBoundary {
         this.yMax = yMax;
     }
 
-    public boolean isInBounds(int x, int y) {
-        return x >= xMin && x <= xMax && y >= yMin && y <= yMax;
+    public boolean contains(MapCoordinate coordinate) {
+        return coordinate.getX() >= xMin && coordinate.getX() <= xMax
+            && coordinate.getY() >= yMin && coordinate.getY() <= yMax;
     }
 }

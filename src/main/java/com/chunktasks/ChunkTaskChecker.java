@@ -1,8 +1,9 @@
 package com.chunktasks;
 
-import com.chunktasks.inventory.InventoryManager;
-import com.chunktasks.manager.ChunkTask;
-import com.chunktasks.manager.ChunkTasksManager;
+import com.chunktasks.managers.InventoryManager;
+import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.managers.ChunkTasksManager;
+import com.chunktasks.managers.MapManager;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.InventoryID;
@@ -15,9 +16,55 @@ import java.util.stream.Collectors;
 
 @Slf4j
 public class ChunkTaskChecker {
-    @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private Client client;
+    @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private InventoryManager inventoryManager;
+    @Inject private MapManager mapManager;
+
+    public List<ChunkTask> checkMovementTasks() {
+        List<ChunkTask> completedTasks = new ArrayList<>();
+        List<ChunkTask> tasksToCheck = chunkTasksManager.getActiveChunkTasksByType(TaskType.MOVEMENT);
+        if (tasksToCheck.isEmpty())
+            return completedTasks;
+
+        List<MapCoordinate> movementHistory = mapManager.getMovementHistory();
+        for (ChunkTask task : tasksToCheck) {
+            List<MapCoordinate> movementRequirement = task.movementRequirement;
+            if (isMovementComplete(movementRequirement, movementHistory)) {
+                completedTasks.add(task);
+            }
+        }
+        return completedTasks;
+    }
+
+    public List<ChunkTask> checkLocationTasks() {
+        List<ChunkTask> completedTasks = new ArrayList<>();
+        List<ChunkTask> tasksToCheck = chunkTasksManager.getActiveChunkTasksByType(TaskType.LOCATION);
+        if (tasksToCheck.isEmpty())
+            return completedTasks;
+
+        MapCoordinate coordinate = mapManager.getCurrentLocation();
+        for (ChunkTask task : tasksToCheck) {
+            if (task.locationRequirement.contains(coordinate)) {
+                completedTasks.add(task);
+            }
+        }
+        return completedTasks;
+    }
+
+    public boolean isMovementComplete(List<MapCoordinate> movementRequirement, List<MapCoordinate> movementHistory) {
+        int coordinateCount = movementRequirement.size();
+        for (int i = 0; i < coordinateCount; i++) {
+            if (movementRequirement.get(i).equals(movementHistory.get(i))) {
+                continue;
+            }
+            if (movementRequirement.get(coordinateCount - 1 - i).equals(movementHistory.get(i))) {
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
 
     public List<ChunkTask> checkQuestSkillRequirementTasks(Skill changedSkill) {
         List<ChunkTask> completedTasks = new ArrayList<>();

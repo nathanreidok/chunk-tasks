@@ -1,4 +1,4 @@
-package com.chunktasks.manager;
+package com.chunktasks.managers;
 
 import com.chunktasks.TaskType;
 import com.google.gson.reflect.TypeToken;

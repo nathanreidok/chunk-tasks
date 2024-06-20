@@ -1,8 +1,9 @@
 package com.chunktasks;
 
-import com.chunktasks.inventory.InventoryManager;
-import com.chunktasks.manager.ChunkTask;
-import com.chunktasks.manager.ChunkTasksManager;
+import com.chunktasks.managers.InventoryManager;
+import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.managers.ChunkTasksManager;
+import com.chunktasks.managers.MapManager;
 import com.chunktasks.panel.ChunkTasksPanel;
 import com.chunktasks.sound.SoundFileManager;
 import com.google.inject.Provides;
@@ -45,6 +46,7 @@ public class ChunkTasksPlugin extends Plugin {
 	@Inject private ClientToolbar clientToolbar;
 	@Inject private InventoryManager inventoryManager;
 	@Inject private ChunkTaskNotifier chunkTaskNotifier;
+	@Inject private MapManager mapManager;
 
 	private ChunkTasksPanel panel;
 	private NavigationButton navButton;
@@ -102,10 +104,31 @@ public class ChunkTasksPlugin extends Plugin {
 	}
 
 	@Subscribe
-	public void onPlayerChanged(PlayerChanged playerChanged) {
-		List<ChunkTask> tasks = chunkTasksManager.getActiveChunkTasks();
-//		checkEquipTasks(tasks);
+	public void onGameTick(GameTick gameTick) {
+		var worldPoint = client.getLocalPlayer().getWorldLocation();
+
+		mapManager.addCoordinateToHistory(worldPoint.getX(), worldPoint.getY());
+
+		List<ChunkTask> completedMovementTasks = chunkTaskChecker.checkMovementTasks();
+		List<ChunkTask> completedLocationTasks = chunkTaskChecker.checkLocationTasks();
+		if (!completedMovementTasks.isEmpty()) {
+			completeTasks(completedMovementTasks);
+		}
+
+		List<ChunkTask> completedTasks = Stream.concat(
+				completedMovementTasks.stream(),
+				completedLocationTasks.stream()
+		).collect(Collectors.toList());
+		if (!completedTasks.isEmpty()) {
+			completeTasks(completedTasks);
+		}
 	}
+
+//	@Subscribe
+//	public void onPlayerChanged(PlayerChanged playerChanged) {
+//		List<ChunkTask> tasks = chunkTasksManager.getActiveChunkTasks();
+////		checkEquipTasks(tasks);
+//	}
 
 	@Subscribe
 	public void onItemContainerChanged(ItemContainerChanged itemContainerChanged) {
@@ -130,7 +153,7 @@ public class ChunkTasksPlugin extends Plugin {
 		List<String> inventory = Arrays.stream(itemContainer.getItems())
 				.map(item -> client.getItemDefinition(item.getId()).getName().toLowerCase())
 				.collect(Collectors.toList());
-		inventoryManager.setCurrentInventory(inventory);
+		inventoryManager.setInventory(inventory);
 
 		List<ChunkTask> completedObtainItemTasks = chunkTaskChecker.checkObtainItemTasks();
 		List<ChunkTask> completedSkillingItemTasks = chunkTaskChecker.checkSkillingItemTasks();
@@ -139,7 +162,9 @@ public class ChunkTasksPlugin extends Plugin {
 				completedObtainItemTasks.stream(),
 				completedSkillingItemTasks.stream()
 		).collect(Collectors.toList());
-		completeTasks(completedTasks);
+		if (!completedTasks.isEmpty()) {
+			completeTasks(completedTasks);
+		}
 	}
 
 	private void onEquipmentChanged() {

@@ -1,7 +1,7 @@
 package com.chunktasks;
 
-import com.chunktasks.manager.ChunkTask;
-import com.chunktasks.manager.ChunkTasksManager;
+import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.panel.ChunkTasksPanel;
 import com.chunktasks.sound.Sound;
 import com.chunktasks.sound.SoundEngine;
@@ -30,13 +30,18 @@ public class ChunkTaskNotifier {
     private final List<String> queuedPopups = new ArrayList<>();
 
     public void completeTask(ChunkTask chunkTask) {
+        completeTask(chunkTask, true);
+    }
+    public void completeTask(ChunkTask chunkTask, boolean showPopup) {
         chunkTasksManager.completeTask(chunkTask);
-        addPopupToQueue(chunkTask.name);
+        addNotificationToQueue(chunkTask.name, showPopup);
     }
 
-    private void addPopupToQueue(String message) {
+    private void addNotificationToQueue(String message, boolean showPopup) {
         String cleanMessage = message.replace("~", "").replace("|", "");
-        client.addChatMessage(ChatMessageType.PUBLICCHAT, "Chunk Tasks", "Chunk Task Complete" + ": " + message, null);
+        client.addChatMessage(ChatMessageType.PUBLICCHAT, "Chunk Tasks", "Chunk Task Complete" + ": " + cleanMessage, null);
+        if (!showPopup)
+            return;
         queuedPopups.add(cleanMessage);
         if (queuedPopups.size() == 1) {
             showPopup(cleanMessage);

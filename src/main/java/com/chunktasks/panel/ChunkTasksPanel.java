@@ -1,11 +1,8 @@
 package com.chunktasks.panel;
 
-import com.chunktasks.ChunkTaskNotifier;
-import com.chunktasks.TaskGroup;
-import com.chunktasks.ChunkTasksPlugin;
-import com.chunktasks.TaskType;
-import com.chunktasks.manager.ChunkTask;
-import com.chunktasks.manager.ChunkTasksManager;
+import com.chunktasks.*;
+import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.managers.ChunkTasksManager;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
@@ -15,24 +12,17 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.util.ImageUtil;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -43,6 +33,7 @@ import static net.runelite.http.api.RuneLiteAPI.GSON;
 @Slf4j
 public class ChunkTasksPanel extends PluginPanel
 {
+    @Inject private ChunkTasksConfig config;
     @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private ChunkTaskNotifier chunkTaskNotifier;
     @Inject private ClientThread clientThread;
@@ -74,6 +65,7 @@ public class ChunkTasksPanel extends PluginPanel
 
         taskListPanel = new JPanel();
         taskListPanel.setLayout(new BoxLayout(taskListPanel, BoxLayout.Y_AXIS));
+        taskListPanel.add(createGeneralInfoLabel());
 
         add(createTopPanel(isLoggedIn), BorderLayout.NORTH);
         add(taskListPanel, BorderLayout.CENTER);
@@ -94,15 +86,34 @@ public class ChunkTasksPanel extends PluginPanel
         List<ChunkTask> chunkTasks = chunkTasksManager.getChunkTasks();
         taskListPanel.removeAll();
 
-        for (TaskGroup taskGroup : TaskGroup.values()) {
-            List<ChunkTask> taskGroupTasks = chunkTasks.stream().filter(t -> t.taskGroup == taskGroup).collect(Collectors.toList());
-            if (!taskGroupTasks.isEmpty()) {
-                taskListPanel.add(createTaskGroupPanel(taskGroup, taskGroupTasks));
+        if (chunkTasks.isEmpty()) {
+
+            taskListPanel.add(createGeneralInfoLabel());
+        } else {
+            for (TaskGroup taskGroup : TaskGroup.values()) {
+                List<ChunkTask> taskGroupTasks = chunkTasks.stream().filter(t -> t.taskGroup == taskGroup).collect(Collectors.toList());
+                if (!taskGroupTasks.isEmpty()) {
+                    taskListPanel.add(createTaskGroupPanel(taskGroup, taskGroupTasks));
+                }
             }
         }
 
         revalidate();
         repaint();
+    }
+
+    public JLabel createGeneralInfoLabel() {
+        JLabel infoLabel = new JLabel();
+        infoLabel.setText("<html>Log in to import chunk tasks copied"
+                + "<br/>from the chunk picker under:"
+                + "<br/><br/>-> Settings"
+                + "<br/>-> Export to clipboard"
+                + "<br/>-> Chunk Tasks Plugin"
+                + "<br/><br/>Please submit any issues here:"
+                + "<br/>github.com/nathanreidok/chunk-tasks"
+                + "<br/><br/>For general questions, feel to reach out to me in game (FortisChunk) or on discord (@FortisChunk)</html>"
+        );
+        return infoLabel;
     }
 
     private JPanel createTopPanel(boolean isLoggedIn) {
@@ -184,9 +195,9 @@ public class ChunkTasksPanel extends PluginPanel
             if (cb.isSelected()) {
                 cb.setText(getTaskNameHtml(chunkTask.name, true));
                 clientThread.invokeLater(() -> {
-                    chunkTaskNotifier.completeTask(chunkTask);
+                    chunkTaskNotifier.completeTask(chunkTask, config.notifyOnManualCheck());
+                    redrawChunkTasks();
                 });
-                redrawChunkTasks();
             } else {
                 cb.setText(getTaskNameHtml(chunkTask.name, false));
                 chunkTasksManager.uncompleteTask(chunkTask);
@@ -226,18 +237,28 @@ public class ChunkTasksPanel extends PluginPanel
             final ArrayList<ChunkTask> chunkTasks = GSON.fromJson(chunkTasksString, type);
 
             //Load task triggers
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream stream = classloader.getResourceAsStream("task-triggers.json");
-            Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-            Map<String, TaskType> taskTriggers = GSON.fromJson(reader,
-                    new TypeToken<HashMap<String, TaskType>>() {}.getType()
-            );
-
-            //Set task triggers
+            Map<String, TaskType> taskTriggers = loadFromFile("task-triggers.json", new TypeToken<>(){});
+            //Load movement tasks
+            Map<String, MapMovement> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>(){});
+            //Load location tasks
+            Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>(){});
+            //Set task types
             for (ChunkTask chunkTask : chunkTasks) {
                 for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
                     if (Pattern.matches(entry.getKey(), chunkTask.name)) {
                         chunkTask.taskType = entry.getValue();
+                        break;
+                    }
+
+                    if (movementTasks.containsKey(chunkTask.name)) {
+                        chunkTask.taskType = TaskType.MOVEMENT;
+                        chunkTask.movementRequirement = movementTasks.get(chunkTask.name);
+                        break;
+                    }
+
+                    if (locationTasks.containsKey(chunkTask.name)) {
+                        chunkTask.taskType = TaskType.LOCATION;
+                        chunkTask.locationRequirement = locationTasks.get(chunkTask.name);
                         break;
                     }
                 }
@@ -249,6 +270,8 @@ public class ChunkTasksPanel extends PluginPanel
 
         }
         catch (Exception e) {
+            log.error(e.getMessage());
+            log.error(Arrays.toString(e.getStackTrace()));
             JOptionPane.showMessageDialog(this,
                     "Please copy tasks to clipboard from https://source-chunk.github.io/chunk-picker-v2 under Settings -> Export to clipboard -> Chunk Tasks Plugin",
                     "Invalid Chunk Tasks Format",
@@ -256,69 +279,10 @@ public class ChunkTasksPanel extends PluginPanel
         }
     }
 
-    public void importChunkTasksFromFile() {
-        try {
-            final Path path = showImportFolderDialog();
-            if (path == null)
-            {
-                return;
-            }
-
-            //Read tasks from file
-            final String json = new String(Files.readAllBytes(path));
-            Type typeSetups = new TypeToken<ArrayList<ChunkTask>>(){}.getType();
-            final ArrayList<ChunkTask> newChunkTasks = GSON.fromJson(json, typeSetups);
-
-            //Load task triggers
-            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-            InputStream stream = classloader.getResourceAsStream("task-triggers.json");
-            Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-            Map<String, TaskType> taskTriggers = GSON.fromJson(reader,
-                new TypeToken<HashMap<String, TaskType>>() {}.getType()
-            );
-
-            //Set task triggers
-            for (ChunkTask chunkTask : newChunkTasks) {
-                for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
-                    if (Pattern.matches(entry.getKey(), chunkTask.name)) {
-                        chunkTask.taskType = entry.getValue();
-                        break;
-                    }
-                }
-            }
-
-            chunkTasksManager.importTasks(newChunkTasks);
-            this.redrawChunkTasks();
-//			SwingUtilities.invokeLater(this::redrawChunkTasks);
-
-        }
-        catch (Exception e) {
-            log.error("Couldn't mass import setups", e);
-            JOptionPane.showMessageDialog(this,
-                    "Invalid setup data.",
-                    "Mass Import Setup Failed",
-                    JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    private Path showImportFolderDialog()
-    {
-        final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setDialogTitle("Choose Import File");
-        FileFilter jsonFilter = new FileNameExtensionFilter("JSON files", "json");
-        fileChooser.setFileFilter(jsonFilter);
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-
-        int returnValue = fileChooser.showOpenDialog(this);
-
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            return Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
-        }
-        else
-        {
-            return null;
-        }
+    private <T> T loadFromFile(String resourceName, TypeToken<T> tokenType) {
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        InputStream stream = classLoader.getResourceAsStream(resourceName);
+        Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
+        return GSON.fromJson(reader, tokenType.getType());
     }
 }
