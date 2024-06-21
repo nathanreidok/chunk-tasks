@@ -1,10 +1,50 @@
 {
   "Access the Ice Mountain western scramble ~|shortcut|~": [
-    { "x": 3002, "y": 3483 },
-    { "x": 2997, "y": 3483 }
+    [
+      { "x": 3002, "y": 3483 },
+      { "x": 2997, "y": 3483 }
+    ]
   ],
   "Access the (mith grapple) escape from the Water Obelisk Island ~|shortcut|~": [
-    { "x": 2841, "y": 3427 },
-    { "x": 2841, "y": 3432 }
+    [
+      { "x": 2841, "y": 3427 },
+      { "x": 2841, "y": 3432 }
+    ]
+  ],
+  "Access the jump down from Falador Wall ~|shortcut|~": [
+    [
+      { "x": 3033, "y": 3389 },
+      { "x": 3033, "y": 3391 }
+    ],
+    [
+      { "x": 3032, "y": 3389 },
+      { "x": 3032, "y": 3387 }
+    ]
+  ],
+  "Access the (mith grapple) scale Falador Wall ~|shortcut|~": [
+    [
+      { "x": 3033, "y": 3389 },
+      { "x": 3033, "y": 3390 }
+    ],
+    [
+      { "x": 3032, "y": 3388 },
+      { "x": 3032, "y": 3389 }
+    ]
+  ],
+  "Access the (mith grapple) scale Yanille wall ~|shortcut|~": [
+    [
+      { "x": null, "y": 3075 },
+      { "x": 2556, "y": 3074 }
+    ],
+    [
+      { "x": null, "y": 3072 },
+      { "x": 2556, "y": 3073 }
+    ]
+  ],
+  "Access the (mith grapple) scale the Observatory cliff ~|shortcut|~": [
+    [
+      { "x": 2447, "y": 3157 },
+      { "x": 2444, "y": 3165 }
+    ]
   ]
 }

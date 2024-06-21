@@ -16,6 +16,6 @@ public class ChunkTask {
 
     public TaskType taskType = TaskType.UNKONWN;
 
-    public MapMovement movementRequirement;
+    public List<MapMovement> movementRequirement;
     public MapBoundary locationRequirement;
 }

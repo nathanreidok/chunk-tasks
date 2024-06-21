@@ -114,7 +114,11 @@ public class ChunkTasksPlugin extends Plugin {
 	public void onGameTick(GameTick gameTick) {
 		var worldPoint = client.getLocalPlayer().getWorldLocation();
 
-		mapManager.addCoordinateToHistory(worldPoint.getX(), worldPoint.getY());
+		boolean isNewLocation = mapManager.addCoordinateToHistory(worldPoint.getX(), worldPoint.getY());
+
+		if (!isNewLocation) {
+			return;
+		}
 
 		List<ChunkTask> completedMovementTasks = chunkTaskChecker.checkMovementTasks();
 		List<ChunkTask> completedLocationTasks = chunkTaskChecker.checkLocationTasks();

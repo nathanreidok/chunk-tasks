@@ -41,5 +41,17 @@
     "xMax": 2868,
     "yMin": 3429,
     "yMax": 3429
+  },
+  "Access the Al Kharid Palace southern window ~|shortcut|~": {
+    "xMin": 3295,
+    "xMax": 3295,
+    "yMin": 3158,
+    "yMax": 3158
+  },
+  "Access the Al Kharid mining pit cliffside scramble ~|shortcut|~": {
+    "xMin": 3305,
+    "xMax": 3305,
+    "yMin": 3315,
+    "yMax": 3315
   }
 }

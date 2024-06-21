@@ -27,10 +27,9 @@ public class ChunkTaskChecker {
         if (tasksToCheck.isEmpty())
             return completedTasks;
 
-        List<MapCoordinate> movementHistory = mapManager.getMovementHistory();
+        MapMovement movementHistory = mapManager.getMovementHistory();
         for (ChunkTask task : tasksToCheck) {
-            List<MapCoordinate> movementRequirement = task.movementRequirement;
-            if (isMovementComplete(movementRequirement, movementHistory)) {
+            if (task.movementRequirement.stream().anyMatch(movementHistory::includes)) {
                 completedTasks.add(task);
             }
         }
@@ -50,20 +49,6 @@ public class ChunkTaskChecker {
             }
         }
         return completedTasks;
-    }
-
-    public boolean isMovementComplete(List<MapCoordinate> movementRequirement, List<MapCoordinate> movementHistory) {
-        int coordinateCount = movementRequirement.size();
-        for (int i = 0; i < coordinateCount; i++) {
-            if (movementRequirement.get(i).equals(movementHistory.get(i))) {
-                continue;
-            }
-            if (movementRequirement.get(coordinateCount - 1 - i).equals(movementHistory.get(i))) {
-                continue;
-            }
-            return false;
-        }
-        return true;
     }
 
     public List<ChunkTask> checkQuestSkillRequirementTasks(Skill changedSkill) {

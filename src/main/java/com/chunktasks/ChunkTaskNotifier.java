@@ -49,8 +49,8 @@ public class ChunkTaskNotifier {
     }
 
     private void showPopup(String message) {
-        try {
-            clientThread.invokeLater(() -> {
+        clientThread.invokeLater(() -> {
+            try {
                 int componentId = client.isResized()
                         ? client.getVarbitValue(Varbits.SIDE_PANELS) == 1
                         ? ChunkTaskConstants.RESIZABLE_MODERN_LAYOUT
@@ -63,10 +63,11 @@ public class ChunkTaskNotifier {
                 soundEngine.playClip(Sound.CHUNK_TASK_COMPLETE);
 
                 clientThread.invokeLater(this::tryClearMessage);
-            });
-        } catch (IllegalStateException ex) {
-            log.info("Client still on login page");
-        }
+            } catch (IllegalStateException ex) {
+                log.error("Failed to show popup");
+                clientThread.invokeLater(this::tryClearMessage);
+            }
+        });
     }
 
     private boolean tryClearMessage() {

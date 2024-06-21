@@ -239,7 +239,7 @@ public class ChunkTasksPanel extends PluginPanel
             //Load task triggers
             Map<String, TaskType> taskTriggers = loadFromFile("task-triggers.json", new TypeToken<>(){});
             //Load movement tasks
-            Map<String, MapMovement> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>(){});
+            Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>(){});
             //Load location tasks
             Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>(){});
             //Set task types

@@ -5,15 +5,16 @@ import lombok.Setter;
 
 @Getter @Setter
 public class MapCoordinate {
-    private int x;
-    private int y;
+    private Integer x;
+    private Integer y;
 
-    public MapCoordinate(int x, int y) {
+    public MapCoordinate(Integer x, Integer y) {
         this.x = x;
         this.y = y;
     }
 
     public boolean equals(MapCoordinate mapCoordinate) {
-        return this.x == mapCoordinate.getX() && this.y == mapCoordinate.getY();
+        return (this.x == null || mapCoordinate.getX() == null || this.x.equals(mapCoordinate.getX()))
+            && (this.y == null || mapCoordinate.getY() == null || this.y.equals(mapCoordinate.getY()));
     }
 }

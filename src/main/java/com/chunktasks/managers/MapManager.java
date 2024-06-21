@@ -14,15 +14,17 @@ import java.util.*;
 public class MapManager {
     private final MapMovement movementHistory = new MapMovement();
 
-    public void addCoordinateToHistory(int x, int y) {
+    public boolean addCoordinateToHistory(int x, int y) {
         MapCoordinate coordinate = new MapCoordinate(x, y);
-        if (!movementHistory.isEmpty() && movementHistory.get(0).equals(coordinate)) {
-            return;
+        if (!movementHistory.isEmpty() && getCurrentLocation().equals(coordinate)) {
+            return false;
         }
         movementHistory.add(coordinate);
+        log.error(coordinate.getX() + "-" + coordinate.getY());
         if (movementHistory.size() > 10) {
             movementHistory.remove(0);
         }
+        return true;
     }
 
     public MapCoordinate getCurrentLocation() {
