@@ -3,6 +3,10 @@
     [
       { "x": 3002, "y": 3483 },
       { "x": 2997, "y": 3483 }
+    ],
+    [
+      { "x": 2997, "y": 3483 },
+      { "x": 3002, "y": 3483 }
     ]
   ],
   "Access the (mith grapple) escape from the Water Obelisk Island ~|shortcut|~": [
@@ -23,8 +27,8 @@
   ],
   "Access the (mith grapple) scale Falador Wall ~|shortcut|~": [
     [
-      { "x": 3033, "y": 3389 },
-      { "x": 3033, "y": 3390 }
+      { "x": 3033, "y": 3390 },
+      { "x": 3033, "y": 3389 }
     ],
     [
       { "x": 3032, "y": 3388 },
@@ -45,6 +49,411 @@
     [
       { "x": 2447, "y": 3157 },
       { "x": 2444, "y": 3165 }
+    ]
+  ],
+  "Access the Arandar easy cliffside scramble ~|shortcut|~": [
+    [
+      { "x": 2344, "y": 3295 },
+      { "x": 2344, "y": 3296 },
+      { "x": 2345, "y": 3297 },
+      { "x": 2345, "y": 3298 },
+      { "x": 2346, "y": 3299 },
+      { "x": 2346, "y": 3300 }
+    ],
+    [
+      { "x": 2346, "y": 3300 },
+      { "x": 2344, "y": 3294 }
+    ]
+  ],
+  "Access the Arandar medium cliffside scramble ~|shortcut|~": [
+    [
+      { "x": 2338, "y": 3285 },
+      { "x": 2338, "y": 3284 },
+      { "x": 2338, "y": 3283 },
+      { "x": 2338, "y": 3282 },
+      { "x": 2338, "y": 3281 }
+    ],
+    [
+      { "x": 2338, "y": 3281 },
+      { "x": 2338, "y": 3286 }
+    ]
+  ],
+  "Access the Arceuus essence mine eastern scramble ~|shortcut|~": [
+    [
+      { "x": 1770, "y": 3849 },
+      { "x": 1771, "y": 3849 },
+      { "x": 1772, "y": 3849 },
+      { "x": 1773, "y": 3849 },
+      { "x": 1774, "y": 3849 }
+    ],
+    [
+      { "x": 1774, "y": 3849 },
+      { "x": 1769, "y": 3849 }
+    ]
+  ],
+  "Access the Arceuus essence mine northern scramble ~|shortcut|~": [
+    [
+      { "x": 1761, "y": 3874 },
+      { "x": 1761, "y": 3872 }
+    ],
+    [
+      { "x": 1761, "y": 3872 },
+      { "x": 1761, "y": 3874 }
+    ]
+  ],
+  "Access the Arceuus essence mine western descent ~|shortcut|~": [
+    [
+      { "x": 1742, "y": 3854 },
+      { "x": 1752, "y": 3854 }
+    ]
+  ],
+  "Access the Asgarnian Ice Dungeon wyvern-tunnel ~|shortcut|~": [
+    [
+      { "x": 3026, "y": 9563 },
+      { "x": 3026, "y": 9572 }
+    ],
+    [
+      { "x": 3026, "y": 9563 },
+      { "x": 3035, "y": 9557 }
+    ]
+  ],
+  "Chop the entrance vines in the ~|Brimhaven Dungeon|~": [
+    [
+      { "x": 2691, "y": 9564 },
+      { "x": 2689, "y": 9564 }
+    ],
+    [
+      { "x": 2689, "y": 9564 },
+      { "x": 2691, "y": 9564 }
+    ]
+  ],
+  "Chop the vines by the moss giants in the ~|Brimhaven Dungeon|~": [
+    [
+      { "x": 2683, "y": 9568 },
+      { "x": 2683, "y": 9570 }
+    ],
+    [
+      { "x": 2683, "y": 9570 },
+      { "x": 2683, "y": 9568 }
+    ]
+  ],
+  "Chop the vines by the red dragons in the ~|Brimhaven Dungeon|~": [
+    [
+      { "x": 2674, "y": 9499 },
+      { "x": 2672, "y": 9499 }
+    ],
+    [
+      { "x": 2672, "y": 9499 },
+      { "x": 2674, "y": 9499 }
+    ]
+  ],
+  "Chop the vines by the black demons in the ~|Brimhaven Dungeon|~": [
+    [
+      { "x": 2674, "y": 9479 },
+      { "x": 2676, "y": 9479 }
+    ],
+    [
+      { "x": 2676, "y": 9479 },
+      { "x": 2674, "y": 9479 }
+    ],
+    [
+      { "x": 2693, "y": 9482 },
+      { "x": 2695, "y": 9482 }
+    ],
+    [
+      { "x": 2695, "y": 9482 },
+      { "x": 2693, "y": 9482 }
+    ]
+  ],
+  "Access the advanced pipe contortion in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2698, "y": 9500 },
+      { "x": 2698, "y": 9497 },
+      { "x": 2698, "y": 9495 },
+      { "x": 2698, "y": 9492 }
+    ]
+  ],
+  "Access the reverse advanced pipe contortion in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2698, "y": 9492 },
+      { "x": 2698, "y": 9495 },
+      { "x": 2698, "y": 9497 },
+      { "x": 2698, "y": 9500 }
+    ]
+  ],
+  "Access the red dragon log balance in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2683, "y": 9506 },
+      { "x": 2684, "y": 9506 },
+      { "x": 2685, "y": 9506 },
+      { "x": 2686, "y": 9506 }
+    ]
+  ],
+  "Access the reverse red dragon log balance in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2686, "y": 9506 },
+      { "x": 2685, "y": 9506 },
+      { "x": 2684, "y": 9506 },
+      { "x": 2683, "y": 9506 }
+    ]
+  ],
+  "Access the Brimhaven Dungeon pipe to moss giants ~|shortcut|~": [
+    [
+      { "x": 2655, "y": 9569 },
+      { "x": 2655, "y": 9570 }
+    ]
+  ],
+  "Access the reverse Brimhaven Dungeon pipe to moss giants ~|shortcut|~": [
+    [
+      { "x": 2655, "y": 9570 },
+      { "x": 2655, "y": 9569 }
+    ]
+  ],
+  "Access the beginner stepping stones in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2649, "y": 9561 },
+      { "x": 2649, "y": 9560 },
+      { "x": 2648, "y": 9560 },
+      { "x": 2647, "y": 9560 },
+      { "x": 2647, "y": 9559 },
+      { "x": 2647, "y": 9558 }
+    ]
+  ],
+  "Access the reverse beginner stepping stones in Brimhaven Dungeon ~|shortcut|~": [
+    [
+      { "x": 2647, "y": 9558 },
+      { "x": 2647, "y": 9559 },
+      { "x": 2647, "y": 9560 },
+      { "x": 2648, "y": 9560 },
+      { "x": 2649, "y": 9560 },
+      { "x": 2649, "y": 9561 }
+    ]
+  ],
+  "Access the Brimhaven Dungeon eastern stepping stones ~|shortcut|~": [
+    [
+      { "x": 2684, "y": 9548 },
+      { "x": 2686, "y": 9548 },
+      { "x": 2688, "y": 9547 }
+    ],
+    [
+      { "x": 2688, "y": 9547 },
+      { "x": 2686, "y": 9548 },
+      { "x": 2684, "y": 9548 }
+    ],
+    [
+      { "x": 2695, "y": 9531 },
+      { "x": 2695, "y": 9529 },
+      { "x": 2696, "y": 9527 }
+    ],
+    [
+      { "x": 2696, "y": 9527 },
+      { "x": 2695, "y": 9529 },
+      { "x": 2695, "y": 9531 }
+    ]
+  ],
+  "Access the Coal Trucks log balance ~|shortcut|~": [
+    [
+      { "x": 2602, "y": 3477 },
+      { "x": 2601, "y": 3477 },
+      { "x": 2600, "y": 3477 },
+      { "x": 2599, "y": 3477 }
+    ],
+    [
+      { "x": 2599, "y": 3477 },
+      { "x": 2600, "y": 3477 },
+      { "x": 2601, "y": 3477 },
+      { "x": 2602, "y": 3477 }
+    ]
+  ],
+  "Access the Corsair Cove Dungeon ~|shortcut|~": [
+    [
+      { "x": 1981, "y": 8996 }
+    ]
+  ],
+  "Access the Corsair Cove ~|shortcut|~": [
+    [
+      { "x": 2546, "y": 2871 },
+      { "x": 2546, "y": 2873 }
+    ],
+    [
+      { "x": 2546, "y": 2873 },
+      { "x": 2546, "y": 2871 }
+    ]
+  ],
+  "Access the Cosmic Temple medium narrow walkway ~|shortcut|~": [
+    [
+      { "x": 2400, "y": 4402 },
+      { "x": 2400, "y": 4404 }
+    ],
+    [
+      { "x": 2400, "y": 4404 },
+      { "x": 2400, "y": 4402 }
+    ]
+  ],
+  "Access the Cosmic altar advanced narrow walkway ~|shortcut|~": [
+    [
+      { "x": 2409, "y": 4400 },
+      { "x": 2409, "y": 4402 }
+    ],
+    [
+      { "x": 2409, "y": 4402 },
+      { "x": 2409, "y": 4400 }
+    ]
+  ],
+  "Access the Darkmeyer north-eastern wall ~|shortcut|~": [
+    [
+      { "x": 3667, "y": 3375 },
+      { "x": 3670, "y": 3375 }
+    ],
+    [
+      { "x": 3670, "y": 3375 },
+      { "x": 3667, "y": 3375 }
+    ],
+    [
+      { "x": 3670, "y": 3375 },
+      { "x": 3673, "y": 3375 }
+    ],
+    [
+      { "x": 3673, "y": 3375 },
+      { "x": 3670, "y": 3375 }
+    ]
+  ],
+  "Access the Deep Wilderness Dungeon narrow ~|shortcut|~": [
+    [
+      { "x": 3046, "y": 10326 },
+      { "x": 3048, "y": 10336 }
+    ],
+    [
+      { "x": 3048, "y": 10336 },
+      { "x": 3046, "y": 10326 }
+    ]
+  ],
+  "Access the Draynor Manor stones to Champions' Guild ~|shortcut|~": [
+    [
+      { "x": 3153, "y": 3363 }
+    ],
+    [
+      { "x": 3150, "y": 3363 }
+    ]
+  ],
+  "Access the Draynor narrow tunnel ~|shortcut|~": [
+    [
+      { "x": 3066, "y": 3257 },
+      { "x": 3070, "y": 3257 }
+    ],
+    [
+      { "x": 3067, "y": 3258 },
+      { "x": 3070, "y": 3257 }
+    ],
+    [
+      { "x": 3070, "y": 3257 },
+      { "x": 3066, "y": 3257 }
+    ],
+    [
+      { "x": 3069, "y": 3256 },
+      { "x": 3066, "y": 3257 }
+    ],
+    [
+      { "x": 3069, "y": 3258 },
+      { "x": 3066, "y": 3257 }
+    ]
+  ],
+  "Access the Dwarven Mine narrow crevice ~|shortcut|~": [
+    [
+      { "x": 3034, "y": 9806 },
+      { "x": 3029, "y": 9806 }
+    ],
+    [
+      { "x": 3029, "y": 9806 },
+      { "x": 3034, "y": 9806 }
+    ]
+  ],
+  "Access the Eagles' Peak Agility ~|shortcut|~": [
+    [
+      { "x": 2322, "y": 3502 },
+      { "x": 2324, "y": 3497 }
+    ],
+    [
+      { "x": 2324, "y": 3497 },
+      { "x": 2322, "y": 3502 }
+    ]
+  ],
+  "Access the Falador tunnel ~|shortcut|~": [
+    [
+      { "x": 2948, "y": 3310 },
+      { "x": 2948, "y": 3312 }
+    ],
+    [
+      { "x": 2948, "y": 3312 },
+      { "x": 2948, "y": 3310 }
+    ]
+  ],
+  "Access the Falador wall ~|shortcut|~": [
+    [
+      { "x": 2934, "y": 3355 },
+      { "x": 2936, "y": 3355 }
+    ],
+    [
+      { "x": 2936, "y": 3355 },
+      { "x": 2934, "y": 3355 }
+    ]
+  ],
+  "Access the Fossil Island hardwood ~|shortcut|~": [
+    [
+      { "x": 3713, "y": 3816 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3714, "y": 3815 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3715, "y": 3815 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3716, "y": 3815 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3717, "y": 3815 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3718, "y": 3816 },
+      { "x": 3713, "y": 3830 }
+    ],
+    [
+      { "x": 3713, "y": 3830 },
+      { "x": 3715, "y": 3815 }
+    ],
+    [
+      { "x": 3714, "y": 3830 },
+      { "x": 3715, "y": 3815 }
+    ],
+    [
+      { "x": 3715, "y": 3830 },
+      { "x": 3715, "y": 3815 }
+    ]
+  ],
+  "Access the Fremennik Slayer Dungeon narrow crevice ~|shortcut|~": [
+    [
+      { "x": 2731, "y": 10008 },
+      { "x": 2734, "y": 10008 }
+    ],
+    [
+      { "x": 2734, "y": 10008 },
+      { "x": 2731, "y": 10008 }
+    ]
+  ],
+  "Access the Grand Exchange Agility ~|shortcut|~": [
+    [
+      { "x": 3141, "y": 3513 },
+      { "x": 3138, "y": 3516 }
+    ],
+    [
+      { "x": 3138, "y": 3516 },
+      { "x": 3141, "y": 3513 }
     ]
   ]
 }

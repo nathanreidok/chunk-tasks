@@ -77,7 +77,11 @@ public class ChunkTaskNotifier {
             return false;
         }
 
-        client.closeInterface(popupWidgetNode, true);
+        try {
+            client.closeInterface(popupWidgetNode, true);
+        } catch (Exception ex) {
+            log.error("Failed to clear message");
+        }
         popupWidgetNode = null;
         queuedPopups.remove(0);
 

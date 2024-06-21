@@ -53,5 +53,35 @@
     "xMax": 3305,
     "yMin": 3315,
     "yMax": 3315
+  },
+  "Access the Arceuus essence mine boulder leap ~|shortcut|~": {
+    "xMin": 1776,
+    "xMax": 1776,
+    "yMin": 3883,
+    "yMax": 3883
+  },
+  "Access the Ardougne log balance ~|shortcut|~": {
+    "xMin": 2600,
+    "xMax": 2600,
+    "yMin": 3336,
+    "yMax": 3336
+  },
+  "Access the Cairn Isle rock slide climb ~|shortcut|~": {
+    "xMin": 2791,
+    "xMax": 2791,
+    "yMin": 2978,
+    "yMax": 2980
+  },
+  "Access the Fremennik Slayer Dungeon chasm jump ~|shortcut|~": {
+    "xMin": 2770,
+    "xMax": 2773,
+    "yMin": 10002,
+    "yMax": 10003
+  },
+  "Access the Gnome Stronghold ~|shortcut|~": {
+    "xMin": 2487,
+    "xMax": 2489,
+    "yMin": 3515,
+    "yMax": 3519
   }
 }

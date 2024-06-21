@@ -63,10 +63,6 @@ public class ChunkTasksManager {
         configManager.setRSProfileConfiguration(CONFIG_GROUP, profileName, json);
     }
 
-    public List<ChunkTask> getActiveChunkTasks() {
-        return chunkTasks.stream().filter(t -> !t.isComplete).collect(Collectors.toList());
-    }
-
     public List<ChunkTask> getActiveChunkTasksByType(TaskType taskType) {
         return chunkTasks.stream().filter(t -> !t.isComplete && t.taskType == taskType).collect(Collectors.toList());
     }
