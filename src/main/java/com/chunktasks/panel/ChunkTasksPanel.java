@@ -254,9 +254,9 @@ public class ChunkTasksPanel extends PluginPanel
             //Load location tasks
             Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>() {});
             //Obtain Item Id tasks
-            Map<String, ArrayList<String>> obtainIdTasks = loadFromFile("obtain-id-tasks.json", new TypeToken<>() {});
+            Map<String, ArrayList<Integer>> obtainIdTasks = loadFromFile("obtain-id-tasks.json", new TypeToken<>() {});
             //Equip Item Id tasks
-            Map<String, ArrayList<String>> equipIdTasks = loadFromFile("equip-id-tasks.json", new TypeToken<>() {});
+            Map<String, ArrayList<Integer>> equipIdTasks = loadFromFile("equip-id-tasks.json", new TypeToken<>() {});
             //Chat message tasks
             Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("chat-message-tasks.json", new TypeToken<>() {});
             //Xp tasks
@@ -285,21 +285,13 @@ public class ChunkTasksPanel extends PluginPanel
 
                 if (obtainIdTasks.containsKey(chunkTask.name)) {
                     chunkTask.taskType = TaskType.OBTAIN_ITEM_ID;
-                    chunkTask.itemIds = obtainIdTasks.get(chunkTask.name)
-                            .stream()
-                            .mapToInt(this::getItemId)
-                            .boxed()
-                            .collect(Collectors.toList());
+                    chunkTask.itemIds = obtainIdTasks.get(chunkTask.name);
                     continue;
                 }
 
                 if (equipIdTasks.containsKey(chunkTask.name)) {
                     chunkTask.taskType = TaskType.EQUIP_ITEM_ID;
-                    chunkTask.itemIds = equipIdTasks.get(chunkTask.name)
-                            .stream()
-                            .mapToInt(this::getItemId)
-                            .boxed()
-                            .collect(Collectors.toList());
+                    chunkTask.itemIds = equipIdTasks.get(chunkTask.name);
                     continue;
                 }
 
@@ -348,15 +340,5 @@ public class ChunkTasksPanel extends PluginPanel
         InputStream stream = classLoader.getResourceAsStream(resourceName);
         Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         return GSON.fromJson(reader, tokenType.getType());
-    }
-
-    private int getItemId(String itemIdKey) {
-        Class<ItemID> tmp = ItemID.class;
-        try {
-            Field field = tmp.getField(itemIdKey);
-            return field.getInt(new ItemID());
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

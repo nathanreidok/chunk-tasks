@@ -1,12 +1,7 @@
 {
-  "Wield an ~|ancient sceptre|~ with a quartz upgrade": [
-    "BLOOD_ANCIENT_SCEPTRE",
-    "ICE_ANCIENT_SCEPTRE",
-    "SHADOW_ANCIENT_SCEPTRE",
-    "SMOKE_ANCIENT_SCEPTRE"
-  ],
-  "Wield a ~|decorative sword (gold)|~": ["DECORATIVE_SWORD_4508"],
-  "Wield a ~|decorative sword (red)|~": ["DECORATIVE_SWORD"],
-  "Wield a ~|decorative sword (white)|~": ["DECORATIVE_SWORD_4503"],
-  "Wield an ~|abyssal tentacle|~": ["ABYSSAL_TENTACLE", "ABYSSAL_TENTACLE_OR"]
+  "Wield an ~|ancient sceptre|~ with a quartz upgrade": [25489, 28260, 25490, 28262, 25491, 28264, 25492, 28266],
+  "Wield a ~|decorative sword (gold)|~": [4508],
+  "Wield a ~|decorative sword (red)|~": [4068],
+  "Wield a ~|decorative sword (white)|~": [4503],
+  "Wield an ~|abyssal tentacle|~": [12006, 26484]
 }
