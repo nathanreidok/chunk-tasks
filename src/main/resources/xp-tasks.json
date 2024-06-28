@@ -1,0 +1,13 @@
+{
+  "Fill holes on ~|Fishing Trawler|~": {
+    "skill": "CONSTRUCTION",
+    "xpMin": 5,
+    "xpMax": 6,
+    "location": {
+      "xMin": 1792,
+      "xMax": 2045,
+      "yMin": 4736,
+      "yMax": 4917
+    }
+  }
+}

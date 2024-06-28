@@ -1,4 +1,4 @@
-package com.chunktasks;
+package com.chunktasks.tasks;
 
 import lombok.Getter;
 import lombok.Setter;

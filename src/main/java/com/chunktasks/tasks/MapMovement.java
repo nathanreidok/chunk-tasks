@@ -1,11 +1,10 @@
-package com.chunktasks;
+package com.chunktasks.tasks;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 @Slf4j
 @Getter @Setter

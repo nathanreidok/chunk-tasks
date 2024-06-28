@@ -1,6 +1,10 @@
-package com.chunktasks.managers;
+package com.chunktasks.tasks;
 
-import com.chunktasks.*;
+import com.chunktasks.tasks.ChatMessageConfig;
+import com.chunktasks.tasks.MapBoundary;
+import com.chunktasks.tasks.MapMovement;
+import com.chunktasks.types.TaskGroup;
+import com.chunktasks.types.TaskType;
 import net.runelite.api.Skill;
 
 import java.util.HashMap;
@@ -15,7 +19,12 @@ public class ChunkTask {
     public String output;
 
     public TaskType taskType = TaskType.UNKONWN;
+    public boolean isCustom;
 
     public List<MapMovement> movementRequirement;
     public MapBoundary locationRequirement;
+    public String targetRequirement;
+    public List<Integer> itemIds;
+    public ChatMessageConfig chatMessageConfig;
+    public XpTaskConfig xpTaskConfig;
 }

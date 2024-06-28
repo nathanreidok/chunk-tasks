@@ -455,5 +455,861 @@
       { "x": 3138, "y": 3516 },
       { "x": 3141, "y": 3513 }
     ]
+  ],
+  "Access the Heroes' Guild tunnel ~|shortcut|~": [
+    [
+      { "x": 2899, "y": 9902 },
+      { "x": 2915, "y": 9894 }
+    ],
+    [
+      { "x": 2898, "y": 9901 },
+      { "x": 2915, "y": 9894 }
+    ],
+    [
+      { "x": 2914, "y": 9894 },
+      { "x": 2898, "y": 9902 }
+    ],
+    [
+      { "x": 2915, "y": 9895 },
+      { "x": 2898, "y": 9902 }
+    ]
+  ],
+  "Access the Iorwerth Dungeon northern ~|shortcut|~": [
+    [
+      { "x": 3217, "y": 12441 },
+      { "x": 3221, "y": 12441 }
+    ],
+    [
+      { "x": 3221, "y": 12441 },
+      { "x": 3217, "y": 12441 }
+    ]
+  ],
+  "Access the Kharazi Jungle vine climb ~|shortcut|~": [
+    [
+      { "x": 2899, "y": 2941 },
+      { "x": 2899, "y": 2940 },
+      { "x": 2899, "y": 2939 }
+    ],
+    [
+      { "x": 2899, "y": 2938 },
+      { "x": 2899, "y": 2942 }
+    ]
+  ],
+  "Access the Shilo Village stepping stones over the river ~|shortcut|~": [
+    [
+      { "x": 2863, "y": 2974 }
+    ]
+  ],
+  "Access the Kourend lake isle jump ~|shortcut|~": [
+    [
+      { "x": 1605, "y": 3571 }
+    ],
+    [
+      { "x": 1612, "y": 3570 }
+    ]
+  ],
+  "Access the Kourend river jump ~|shortcut|~": [
+    [
+      { "x": 1722, "y": 3551 }
+    ]
+  ],
+  "Access the Lava Dragon Isle jump ~|shortcut|~": [
+    [
+      { "x": 3201, "y": 3808 }
+    ]
+  ],
+  "Access the Lava Maze northern jump ~|shortcut|~": [
+    [
+      { "x": 3092, "y": 3880 }
+    ]
+  ],
+  "Access the Lighthouse basalt rocks ~|shortcut|~": [
+    [
+      { "x": 2522, "y": 3602 }
+    ],
+    [
+      { "x": 2514, "y": 3613 }
+    ]
+  ],
+  "Access the Lumbridge Swamp to Kharidian Desert ~|shortcut|~": [
+    [
+      { "x": 3214, "y": 3135 }
+    ]
+  ],
+  "Access the Meiyerditch Laboratory tunnels ~|shortcut|~": [
+    [
+      { "x": 3555, "y": 9783 },
+      { "x": 3555, "y": 9788 }
+    ],
+    [
+      { "x": 3555, "y": 9788 },
+      { "x": 3555, "y": 9783 }
+    ],
+    [
+      { "x": 3560, "y": 9809 },
+      { "x": 3560, "y": 9814 }
+    ],
+    [
+      { "x": 3560, "y": 9814 },
+      { "x": 3560, "y": 9809 }
+    ]
+  ],
+  "Access the Motherlode Mine wall ~|shortcut|~": [
+    [
+      { "x": 3765, "y": 5671 },
+      { "x": 3759, "y": 5670 }
+    ],
+    [
+      { "x": 3759, "y": 5670 },
+      { "x": 3765, "y": 5671 }
+    ]
+  ],
+  "Access the Nature Spirit swampy bridge ~|shortcut|~": [
+    [
+      { "x": 3440, "y": 3329 },
+      { "x": 3440, "y": 3331 }
+    ],
+    [
+      { "x": 3441, "y": 3329 },
+      { "x": 3440, "y": 3331 }
+    ],
+    [
+      { "x": 3440, "y": 3331 },
+      { "x": 3441, "y": 3329 }
+    ],
+    [
+      { "x": 3441, "y": 3331 },
+      { "x": 3441, "y": 3329 }
+    ]
+  ],
+  "Access the stepping stone into Morytania west of the Nature Grotto ~|shortcut|~": [
+    [
+      { "x": 3419, "y": 3325 }
+    ]
+  ],
+  "Access the Port Phasmatys Ectopool ~|shortcut|~": [
+    [
+      { "x": 3670, "y": 9888 },
+      { "x": 3671, "y": 9888 }
+    ],
+    [
+      { "x": 3671, "y": 9888 },
+      { "x": 3670, "y": 9888 }
+    ]
+  ],
+  "Access the Rellekka east fence ~|shortcut|~": [
+    [
+      { "x": 2688, "y": 3697 },
+      { "x": 2691, "y": 3697 }
+    ],
+    [
+      { "x": 2691, "y": 3697 },
+      { "x": 2688, "y": 3697 }
+    ]
+  ],
+  "Access the Revenant Caves jump (easy) ~|shortcut|~": [
+    [
+      { "x": 3220, "y": 10086 }
+    ]
+  ],
+  "Access the Revenant Caves jump (medium) ~|shortcut|~": [
+    [
+      { "x": 3200, "y": 10136 }
+    ],
+    [
+      { "x": 3202, "y": 10196 }
+    ],
+    [
+      { "x": 3180, "y": 10209 }
+    ]
+  ],
+  "Access the ~|Rogues' Den|~ minigame": [
+    [
+      { "x": 3056, "y": 4992 }
+    ]
+  ],
+  "Access the Slayer Tower medium spiked chain climb ~|shortcut|~": [
+    [
+      { "x": 3422, "y": 3549, "z": 0 },
+      { "x": 3422, "y": 3549, "z": 1 }
+    ],
+    [
+      { "x": 3422, "y": 3549, "z": 1 },
+      { "x": 3422, "y": 3549, "z": 0 }
+    ],
+    [
+      { "x": 3421, "y": 3550, "z": 0 },
+      { "x": 3550, "y": 3550, "z": 1 }
+    ],
+    [
+      { "x": 3421, "y": 3550, "z": 1 },
+      { "x": 3550, "y": 3550, "z": 0 }
+    ],
+    [
+      { "x": 3422, "y": 3551, "z": 0 },
+      { "x": 3422, "y": 3551, "z": 1 }
+    ],
+    [
+      { "x": 3422, "y": 3551, "z": 1 },
+      { "x": 3422, "y": 3551, "z": 0 }
+    ],
+    [
+      { "x": 3423, "y": 3550, "z": 0 },
+      { "x": 3423, "y": 3550, "z": 1 }
+    ],
+    [
+      { "x": 3423, "y": 3550, "z": 1 },
+      { "x": 3423, "y": 3550, "z": 0 }
+    ]
+  ],
+  "Access the Slayer Tower advanced spiked chain climb ~|shortcut|~": [
+    [
+      { "x": 3447, "y": 3575, "z": 1 },
+      { "x": 3447, "y": 3575, "z": 2 }
+    ],
+    [
+      { "x": 3447, "y": 3575, "z": 2 },
+      { "x": 3447, "y": 3575, "z": 1 }
+    ],
+    [
+      { "x": 3448, "y": 3576, "z": 1 },
+      { "x": 3448, "y": 3576, "z": 2 }
+    ],
+    [
+      { "x": 3448, "y": 3576, "z": 2 },
+      { "x": 3448, "y": 3576, "z": 1 }
+    ],
+    [
+      { "x": 3447, "y": 3577, "z": 1 },
+      { "x": 3447, "y": 3577, "z": 2 }
+    ],
+    [
+      { "x": 3447, "y": 3577, "z": 2 },
+      { "x": 3447, "y": 3577, "z": 1 }
+    ],
+    [
+      { "x": 3446, "y": 3576, "z": 1 },
+      { "x": 3446, "y": 3576, "z": 2 }
+    ],
+    [
+      { "x": 3446, "y": 3576, "z": 2 },
+      { "x": 3446, "y": 3576, "z": 1 }
+    ]
+  ],
+  "Access the Stronghold Slayer Cave narrow tunnel ~|shortcut|~": [
+    [
+      { "x": 2429, "y": 9806 },
+      { "x": 2435, "y": 9806 }
+    ],
+    [
+      { "x": 2435, "y": 9806 },
+      { "x": 2429, "y": 9806 }
+    ],
+    [
+      { "x": 2429, "y": 9807 },
+      { "x": 2435, "y": 9807 }
+    ],
+    [
+      { "x": 2435, "y": 9807 },
+      { "x": 2429, "y": 9807 }
+    ]
+  ],
+  "Access the Taverley Dungeon lesser demon fence ~|shortcut|~": [
+    [
+      { "x": 2935, "y": 9810 },
+      { "x": 2936, "y": 9810 }
+    ],
+    [
+      { "x": 2936, "y": 9810 },
+      { "x": 2935, "y": 9810 }
+    ]
+  ],
+  "Access the Taverley Dungeon spiked blades jump ~|shortcut|~": [
+    [
+      { "x": 2878, "y": 9813 },
+      { "x": 2881, "y": 9813 }
+    ],
+    [
+      { "x": 2880, "y": 9813 },
+      { "x": 2877, "y": 9813 }
+    ]
+  ],
+  "Access the Temple on the Salve to Morytania ~|shortcut|~": [
+    [
+      { "x": 3425, "y": 3483 }
+    ],
+    [
+      { "x": 3424, "y": 3476 }
+    ]
+  ],
+  "Access the Tirannwn log balance ~|shortcut|~": [
+    [
+      { "x": 2259, "y": 3250 }
+    ],
+    [
+      { "x": 2263, "y": 3250 }
+    ],
+    [
+      { "x": 2290, "y": 3233 }
+    ],
+    [
+      { "x": 2290, "y": 3238 }
+    ],
+    [
+      { "x": 2197, "y": 3237 }
+    ],
+    [
+      { "x": 2201, "y": 3237 }
+    ]
+  ],
+  "Access the Troll Stronghold wall-climb ~|shortcut|~": [
+    [
+      { "x": 2839, "y": 3693 }
+    ],
+    [
+      { "x": 2843, "y": 3693 }
+    ]
+  ],
+  "Access the Trollheim easy cliffside scramble ~|shortcut|~": [
+    [
+      { "x": 2870, "y": 3671 }
+    ],
+    [
+      { "x": 2872, "y": 3671 },
+      { "x": 2869, "y": 3671 }
+    ]
+  ],
+  "Access the Trollheim medium cliffside scramble ~|shortcut|~": [
+    [
+      { "x": 2878, "y": 3668 },
+      { "x": 2878, "y": 3665 }
+    ],
+    [
+      { "x": 2878, "y": 3667 }
+    ],
+    [
+      { "x": 2885, "y": 3683 }
+    ],
+    [
+      { "x": 2885, "y": 3684 }
+    ],
+    [
+      { "x": 2886, "y": 3684 },
+      { "x": 2884, "y": 3684 }
+    ],
+    [
+      { "x": 2886, "y": 3683 },
+      { "x": 2884, "y": 3683 }
+    ]
+  ],
+  "Access the Trollheim hard cliffside scramble ~|shortcut|~": [
+    [
+      { "x": 2901, "y": 3680 }
+    ],
+    [
+      { "x": 2900, "y": 3680 },
+      { "x": 2903, "y": 3680 }
+    ]
+  ],
+  "Access the Trollheim advanced scramble ~|shortcut|~": [
+    [
+      { "x": 2908, "y": 3682 }
+    ]
+  ],
+  "Access the Trollheim Wilderness Route ~|shortcut|~": [
+    [
+      { "x": 2916, "y": 3672 }
+    ]
+  ],
+  "Access the lower Mount Karuulm cliffside climb ~|shortcut|~": [
+    [
+      { "x": 1324, "y": 3784 },
+      { "x": 1324, "y": 3778 }
+    ],
+    [
+      { "x": 1324, "y": 3777 },
+      { "x": 1324, "y": 3785 }
+    ]
+  ],
+  "Access the Upper Mount Karuulm cliffside climb ~|shortcut|~": [
+    [
+      { "x": 1324, "y": 3794 }
+    ],
+    [
+      { "x": 1324, "y": 3790 }
+    ]
+  ],
+  "Access the stepping stones in the Necropolis ~|shortcut|~": [
+    [
+      { "x": 3291, "y": 2700 }
+    ],
+    [
+      { "x": 3295, "y": 2706 }
+    ]
+  ],
+  "Access the Varrock south fence jump ~|shortcut|~": [
+    [
+      { "x": 3240, "y": 3336 },
+      { "x": 3240, "y": 3334 }
+    ],
+    [
+      { "x": 3240, "y": 3333 },
+      { "x": 3240, "y": 3335 }
+    ]
+  ],
+  "Access the Watchtower trellis ~|shortcut|~": [
+    [
+      { "x": 2548, "y": 3119 },
+      { "x": 2548, "y": 3117 }
+    ]
+  ],
+  "Access the squeeze through to Wilderness God Wars Dungeon ~|shortcut|~": [
+    [
+      { "x": 3066, "y": 10149, "z": 3 },
+      { "x": 3066, "y": 10147, "z": 3 }
+    ],
+    [
+      { "x": 3066, "y": 10147, "z": 3 },
+      { "x": 3066, "y": 10149, "z": 3 }
+    ]
+  ],
+  "Access the boulder lift to Wilderness God Wars Dungeon ~|shortcut|~": [
+    [
+      { "x": 3055, "y": 10165, "z": 3 },
+      { "x": 3053, "y": 10165, "z": 3 },
+      { "x": 3052, "y": 10165, "z": 3 }
+    ],
+    [
+      { "x": 3052, "y": 10165, "z": 3 },
+      { "x": 3054, "y": 10165, "z": 3 },
+      { "x": 3055, "y": 10165, "z": 3 }
+    ]
+  ],
+  "Access the Yanille Agility ~|shortcut|~": [
+    [
+      { "x": 2575, "y": 3111 },
+      { "x": 2575, "y": 3108 }
+    ],
+    [
+      { "x": 2575, "y": 3108 },
+      { "x": 2575, "y": 3111 }
+    ]
+  ],
+  "Access the Yanille climbing rocks ~|shortcut|~": [
+    [
+      { "x": 2561, "y": 3108 },
+      { "x": 2561, "y": 3111 }
+    ]
+  ],
+  "Access the Yanille Agility Dungeon balance ledge ~|shortcut|~": [
+    [
+      { "x": 2580, "y": 9513 }
+    ],
+    [
+      { "x": 2580, "y": 9518 }
+    ]
+  ],
+  "Access the Yanille Agility Dungeon's rubble climb ~|shortcut|~": [
+    [
+      { "x": 2616, "y": 9571 },
+      { "x": 2615, "y": 9506 }
+    ],
+    [
+      { "x": 2617, "y": 9571 },
+      { "x": 2615, "y": 9506 }
+    ]
+  ],
+  "Access the monkey bars under Yanille ~|shortcut|~": [
+    [
+      { "x": 2599, "y": 9493 }
+    ],
+    [
+      { "x": 2598, "y": 9490 }
+    ]
+  ],
+  "Access the contortion in Yanille Agility Dungeon small room ~|shortcut|~": [
+    [
+      { "x": 2575, "y": 9506 }
+    ]
+  ],
+  "Access the broken Lighthouse bridge ~|shortcut|~": [
+    [
+      { "x": 2596, "y": 3608 }
+    ]
+  ],
+  "Access the eastern Gu'Tanoth ~|shortcut|~": [
+    [
+      { "x": 2548, "y": 3031 }
+    ],
+    [
+      { "x": 2546, "y": 3031 }
+    ]
+  ],
+  "Access the estuary crossing on Mos Le'Harmless ~|shortcut|~": [
+    [
+      { "x": 3711, "y": 2969 }
+    ]
+  ],
+  "Access the low-level obstacles at the ~|Brimhaven Agility Arena|~": [
+    [
+      { "x": 3711, "y": 2969 }
+    ]
+  ],
+  "Access the high-level obstacles at the ~|Brimhaven Agility Arena|~": [
+    [
+      { "x": 2794, "y": 9573, "z": 3 },
+      { "x": 2794, "y": 9574, "z": 3 }
+    ],
+    [
+      { "x": 2794, "y": 9574, "z": 3 },
+      { "x": 2794, "y": 9573, "z": 3 }
+    ],
+    [
+      { "x": 2789, "y": 9557, "z": 3 },
+      { "x": 2788, "y": 9557, "z": 3 }
+    ],
+    [
+      { "x": 2788, "y": 9557, "z": 3 },
+      { "x": 2789, "y": 9557, "z": 3 }
+    ],
+    [
+      { "x": 2777, "y": 9557, "z": 3 },
+      { "x": 2780, "y": 9557, "z": 3 }
+    ],
+    [
+      { "x": 2779, "y": 9557, "z": 3 },
+      { "x": 2776, "y": 9557, "z": 3 }
+    ],
+    [
+      { "x": 2778, "y": 9557, "z": 3 },
+      { "x": 2776, "y": 9557, "z": 3 }
+    ],
+    [
+      { "x": 2778, "y": 9568, "z": 3 },
+      { "x": 2777, "y": 9568, "z": 3 }
+    ],
+    [
+      { "x": 2777, "y": 9568, "z": 3 },
+      { "x": 2778, "y": 9568, "z": 3 }
+    ],
+    [
+      { "x": 2777, "y": 9579, "z": 3 },
+      { "x": 2780, "y": 9579, "z": 3 }
+    ],
+    [
+      { "x": 2778, "y": 9579, "z": 3 },
+      { "x": 2776, "y": 9579, "z": 3 }
+    ],
+    [
+      { "x": 2779, "y": 9579, "z": 3 },
+      { "x": 2776, "y": 9579, "z": 3 }
+    ],
+    [
+      { "x": 2783, "y": 9574, "z": 3 },
+      { "x": 2783, "y": 9572, "z": 3 }
+    ],
+    [
+      { "x": 2783, "y": 9573, "z": 3 },
+      { "x": 2783, "y": 9576, "z": 3 }
+    ],
+    [
+      { "x": 2783, "y": 9575, "z": 3 },
+      { "x": 2783, "y": 9572, "z": 3 }
+    ]
+  ],
+  "Access the island crossing near Zul-Andra ~|shortcut|~": [
+    [
+      { "x": 2157, "y": 3072 }
+    ]
+  ],
+  "Access the log balance to Fremennik Province ~|shortcut|~": [
+    [
+      { "x": 2722, "y": 3594 }
+    ]
+  ],
+  "Access the monkey bars under Edgeville ~|shortcut|~": [
+    [
+      { "x": 3121, "y": 9968 },
+      { "x": 3121, "y": 9967 },
+      { "x": 3121, "y": 9966 },
+      { "x": 3121, "y": 9965 }
+    ],
+    [
+      { "x": 3120, "y": 9965 },
+      { "x": 3120, "y": 9966 },
+      { "x": 3120, "y": 9967 },
+      { "x": 3120, "y": 9968 }
+    ]
+  ],
+  "Access the north-west corner of the Catacombs of Kourend ~|shortcut|~": [
+    [
+      { "x": 1716, "y": 10056 },
+      { "x": 1706, "y": 10078 }
+    ],
+    [
+      { "x": 1706, "y": 10078 },
+      { "x": 1716, "y": 10056 }
+    ]
+  ],
+  "Access the pillars in the Wintertodt's Prison ~|shortcut|~": [
+    [
+      { "x": 1631, "y": 4023 }
+    ],
+    [
+      { "x": 1629, "y": 4023 }
+    ]
+  ],
+  "Access the pipe from Edgeville Dungeon to Varrock Sewers ~|shortcut|~": [
+    [
+      { "x": 3152, "y": 9906 }
+    ]
+  ],
+  "Access the rock climb in the Temple of the Eye ~|shortcut|~": [
+    [
+      { "x": 3637, "y": 9503 },
+      { "x": 3633, "y": 9503 }
+    ],
+    [
+      { "x": 3633, "y": 9503 },
+      { "x": 3637, "y": 9503 }
+    ]
+  ],
+  "Access the rocks in the Corsair Cove Resource Area ~|shortcut|~": [
+    [
+      { "x": 2485, "y": 2898 },
+      { "x": 2489, "y": 2898 }
+    ],
+    [
+      { "x": 2489, "y": 2898 },
+      { "x": 2485, "y": 2898 }
+    ]
+  ],
+  "Access the squeeze through to God Wars Dungeon surface access ~|shortcut|~": [
+    [
+      { "x": 2899, "y": 3713 },
+      { "x": 2904, "y": 3720 }
+    ],
+    [
+      { "x": 2904, "y": 3720 },
+      { "x": 2899, "y": 3713 }
+    ]
+  ],
+  "Access the boulder lift to God Wars Dungeon surface access ~|shortcut|~": [
+    [
+      { "x": 10130, "y": 2771 },
+      { "x": 10130, "y": 2775 }
+    ],
+    [
+      { "x": 11474, "y": 2775 },
+      { "x": 11474, "y": 2771 }
+    ]
+  ],
+  "Access the rope descent to ~|Saradomin's Encampment|~": [
+    [
+      { "x": 2912, "y": 5300, "z": 2 },
+      { "x": 2914, "y": 5300, "z": 1 }
+    ],
+    [
+      { "x": 2914, "y": 5300, "z": 1 },
+      { "x": 2912, "y": 5299, "z": 2 }
+    ],
+    [
+      { "x": 2920, "y": 5276, "z": 1 },
+      { "x": 2920, "y": 5274, "z": 0 }
+    ],
+    [
+      { "x": 2920, "y": 5274, "z": 0 },
+      { "x": 2919, "y": 5276, "z": 1 }
+    ]
+  ],
+  "Access the big door to ~|Bandos' Stronghold|~": [
+    [
+      { "x": 2851, "y": 5333, "z": 2 },
+      { "x": 2850, "y": 5333, "z": 2 }
+    ],
+    [
+      { "x": 2850, "y": 5333, "z": 2 },
+      { "x": 2851, "y": 5333, "z": 2 }
+    ]
+  ],
+  "Access the Wilderness from God Wars Dungeon area climb ~|shortcut|~": [
+    [
+      { "x": 2927, "y": 3761 }
+    ]
+  ],
+  "Access the rope swing to Moss Giant Island ~|shortcut|~": [
+    [
+      { "x": 2709, "y": 3209 },
+      { "x": 2704, "y": 3209 }
+    ],
+    [
+      { "x": 2705, "y": 3205 },
+      { "x": 2709, "y": 3205 }
+    ]
+  ],
+  "Access the rope to the Fossil Island Volcano ~|shortcut|~": [
+    [
+      { "x": 3784, "y": 3821 },
+      { "x": 3778, "y": 3821 }
+    ],
+    [
+      { "x": 3779, "y": 3821 },
+      { "x": 3780, "y": 3821 },
+      { "x": 3781, "y": 3821 },
+      { "x": 3782, "y": 3821 },
+      { "x": 3783, "y": 3821 }
+    ]
+  ],
+  "Access the scale Goblin Village wall ~|shortcut|~": [
+    [
+      { "x": 2927, "y": 3522 },
+      { "x": 2928, "y": 3521 }
+    ],
+    [
+      { "x": 2928, "y": 3521 },
+      { "x": 2927, "y": 3522 }
+    ]
+  ],
+  "Access the stepping stone by Miscellania docks ~|shortcut|~": [
+    [
+      { "x": 2573, "y": 3861 }
+    ]
+  ],
+  "Access the ~|Agility Pyramid Course|~": [
+    [
+      { "x": 3354, "y": 2830, "z": 0 },
+      { "x": 3355, "y": 2833, "z": 1 }
+    ],
+    [
+      { "x": 3355, "y": 2830, "z": 0 },
+      { "x": 3354, "y": 2833, "z": 1 }
+    ],
+    [
+      { "x": 3354, "y": 2830, "z": 0 },
+      { "x": 3354, "y": 2833, "z": 1 }
+    ],
+    [
+      { "x": 3355, "y": 2830, "z": 0 },
+      { "x": 3355, "y": 2833, "z": 1 }
+    ]
+  ],
+  "Access the ~|Al Kharid Rooftop Course|~": [
+    [
+      { "x": 3273, "y": 3195, "z": 0 },
+      { "x": 3273, "y": 3192, "z": 3 }
+    ]
+  ],
+  "Access the ~|Ape Atoll Agility Course|~": [
+    [
+      { "x": 2754, "y": 2742 }
+    ]
+  ],
+  "Access the ~|Barbarian Outpost Agility Course|~": [
+    [
+      { "x": 2551, "y": 3554 },
+      { "x": 2551, "y": 3549 }
+    ]
+  ],
+  "Access the ~|Canafis Rooftop Course|~": [
+    [
+      { "x": 3506, "y": 3492, "z": 2 }
+    ]
+  ],
+  "Access the ~|Dorgesh-Kaan Agility Course|~": [
+    [
+      { "x": 2721, "y": 5240, "z": 3 }
+    ]
+  ],
+  "Access the ~|Dorgesh-Kaan Agility Course|~ (grapple route)": [
+    [
+      { "x": 2719, "y": 5241, "z": 3 },
+      { "x": 2714, "y": 5241, "z": 3 },
+      { "x": 2709, "y": 5241, "z": 3 }
+    ]
+  ],
+  "Access the ~|Draynor Village Rooftop Course|~": [
+    [
+      { "x": 3102, "y": 3279, "z": 3 }
+    ]
+  ],
+  "Access the ~|Falador Rooftop Course|~": [
+    [
+      { "x": 3036, "y": 3342, "z": 3 }
+    ]
+  ],
+  "Access the ~|Gnome Stronghold Agility Course|~": [
+    [
+      { "x": 2474, "y": 3435 }
+    ]
+  ],
+  "Access the ~|Penguin Agility Course|~": [
+    [
+      { "x": 2635, "y": 4055 }
+    ]
+  ],
+  "Access the ~|Pollnivneach Rooftop Course|~": [
+    [
+      { "x": 3351, "y": 2964, "z": 1 }
+    ]
+  ],
+  "Access the ~|Rellekka Rooftop Course|~": [
+    [
+      { "x": 2625, "y": 3676, "z": 3 }
+    ]
+  ],
+  "Access the ~|Seers' Village Rooftop Course|~": [
+    [
+      { "x": 2729, "y": 3491, "z": 3 }
+    ]
+  ],
+  "Access the ~|Shayzien Basic Course|~": [
+    [
+      { "x": 1554, "y": 3632, "z": 3 }
+    ]
+  ],
+  "Access the ~|Shayzien Advanced Course|~": [
+    [
+      { "x": 1511, "y": 3637, "z": 2 }
+    ]
+  ],
+  "Access the ~|Varrock Rooftop Course|~": [
+    [
+      { "x": 3219, "y": 3414, "z": 3 }
+    ]
+  ],
+  "Access the ~|Werewolf Agility Course|~": [
+    [
+      { "x": 3538, "y": 9875 }
+    ]
+  ],
+  "Access the ~|Wilderness Agility Course|~": [
+    [
+      { "x": 2998, "y": 3931 }
+    ]
+  ],
+  "Access the novice lander for ~|Pest Control|~": [
+    [
+      { "x": 2661, "y": 2639 }
+    ]
+  ],
+  "Access the intermediate lander for ~|Pest Control|~": [
+    [
+      { "x": 2661, "y": 2639 }
+    ]
+  ],
+  "Access the veteran lander for ~|Pest Control|~": [
+    [
+      { "x": 2634, "y": 2653 }
+    ]
+  ],
+  "Access the ~|Cooks' Guild|~": [
+    [
+      { "x": 3143, "y": 3444 }
+    ]
+  ],
+  "Access the ~|Crafting Guild|~": [
+    [
+      { "x": 2933, "y": 3288 }
+    ]
   ]
 }

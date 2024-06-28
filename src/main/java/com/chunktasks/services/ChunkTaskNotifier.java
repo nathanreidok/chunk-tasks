@@ -1,6 +1,7 @@
-package com.chunktasks;
+package com.chunktasks.services;
 
-import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.ChunkTaskConstants;
+import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.panel.ChunkTasksPanel;
 import com.chunktasks.sound.Sound;

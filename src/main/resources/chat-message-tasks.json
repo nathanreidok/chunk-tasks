@@ -1,0 +1,98 @@
+{
+  "Receive a Slayer assignment from ~|Chaeldar|~ in Zanaris": {
+    "chatMessageType": "DIALOG",
+    "message": "Chaeldar|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Duradel|~ in Shilo Village": {
+    "chatMessageType": "DIALOG",
+    "message": "Duradel|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Konar quo Maten|~ in Mount Karuulm": {
+    "chatMessageType": "DIALOG",
+    "message": "Konar quo Maten|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Krystilia|~ in Edgeville": {
+    "chatMessageType": "DIALOG",
+    "message": "Krystilia|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Mazchna|~ in Canifis": {
+    "chatMessageType": "DIALOG",
+    "message": "Mazchna|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Nieve|~ in Tree Gnome Stronghold": {
+    "chatMessageType": "DIALOG",
+    "message": "Nieve|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Spria|~ in Draynor Village": {
+    "chatMessageType": "DIALOG",
+    "message": "Spria|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Turael|~ in Burthorpe": {
+    "chatMessageType": "DIALOG",
+    "message": "Turael|Your new task"
+  },
+  "Receive a Slayer assignment from ~|Vannaka|~ in Edgeville Dungeon": {
+    "chatMessageType": "DIALOG",
+    "message": "Vannaka|Your new task"
+  },
+  "Operate the pedals at the ~|Blast Furnace|~": {
+    "chatMessageType": "SPAM",
+    "message": "You start pedalling...",
+    "location": {
+      "xMin": 1935,
+      "xMax": 1957,
+      "yMin": 4956,
+      "yMax": 4974
+    }
+  },
+  "Repair one of the broken objects at the ~|Blast Furnace|~": {
+    "chatMessageType": "SPAM",
+    "message": "You repair the",
+    "location": {
+      "xMin": 1935,
+      "xMax": 1957,
+      "yMin": 4956,
+      "yMax": 4974
+    }
+  },
+  "Operate the pump at the ~|Blast Furnace|~": {
+    "chatMessageType": "SPAM",
+    "message": "You start pumping.",
+    "location": {
+      "xMin": 1935,
+      "xMax": 1957,
+      "yMin": 4956,
+      "yMax": 4974
+    }
+  },
+  "Operate the stove at the ~|Blast Furnace|~": {
+    "chatMessageType": "SPAM",
+    "message": "You put the coke in the stove.",
+    "location": {
+      "xMin": 1935,
+      "xMax": 1957,
+      "yMin": 4956,
+      "yMax": 4974
+    }
+  },
+  "Repair the net on the ~|Fishing Trawler|~": {
+    "chatMessageType": "SPAM",
+    "message": "You manage to fix the net.",
+    "location": {
+      "xMin": 1792,
+      "xMax": 2045,
+      "yMin": 4736,
+      "yMax": 4917
+    }
+  },
+  "Train fishing on the ~|Fishing Trawler|~": {
+    "chatMessageType": "GAMEMESSAGE",
+    "message": "You caught",
+    "location": {
+      "xMin": 2666,
+      "xMax": 2667,
+      "yMin": 3166,
+      "yMax": 3166
+    }
+  }
+}

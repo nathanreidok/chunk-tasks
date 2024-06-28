@@ -1,11 +1,19 @@
 package com.chunktasks.panel;
 
 import com.chunktasks.*;
-import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.managers.ChunkTasksManager;
+import com.chunktasks.services.ChunkTaskNotifier;
+import com.chunktasks.tasks.ChatMessageConfig;
+import com.chunktasks.tasks.MapBoundary;
+import com.chunktasks.tasks.MapMovement;
+import com.chunktasks.tasks.XpTaskConfig;
+import com.chunktasks.types.TaskGroup;
+import com.chunktasks.types.TaskType;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
+import net.runelite.api.ItemID;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -19,6 +27,7 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -231,34 +240,90 @@ public class ChunkTasksPanel extends PluginPanel
 
     public void importChunkTasks() {
         try {
-            String chunkTasksString = (String)Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
+            String chunkTasksString = (String) Toolkit.getDefaultToolkit().getSystemClipboard().getData(DataFlavor.stringFlavor);
 
-            Type type = new TypeToken<ArrayList<ChunkTask>>(){}.getType();
+            Type type = new TypeToken<ArrayList<ChunkTask>>() {}.getType();
             final ArrayList<ChunkTask> chunkTasks = GSON.fromJson(chunkTasksString, type);
 
             //Load task triggers
-            Map<String, TaskType> taskTriggers = loadFromFile("task-triggers.json", new TypeToken<>(){});
+            Map<String, TaskType> taskTriggers = loadFromFile("task-triggers.json", new TypeToken<>() {});
+            //Load interaction tasks
+            Map<String, String> interactionTasks = loadFromFile("interaction-tasks.json", new TypeToken<>() {});
             //Load movement tasks
-            Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>(){});
+            Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>() {});
             //Load location tasks
-            Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>(){});
+            Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>() {});
+            //Obtain Item Id tasks
+            Map<String, ArrayList<String>> obtainIdTasks = loadFromFile("obtain-id-tasks.json", new TypeToken<>() {});
+            //Equip Item Id tasks
+            Map<String, ArrayList<String>> equipIdTasks = loadFromFile("equip-id-tasks.json", new TypeToken<>() {});
+            //Chat message tasks
+            Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("chat-message-tasks.json", new TypeToken<>() {});
+            //Xp tasks
+            Map<String, XpTaskConfig> xpTasks = loadFromFile("xp-tasks.json", new TypeToken<>() {});
+            //Combat requirement tasks
+            Map<String, TaskType> customTasks = loadFromFile("custom-tasks.json", new TypeToken<>() {});
             //Set task types
             for (ChunkTask chunkTask : chunkTasks) {
+                if (interactionTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.INTERACTION;
+                    chunkTask.targetRequirement = interactionTasks.get(chunkTask.name);
+                    continue;
+                }
+
+                if (movementTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.MOVEMENT;
+                    chunkTask.movementRequirement = movementTasks.get(chunkTask.name);
+                    continue;
+                }
+
+                if (locationTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.LOCATION;
+                    chunkTask.locationRequirement = locationTasks.get(chunkTask.name);
+                    continue;
+                }
+
+                if (obtainIdTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.OBTAIN_ITEM_ID;
+                    chunkTask.itemIds = obtainIdTasks.get(chunkTask.name)
+                            .stream()
+                            .mapToInt(this::getItemId)
+                            .boxed()
+                            .collect(Collectors.toList());
+                    continue;
+                }
+
+                if (equipIdTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.EQUIP_ITEM_ID;
+                    chunkTask.itemIds = equipIdTasks.get(chunkTask.name)
+                            .stream()
+                            .mapToInt(this::getItemId)
+                            .boxed()
+                            .collect(Collectors.toList());
+                    continue;
+                }
+
+                if (chatMessageTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.CHAT_MESSAGE;
+                    chunkTask.chatMessageConfig = chatMessageTasks.get(chunkTask.name);
+                    continue;
+                }
+
+                if (xpTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.XP;
+                    chunkTask.xpTaskConfig = xpTasks.get(chunkTask.name);
+                    continue;
+                }
+
+                if (customTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = customTasks.get(chunkTask.name);
+                    chunkTask.isCustom = true;
+                    continue;
+                }
+
                 for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
                     if (Pattern.matches(entry.getKey(), chunkTask.name)) {
                         chunkTask.taskType = entry.getValue();
-                        break;
-                    }
-
-                    if (movementTasks.containsKey(chunkTask.name)) {
-                        chunkTask.taskType = TaskType.MOVEMENT;
-                        chunkTask.movementRequirement = movementTasks.get(chunkTask.name);
-                        break;
-                    }
-
-                    if (locationTasks.containsKey(chunkTask.name)) {
-                        chunkTask.taskType = TaskType.LOCATION;
-                        chunkTask.locationRequirement = locationTasks.get(chunkTask.name);
                         break;
                     }
                 }
@@ -266,10 +331,9 @@ public class ChunkTasksPanel extends PluginPanel
 
             chunkTasksManager.importTasks(chunkTasks);
             this.redrawChunkTasks();
-    //			SwingUtilities.invokeLater(this::redrawChunkTasks);
+            //			SwingUtilities.invokeLater(this::redrawChunkTasks);
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             log.error(Arrays.toString(e.getStackTrace()));
             JOptionPane.showMessageDialog(this,
@@ -284,5 +348,15 @@ public class ChunkTasksPanel extends PluginPanel
         InputStream stream = classLoader.getResourceAsStream(resourceName);
         Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         return GSON.fromJson(reader, tokenType.getType());
+    }
+
+    private int getItemId(String itemIdKey) {
+        Class<ItemID> tmp = ItemID.class;
+        try {
+            Field field = tmp.getField(itemIdKey);
+            return field.getInt(new ItemID());
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

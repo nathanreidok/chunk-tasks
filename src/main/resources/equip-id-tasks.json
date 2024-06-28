@@ -1,0 +1,12 @@
+{
+  "Wield an ~|ancient sceptre|~ with a quartz upgrade": [
+    "BLOOD_ANCIENT_SCEPTRE",
+    "ICE_ANCIENT_SCEPTRE",
+    "SHADOW_ANCIENT_SCEPTRE",
+    "SMOKE_ANCIENT_SCEPTRE"
+  ],
+  "Wield a ~|decorative sword (gold)|~": ["DECORATIVE_SWORD_4508"],
+  "Wield a ~|decorative sword (red)|~": ["DECORATIVE_SWORD"],
+  "Wield a ~|decorative sword (white)|~": ["DECORATIVE_SWORD_4503"],
+  "Wield an ~|abyssal tentacle|~": ["ABYSSAL_TENTACLE", "ABYSSAL_TENTACLE_OR"]
+}

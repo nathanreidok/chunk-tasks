@@ -1,4 +1,4 @@
-package com.chunktasks;
+package com.chunktasks.types;
 
 public enum TaskGroup {
     SKILL ("Skill"),

@@ -1,10 +1,13 @@
 package com.chunktasks;
 
 import com.chunktasks.managers.InventoryManager;
-import com.chunktasks.managers.ChunkTask;
+import com.chunktasks.managers.SkillManager;
+import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.managers.MapManager;
 import com.chunktasks.panel.ChunkTasksPanel;
+import com.chunktasks.services.ChunkTaskChecker;
+import com.chunktasks.services.ChunkTaskNotifier;
 import com.chunktasks.sound.SoundFileManager;
 import com.google.inject.Provides;
 
@@ -47,6 +50,7 @@ public class ChunkTasksPlugin extends Plugin {
 	@Inject private InventoryManager inventoryManager;
 	@Inject private ChunkTaskNotifier chunkTaskNotifier;
 	@Inject private MapManager mapManager;
+	@Inject private SkillManager skillManager;
 
 	private ChunkTasksPanel panel;
 	private NavigationButton navButton;
@@ -73,14 +77,14 @@ public class ChunkTasksPlugin extends Plugin {
 
 		clientToolbar.addNavigation(navButton);
 
-//		if (client.getGameState() == GameState.LOGGED_IN) {
-//			clientThread.invokeLater(() -> {
-//				int[] xps = client.getSkillExperiences();
-//				System.arraycopy(xps, 0, previous_exp, 0, previous_exp.length);
-//			});
-//		} else {
-//			Arrays.fill(previous_exp, 0);
-//		}
+		if (client.getGameState() == GameState.LOGGED_IN) {
+			clientThread.invokeLater(() -> {
+				int[] xps = client.getSkillExperiences();
+				skillManager.resetSkills(xps);
+			});
+		} else {
+			skillManager.clearSkills();
+		}
 	}
 
 	@Override
@@ -97,9 +101,9 @@ public class ChunkTasksPlugin extends Plugin {
 			chunkTasksManager.loadChunkTasksData();
 			panel.redrawChunkTasks();
 		}
-//		if (gameStateChanged.getGameState() == GameState.LOGIN_SCREEN || gameStateChanged.getGameState() == GameState.HOPPING) {
-//			Arrays.fill(previous_exp, 0);
-//		}
+		if (gameStateChanged.getGameState() == GameState.LOGIN_SCREEN || gameStateChanged.getGameState() == GameState.HOPPING) {
+			skillManager.clearSkills();
+		}
 	}
 
 	@Subscribe
@@ -114,7 +118,7 @@ public class ChunkTasksPlugin extends Plugin {
 	public void onGameTick(GameTick gameTick) {
 		var worldPoint = client.getLocalPlayer().getWorldLocation();
 
-		boolean isNewLocation = mapManager.addCoordinateToHistory(worldPoint.getX(), worldPoint.getY());
+		boolean isNewLocation = mapManager.addCoordinateToHistory(worldPoint.getX(), worldPoint.getY(), worldPoint.getPlane());
 
 		if (!isNewLocation) {
 			return;
@@ -132,11 +136,18 @@ public class ChunkTasksPlugin extends Plugin {
 		}
 	}
 
-//	@Subscribe
-//	public void onPlayerChanged(PlayerChanged playerChanged) {
-//		List<ChunkTask> tasks = chunkTasksManager.getActiveChunkTasks();
-////		checkEquipTasks(tasks);
-//	}
+	@Subscribe
+	public void onInteractingChanged(InteractingChanged interactingChanged) {
+		Actor source = interactingChanged.getSource();
+		Actor target = interactingChanged.getTarget();
+		if (source == null || target == null || !Objects.equals(source.getName(), client.getLocalPlayer().getName())) {
+			return;
+		}
+
+		List<ChunkTask> completedEquipTasks = chunkTaskChecker.checkInteractionTasks(target.getName());
+		if (!completedEquipTasks.isEmpty())
+			completeTasks(completedEquipTasks);
+	}
 
 	@Subscribe
 	public void onItemContainerChanged(ItemContainerChanged itemContainerChanged) {
@@ -145,12 +156,6 @@ public class ChunkTasksPlugin extends Plugin {
 			onInventoryChanged();
 		else if (containerId == InventoryID.EQUIPMENT.getId())
 			onEquipmentChanged();
-
-//		List<ChunkTask> tasks = chunkTasksManager.getActiveChunkTasks();
-//		checkObtainItemTasks(tasks);
-//		checkObtainTasks(tasks);
-//		checkSkillcapeTasks(tasks);
-//		checkNonskillObtainTasks(tasks);
 	}
 
 	private void onInventoryChanged() {
@@ -165,26 +170,52 @@ public class ChunkTasksPlugin extends Plugin {
 
 		List<ChunkTask> completedObtainItemTasks = chunkTaskChecker.checkObtainItemTasks();
 		List<ChunkTask> completedSkillingItemTasks = chunkTaskChecker.checkSkillingItemTasks();
+		List<ChunkTask> completedObtainItemIdTasks = chunkTaskChecker.checkObtainItemIdTasks();
 
-		List<ChunkTask> completedTasks = Stream.concat(
-				completedObtainItemTasks.stream(),
-				completedSkillingItemTasks.stream()
-		).collect(Collectors.toList());
+		List<ChunkTask> completedTasks = Stream.of(completedObtainItemTasks, completedSkillingItemTasks, completedObtainItemIdTasks)
+				.flatMap(Collection::stream)
+				.collect(Collectors.toList());
 		if (!completedTasks.isEmpty()) {
 			completeTasks(completedTasks);
 		}
 	}
 
 	private void onEquipmentChanged() {
-		List<ChunkTask> completedEquipTasks = chunkTaskChecker.checkEquipItemTasks();
-		if (!completedEquipTasks.isEmpty())
-			completeTasks(completedEquipTasks);
+		List<ChunkTask> completedTasks = Stream.concat(
+				chunkTaskChecker.checkEquipItemTasks().stream(),
+				chunkTaskChecker.checkEquipItemIdTasks().stream()
+		).collect(Collectors.toList());
+		if (!completedTasks.isEmpty())
+			completeTasks(completedTasks);
 	}
 
 	@Subscribe
 	public void onStatChanged(StatChanged statChanged) {
-		Skill changedSkill = statChanged.getSkill();
-		List<ChunkTask> completedTasks = chunkTaskChecker.checkQuestSkillRequirementTasks(changedSkill);
+		Skill skill = statChanged.getSkill();
+		int xpGained = skillManager.updateXp(skill, statChanged.getXp());
+		List<ChunkTask> completedQuestSkillRequirementTasks = chunkTaskChecker.checkQuestSkillRequirementTasks(skill);
+		List<ChunkTask> completedXpTasks = chunkTaskChecker.checkXpTasks(skill, xpGained);
+
+
+		List<ChunkTask> completedTasks = Stream.concat(
+				completedQuestSkillRequirementTasks.stream(),
+				completedXpTasks.stream()
+		).collect(Collectors.toList());
+		if (!completedTasks.isEmpty())
+			completeTasks(completedTasks);
+	}
+
+	@Subscribe
+	public void onChatMessage(ChatMessage chatMessage) {
+//		log.error(chatMessage.getType() + " - " + chatMessage.getMessage());
+		List<ChunkTask> completedTasks = chunkTaskChecker.checkChatMessageTasks(chatMessage);
+		if (!completedTasks.isEmpty())
+			completeTasks(completedTasks);
+	}
+
+	@Subscribe
+	public void onPlayerChanged(PlayerChanged playerChanged) {
+		List<ChunkTask> completedTasks = chunkTaskChecker.checkPlayerTasks();
 		if (!completedTasks.isEmpty())
 			completeTasks(completedTasks);
 	}

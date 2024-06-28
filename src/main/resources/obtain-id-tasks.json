@@ -1,0 +1,47 @@
+{
+  "Brew a ~|cup of tea (clay)|~": [
+    "CUP_OF_TEA_7730",
+    "CUP_OF_TEA_7731"
+  ],
+  "Brew a ~|cup of tea (porcelain)|~": [
+    "CUP_OF_TEA_7733",
+    "CUP_OF_TEA_7734"
+  ],
+  "Brew a ~|cup of tea (trimmed)|~": [
+    "CUP_OF_TEA_7736",
+    "CUP_OF_TEA_7737"
+  ],
+  "Craft a ~|broodoo shield (combat)|~": [
+    "BROODOO_SHIELD_6279"
+  ],
+  "Craft a ~|broodoo shield (poison)|~": [
+    "BROODOO_SHIELD"
+  ],
+  "Craft a ~|broodoo shield (disease)|~": [
+    "BROODOO_SHIELD_6257"
+  ],
+  "Craft a ~|myre snelm (pointed)|~": [
+    "MYRE_SNELM_3337"
+  ],
+  "Craft a ~|myre snelm (round)|~": [
+    "MYRE_SNELM"
+  ],
+  "Craft a ~|bruise blue snelm (pointed)|~": [
+    "BRUISE_BLUE_SNELM_3343"
+  ],
+  "Craft a ~|bruise blue snelm (round)|~": [
+    "BRUISE_BLUE_SNELM"
+  ],
+  "Craft a ~|blood'n'tar snelm (pointed)|~": [
+    "BLOODNTAR_SNELM_3339"
+  ],
+  "Craft a ~|blood'n'tar snelm (round)|~": [
+    "BLOODNTAR_SNELM"
+  ],
+  "Craft a ~|ochre snelm (pointed)|~": [
+    "OCHRE_SNELM_3341"
+  ],
+  "Craft a ~|ochre snelm (round)|~": [
+    "OCHRE_SNELM"
+  ]
+}

@@ -1,6 +1,7 @@
 package com.chunktasks.managers;
 
-import com.chunktasks.TaskType;
+import com.chunktasks.tasks.ChunkTask;
+import com.chunktasks.types.TaskType;
 import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +53,7 @@ public class ChunkTasksManager {
     }
 
     public void importTasks(List<ChunkTask> tasks) {
-        log.error(GSON.toJson(tasks));
+//        log.error(GSON.toJson(tasks));
         chunkTasks = tasks;
         save();
     }
