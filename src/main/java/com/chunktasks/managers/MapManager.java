@@ -27,6 +27,9 @@ public class MapManager {
     }
 
     public MapCoordinate getCurrentLocation() {
+        if (movementHistory.isEmpty()) {
+            return null;
+        }
         return movementHistory.get(movementHistory.size() - 1);
     }
 }

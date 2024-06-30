@@ -5,6 +5,7 @@ import com.chunktasks.tasks.MapBoundary;
 import com.chunktasks.tasks.MapMovement;
 import com.chunktasks.types.TaskGroup;
 import com.chunktasks.types.TaskType;
+import net.runelite.api.Prayer;
 import net.runelite.api.Skill;
 
 import java.util.HashMap;
@@ -27,4 +28,5 @@ public class ChunkTask {
     public List<Integer> itemIds;
     public ChatMessageConfig chatMessageConfig;
     public XpTaskConfig xpTaskConfig;
+    public Prayer prayer;
 }

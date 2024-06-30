@@ -14,6 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.ItemID;
+import net.runelite.api.Prayer;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
@@ -261,6 +262,8 @@ public class ChunkTasksPanel extends PluginPanel
             Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("chat-message-tasks.json", new TypeToken<>() {});
             //Xp tasks
             Map<String, XpTaskConfig> xpTasks = loadFromFile("xp-tasks.json", new TypeToken<>() {});
+            //Prayer tasks
+            Map<String, Prayer> prayerTasks = loadFromFile("prayer-tasks.json", new TypeToken<>() {});
             //Combat requirement tasks
             Map<String, TaskType> customTasks = loadFromFile("custom-tasks.json", new TypeToken<>() {});
             //Set task types
@@ -305,6 +308,11 @@ public class ChunkTasksPanel extends PluginPanel
                     chunkTask.taskType = TaskType.XP;
                     chunkTask.xpTaskConfig = xpTasks.get(chunkTask.name);
                     continue;
+                }
+
+                if (prayerTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.PRAYER;
+                    chunkTask.prayer = prayerTasks.get(chunkTask.name);
                 }
 
                 if (customTasks.containsKey(chunkTask.name)) {

@@ -94,5 +94,9 @@
       "yMin": 3166,
       "yMax": 3166
     }
+  },
+  "Repair a crane at ~|Port Piscarilius|~": {
+    "chatMessageType": "GAMEMESSAGE",
+    "message": "You successfully repair the fishing crane."
   }
 }

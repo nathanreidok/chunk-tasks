@@ -15,6 +15,8 @@ import net.runelite.api.events.ChatMessage;
 import javax.inject.Inject;
 import java.util.*;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -24,48 +26,40 @@ public class ChunkTaskChecker {
     @Inject private InventoryManager inventoryManager;
     @Inject private MapManager mapManager;
 
+    public List<ChunkTask> checkPrayerTasks() {
+        return checkTasks(TaskType.PRAYER, (ChunkTask task) -> client.isPrayerActive(task.prayer));
+    }
+
     public List<ChunkTask> checkXpTasks(Skill skill, int xpGained) {
-        return checkTasks(TaskType.XP, (ChunkTask task, List<ChunkTask> completedTasks) -> {
+        return checkTasks(TaskType.XP, (ChunkTask task) -> {
             MapBoundary locationRequirement = task.xpTaskConfig.getLocation();
-            if (locationRequirement != null && !locationRequirement.contains(mapManager.getCurrentLocation()))
-                return;
+            MapCoordinate currentLocation = mapManager.getCurrentLocation();
+            if (locationRequirement != null && (currentLocation == null || !locationRequirement.contains(currentLocation)))
+                return false;
             if (task.xpTaskConfig.getSkill() != skill)
-                return;
-            if (task.xpTaskConfig.getXpMin() <= xpGained && xpGained <= task.xpTaskConfig.getXpMax())
-                completedTasks.add(task);
+                return false;
+            return task.xpTaskConfig.getXpMin() <= xpGained && xpGained <= task.xpTaskConfig.getXpMax();
         });
     }
 
     public List<ChunkTask> checkInteractionTasks(String target) {
-        return checkTasks(TaskType.INTERACTION, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            if (task.targetRequirement.equalsIgnoreCase(target)) {
-                completedTasks.add(task);
-            }
-        });
+        return checkTasks(TaskType.INTERACTION, (ChunkTask task) -> task.targetRequirement.equalsIgnoreCase(target));
     }
 
     public List<ChunkTask> checkMovementTasks() {
         MapMovement movementHistory = mapManager.getMovementHistory();
-        return checkTasks(TaskType.MOVEMENT, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            if (task.movementRequirement.stream().anyMatch(movementHistory::includes)) {
-                completedTasks.add(task);
-            }
-        });
+        return checkTasks(TaskType.MOVEMENT, (ChunkTask task) -> task.movementRequirement.stream().anyMatch(movementHistory::includes));
     }
 
     public List<ChunkTask> checkLocationTasks() {
         MapCoordinate coordinate = mapManager.getCurrentLocation();
-        return checkTasks(TaskType.MOVEMENT, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            if (task.locationRequirement.contains(coordinate)) {
-                completedTasks.add(task);
-            }
-        });
+        return checkTasks(TaskType.MOVEMENT, (ChunkTask task) -> task.locationRequirement.contains(coordinate));
     }
 
     public List<ChunkTask> checkQuestSkillRequirementTasks(Skill changedSkill) {
-        return checkTasks(TaskType.QUEST_SKILL_REQUIREMENT, (ChunkTask task, List<ChunkTask> completedTasks) -> {
+        return checkTasks(TaskType.QUEST_SKILL_REQUIREMENT, (ChunkTask task) -> {
             if (task.skills == null || !task.skills.containsKey(changedSkill))
-                return;
+                return false;
 
             boolean skillRequirementsMet = true;
             for (Map.Entry<Skill, Integer> skillRequirement : task.skills.entrySet()) {
@@ -76,8 +70,7 @@ public class ChunkTaskChecker {
                     break;
                 }
             }
-            if (skillRequirementsMet)
-                completedTasks.add(task);
+            return skillRequirementsMet;
         });
     }
 
@@ -93,11 +86,7 @@ public class ChunkTaskChecker {
         if (equipmentItemIds.isEmpty())
             return new ArrayList<>();
 
-        return checkTasks(TaskType.EQUIP_ITEM_ID, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            if (task.itemIds.stream().anyMatch(equipmentItemIds::contains)) {
-                completedTasks.add(task);
-            }
-        });
+        return checkTasks(TaskType.EQUIP_ITEM_ID, (ChunkTask task) -> task.itemIds.stream().anyMatch(equipmentItemIds::contains));
     }
 
     public List<ChunkTask> checkEquipItemTasks() {
@@ -111,13 +100,7 @@ public class ChunkTaskChecker {
         if (equipment.isEmpty())
             return new ArrayList<>();
 
-        return checkTasks(TaskType.EQUIP_ITEM, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            List<String> potentialItems = getPotentialTaskItems(task);
-
-            boolean itemObtained = !Collections.disjoint(potentialItems, equipment);
-            if (itemObtained)
-                completedTasks.add(task);
-        });
+        return checkTasks(TaskType.EQUIP_ITEM, (ChunkTask task) -> !Collections.disjoint(getPotentialTaskItems(task), equipment));
     }
 
     public List<ChunkTask> checkObtainItemTasks() {
@@ -125,13 +108,7 @@ public class ChunkTaskChecker {
         if (newInventoryItems == null || newInventoryItems.isEmpty())
             return new ArrayList<>();
 
-        return checkTasks(TaskType.OBTAIN_ITEM, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            List<String> potentialItems = getPotentialTaskItems(task);
-
-            boolean itemObtained = !Collections.disjoint(potentialItems, newInventoryItems);
-            if (itemObtained)
-                completedTasks.add(task);
-        });
+        return checkTasks(TaskType.OBTAIN_ITEM, (ChunkTask task) -> !Collections.disjoint(getPotentialTaskItems(task), newInventoryItems));
     }
 
     public List<ChunkTask> checkObtainItemIdTasks() {
@@ -142,29 +119,24 @@ public class ChunkTaskChecker {
         if (inventoryItemIds.isEmpty())
             return new ArrayList<>();
 
-        return checkTasks(TaskType.OBTAIN_ITEM_ID, (ChunkTask task, List<ChunkTask> completedTasks) -> {
-            if (task.itemIds.stream().anyMatch(inventoryItemIds::contains)) {
-                completedTasks.add(task);
-            }
-        });
+        return checkTasks(TaskType.OBTAIN_ITEM_ID, (ChunkTask task) -> task.itemIds.stream().anyMatch(inventoryItemIds::contains));
     }
 
     public List<ChunkTask> checkChatMessageTasks(ChatMessage chatMessage) {
-        return checkTasks(TaskType.CHAT_MESSAGE, (ChunkTask task, List<ChunkTask> completedTasks) -> {
+        return checkTasks(TaskType.CHAT_MESSAGE, (ChunkTask task) -> {
             if (task.chatMessageConfig.getChatMessageType() != chatMessage.getType())
-                return;
+                return false;
 
             MapBoundary locationRequirement = task.chatMessageConfig.getLocation();
             if (locationRequirement != null && !locationRequirement.contains(mapManager.getCurrentLocation())) {
-                return;
+                return false;
             }
-            if (chatMessage.getMessage().contains(task.chatMessageConfig.getMessage()))
-                completedTasks.add(task);
+            return chatMessage.getMessage().contains(task.chatMessageConfig.getMessage());
         });
     }
 
     public List<ChunkTask> checkPlayerTasks() {
-        return checkTasks(TaskType.PLAYER, (ChunkTask task, List<ChunkTask> completedTasks) -> {});
+        return checkTasks(TaskType.PLAYER, (ChunkTask task) -> false);
     }
 
     public List<ChunkTask> checkSkillingItemTasks() {
@@ -172,11 +144,11 @@ public class ChunkTaskChecker {
         if (newInventoryItems == null)
             return new ArrayList<>();
 
-        return checkTasks(TaskType.SKILLING_ITEM, (ChunkTask task, List<ChunkTask> completedTasks) -> {
+        return checkTasks(TaskType.SKILLING_ITEM, (ChunkTask task) -> {
             List<String> potentialItems = getPotentialTaskItems(task);
             boolean itemObtained = !Collections.disjoint(potentialItems, newInventoryItems);
             if (!itemObtained)
-                return;
+                return false;
 
             if (task.skills != null) {
                 boolean skillRequirementsMet = true;
@@ -188,15 +160,14 @@ public class ChunkTaskChecker {
                         break;
                     }
                 }
-                if (!skillRequirementsMet)
-                    return;
+                return skillRequirementsMet;
             }
 
-            completedTasks.add(task);
+            return true;
         });
     }
 
-    private List<ChunkTask> checkTasks(TaskType taskType, BiConsumer<ChunkTask, List<ChunkTask>> taskChecker) {
+    private List<ChunkTask> checkTasks(TaskType taskType, Function<ChunkTask, Boolean> taskChecker) {
         List<ChunkTask> completedTasks = new ArrayList<>();
         List<ChunkTask> tasksToCheck = chunkTasksManager.getActiveChunkTasksByType(taskType);
         if (tasksToCheck.isEmpty())
@@ -208,7 +179,9 @@ public class ChunkTaskChecker {
                     completedTasks.add(task);
                 continue;
             }
-            taskChecker.accept(task, completedTasks);
+
+            if (taskChecker.apply(task))
+                completedTasks.add(task);
         }
         return completedTasks;
     }

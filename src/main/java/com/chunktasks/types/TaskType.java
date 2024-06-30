@@ -13,5 +13,6 @@ public enum TaskType {
     CHAT_MESSAGE,
     PLAYER,
     OBTAIN_ITEM_ID,
-    XP
+    XP,
+    PRAYER
 }
