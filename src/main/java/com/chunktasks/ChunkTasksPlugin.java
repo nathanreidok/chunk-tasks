@@ -139,7 +139,7 @@ public class ChunkTasksPlugin extends Plugin {
 			return;
 		}
 
-		log.error("SOURCE: " + source.getName() + " | TARGET: " + target.getName());
+//		log.error("SOURCE: " + source.getName() + " | TARGET: " + target.getName());
 		List<ChunkTask> completedEquipTasks = chunkTaskChecker.checkInteractionTasks(target.getName());
 		if (!completedEquipTasks.isEmpty())
 			completeTasks(completedEquipTasks);
@@ -203,7 +203,7 @@ public class ChunkTasksPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		log.error(chatMessage.getType() + " - " + chatMessage.getMessage());
+//		log.error(chatMessage.getType() + " - " + chatMessage.getMessage());
 		List<ChunkTask> completedTasks = chunkTaskChecker.checkChatMessageTasks(chatMessage);
 		if (!completedTasks.isEmpty())
 			completeTasks(completedTasks);

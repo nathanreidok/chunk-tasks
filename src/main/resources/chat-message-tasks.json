@@ -357,10 +357,11 @@
     "chatMessageType": "SPAM",
     "message": "You get some loot.",
     "location": {
-      "xMin": 2322,
-      "xMax": 2654,
-      "yMin": 2946,
-      "yMax": 3077
+      "xMin": 3052,
+      "xMax": 3060,
+      "yMin": 4970,
+      "yMax": 4977,
+      "z": 1
     }
   },
   "Crack a ~|wall safe (lobby)|~ inside the Rogues' Den": {
@@ -368,7 +369,7 @@
     "message": "You get some loot.",
     "location": {
       "xMin": 3052,
-      "xMax": 3059,
+      "xMax": 3060,
       "yMin": 4970,
       "yMax": 4977,
       "z": 1

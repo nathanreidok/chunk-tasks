@@ -112,7 +112,6 @@ public class ChunkTaskChecker {
                 return false;
 
             MapBoundary locationRequirement = task.chatMessageConfig.getLocation();
-            log.error("location req: " + locationRequirement.getZ() + " " + mapManager.getCurrentLocation().getZ());
             if (locationRequirement != null && !locationRequirement.contains(mapManager.getCurrentLocation()))
                 return false;
 
