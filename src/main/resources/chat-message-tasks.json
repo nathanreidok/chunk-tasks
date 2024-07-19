@@ -98,5 +98,280 @@
   "Repair a crane at ~|Port Piscarilius|~": {
     "chatMessageType": "GAMEMESSAGE",
     "message": "You successfully repair the fishing crane."
+  },
+  "Chop ~|achey tree logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some logs.",
+    "location": {
+      "xMin": 2322,
+      "xMax": 2654,
+      "yMin": 2946,
+      "yMax": 3077
+    }
+  },
+  "Chop ~|arctic pine logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some arctic pine logs."
+  },
+  "Chop ~|bark|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some bark."
+  },
+  "Chop ~|blisterwood logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some blisterwood logs."
+  },
+  "Chop ~|juniper logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some juniper logs."
+  },
+  "Chop ~|bruma roots|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get a bruma root."
+  },
+  "Chop ~|logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some logs."
+  },
+  "Chop a ~|burnt tree|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some charcoal."
+  },
+  "Chop a ~|dead tree (burnt)|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some charcoal."
+  },
+  "Chop ~|magic logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some magic logs."
+  },
+  "Chop ~|mahogany logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some mahogany logs."
+  },
+  "Chop ~|maple logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some maple logs."
+  },
+  "Chop ~|oak logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some oak logs."
+  },
+  "Chop ~|redwood logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some redwood logs."
+  },
+  "Chop ~|teak logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some teak logs."
+  },
+  "Chop ~|willow logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some willow logs."
+  },
+  "Chop ~|yew logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some yew logs."
+  },
+  "Chop a ~|mahogany#Etceteria|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some mahogany logs and give them to Carpenter Kjallak."
+  },
+  "Chop a ~|teak#Etceteria|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some teak logs and give them to Carpenter Kjallak."
+  },
+  "Chop a ~|maple tree#Miscellania|~": {
+    "chatMessageType": "SPAM",
+    "message": "You get some maple logs and give them to Lumberjack Leif."
+  },
+  "Split ~|arctic pine logs|~": {
+    "chatMessageType": "SPAM",
+    "message": "You split some arctic pine logs."
+  },
+  "Chop from a ~|Sulliuscep|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the sulliuscep."
+  },
+  "Chop with a ~|bronze axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 1
+    },
+    "item": "Bronze axe"
+  },
+  "Chop with a ~|bronze felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 1
+    },
+    "item": "Bronze felling axe"
+  },
+  "Chop with a ~|iron axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 1
+    },
+    "item": "Iron axe"
+  },
+  "Chop with a ~|iron felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 1
+    },
+    "item": "Iron felling axe"
+  },
+  "Chop with a ~|steel axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 6
+    },
+    "item": "Steel axe"
+  },
+  "Chop with a ~|steel felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 6
+    },
+    "item": "Steel felling axe"
+  },
+  "Chop with a ~|black axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 11
+    },
+    "item": "Black axe"
+  },
+  "Chop with a ~|black felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 11
+    },
+    "item": "Black felling axe"
+  },
+  "Chop with a ~|mithril axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 21
+    },
+    "item": "Mithril axe"
+  },
+  "Chop with a ~|mithril felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 21
+    },
+    "item": "Mithril felling axe"
+  },
+  "Chop with a ~|adamant axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 31
+    },
+    "item": "Adamant axe"
+  },
+  "Chop with a ~|adamant felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 31
+    },
+    "item": "Adamant felling axe"
+  },
+  "Chop with a ~|rune axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 41
+    },
+    "item": "Rune axe"
+  },
+  "Chop with a ~|rune felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 41
+    },
+    "item": "Rune felling axe"
+  },
+  "Chop with a ~|3rd age axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 61
+    },
+    "item": "3rd age axe"
+  },
+  "Chop with a ~|3rd age felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 61
+    },
+    "item": "3rd age felling axe"
+  },
+  "Chop with a ~|dragon axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 61
+    },
+    "item": "Dragon axe"
+  },
+  "Chop with a ~|dragon felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 61
+    },
+    "item": "Dragon felling axe"
+  },
+  "Chop with a ~|crystal axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 71
+    },
+    "item": "Crystal axe"
+  },
+  "Chop with a ~|crystal felling axe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You swing your axe at the tree.",
+    "skills": {
+      "WOODCUTTING": 71
+    },
+    "item": "Crystal felling axe"
+  },
+  "Crack a ~|wall safe (lobby)|~ insde the Rogues' Den": {
+    "chatMessageType": "SPAM",
+    "message": "You get some loot.",
+    "location": {
+      "xMin": 2322,
+      "xMax": 2654,
+      "yMin": 2946,
+      "yMax": 3077
+    }
+  },
+  "Crack a ~|wall safe (lobby)|~ inside the Rogues' Den": {
+    "chatMessageType": "SPAM",
+    "message": "You get some loot.",
+    "location": {
+      "xMin": 3052,
+      "xMax": 3059,
+      "yMin": 4970,
+      "yMax": 4977,
+      "z": 1
+    }
   }
 }

@@ -52,9 +52,6 @@ public class ChunkTasksPanel extends PluginPanel
     private JPanel topPanel;
     private JLabel importButton;
 
-//    @Inject
-//    private EventBus eventBus;
-
     private static final ImageIcon IMPORT_ICON;
     private static final ImageIcon IMPORT_HOVER_ICON;
     private static final ImageIcon BROKEN_LINK_ICON;
@@ -79,9 +76,6 @@ public class ChunkTasksPanel extends PluginPanel
 
         add(createTopPanel(isLoggedIn), BorderLayout.NORTH);
         add(taskListPanel, BorderLayout.CENTER);
-
-//        updateLoggedIn();
-//        eventBus.register(this);
     }
 
     public void showHideImportButton(boolean isLoggedIn) {
@@ -132,7 +126,6 @@ public class ChunkTasksPanel extends PluginPanel
         titleLabel.setForeground(Color.WHITE);
 
         importButton = new JLabel(IMPORT_ICON);
-//        importButton.setToolTipText("Import chunk tasks and overwrite existing tasks");
         importButton.setToolTipText("Import chunk tasks from clipboard");
         importButton.addMouseListener(new MouseAdapter()
         {
@@ -217,7 +210,6 @@ public class ChunkTasksPanel extends PluginPanel
 
         JPanel panel = new JPanel();
         panel.setBackground(ColorScheme.DARK_GRAY_COLOR);
-//        panel.setLayout(new BorderLayout());
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(checkBox);
 
@@ -247,25 +239,25 @@ public class ChunkTasksPanel extends PluginPanel
             final ArrayList<ChunkTask> chunkTasks = GSON.fromJson(chunkTasksString, type);
 
             //Load task triggers
-            Map<String, TaskType> taskTriggers = loadFromFile("task-triggers.json", new TypeToken<>() {});
+            Map<String, TaskType> taskTriggers = loadFromFile("/task-triggers.json", new TypeToken<>() {});
             //Load interaction tasks
-            Map<String, String> interactionTasks = loadFromFile("interaction-tasks.json", new TypeToken<>() {});
+            Map<String, String> interactionTasks = loadFromFile("/interaction-tasks.json", new TypeToken<>() {});
             //Load movement tasks
-            Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("movement-tasks.json", new TypeToken<>() {});
+            Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("/movement-tasks.json", new TypeToken<>() {});
             //Load location tasks
-            Map<String, MapBoundary> locationTasks = loadFromFile("location-tasks.json", new TypeToken<>() {});
+            Map<String, MapBoundary> locationTasks = loadFromFile("/location-tasks.json", new TypeToken<>() {});
             //Obtain Item Id tasks
-            Map<String, ArrayList<Integer>> obtainIdTasks = loadFromFile("obtain-id-tasks.json", new TypeToken<>() {});
+            Map<String, ArrayList<Integer>> obtainIdTasks = loadFromFile("/obtain-id-tasks.json", new TypeToken<>() {});
             //Equip Item Id tasks
-            Map<String, ArrayList<Integer>> equipIdTasks = loadFromFile("equip-id-tasks.json", new TypeToken<>() {});
+            Map<String, ArrayList<Integer>> equipIdTasks = loadFromFile("/equip-id-tasks.json", new TypeToken<>() {});
             //Chat message tasks
-            Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("chat-message-tasks.json", new TypeToken<>() {});
+            Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("/chat-message-tasks.json", new TypeToken<>() {});
             //Xp tasks
-            Map<String, XpTaskConfig> xpTasks = loadFromFile("xp-tasks.json", new TypeToken<>() {});
+            Map<String, XpTaskConfig> xpTasks = loadFromFile("/xp-tasks.json", new TypeToken<>() {});
             //Prayer tasks
-            Map<String, Prayer> prayerTasks = loadFromFile("prayer-tasks.json", new TypeToken<>() {});
+            Map<String, Prayer> prayerTasks = loadFromFile("/prayer-tasks.json", new TypeToken<>() {});
             //Combat requirement tasks
-            Map<String, TaskType> customTasks = loadFromFile("custom-tasks.json", new TypeToken<>() {});
+            Map<String, TaskType> customTasks = loadFromFile("/custom-tasks.json", new TypeToken<>() {});
             //Set task types
             for (ChunkTask chunkTask : chunkTasks) {
                 if (interactionTasks.containsKey(chunkTask.name)) {
@@ -331,7 +323,6 @@ public class ChunkTasksPanel extends PluginPanel
 
             chunkTasksManager.importTasks(chunkTasks);
             this.redrawChunkTasks();
-            //			SwingUtilities.invokeLater(this::redrawChunkTasks);
 
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -344,8 +335,7 @@ public class ChunkTasksPanel extends PluginPanel
     }
 
     private <T> T loadFromFile(String resourceName, TypeToken<T> tokenType) {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = classLoader.getResourceAsStream(resourceName);
+        InputStream stream = ChunkTasksPanel.class.getResourceAsStream(resourceName);
         Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         return GSON.fromJson(reader, tokenType.getType());
     }

@@ -32,19 +32,6 @@ public class ChunkTasksManager {
     @Getter
     private List<ChunkTask> chunkTasks;
 
-    public ChunkTasksManager() throws FileNotFoundException, UnsupportedEncodingException {
-
-        ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream stream = classloader.getResourceAsStream("taskRequirements.json");
-        Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-
-//        Map<String, TaskRequirements> retMap = new Gson().fromJson(reader,
-//            new TypeToken<HashMap<String, TaskRequirements>>() {}.getType()
-//        );
-//
-//        log.info("Json value - " + retMap.get("Task1"));
-    }
-
     public void loadChunkTasksData() {
         chunkTasks = loadChunkTasksDataFromRLProfile();
         if (chunkTasks == null) {
@@ -53,7 +40,6 @@ public class ChunkTasksManager {
     }
 
     public void importTasks(List<ChunkTask> tasks) {
-//        log.error(GSON.toJson(tasks));
         chunkTasks = tasks;
         save();
     }

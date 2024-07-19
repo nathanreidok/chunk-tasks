@@ -1311,5 +1311,39 @@
     [
       { "x": 2933, "y": 3288 }
     ]
+  ],
+  "Access the ~|Woodcutting Guild|~": [
+    [
+      { "x": 1563, "y": 3487 }
+    ],
+    [
+      { "x": 1563, "y": 3488 }
+    ],
+    [
+      { "x": 1657, "y": 3504 }
+    ],
+    [
+      { "x": 1657, "y": 3505 }
+    ]
+  ],
+  "Access the spring room of the ~|Sorceress's Garden|~ minigame": [
+    [
+      { "x": 2921, "y": 5473 }
+    ]
+  ],
+  "Access the autumn room of the ~|Sorceress's Garden|~ minigame": [
+    [
+      { "x": 2913, "y": 5462 }
+    ]
+  ],
+  "Access the winter room of the ~|Sorceress's Garden|~ minigame": [
+    [
+      { "x": 2902, "y": 5470 }
+    ]
+  ],
+  "Access the summer room of the ~|Sorceress's Garden|~ minigame": [
+    [
+      { "x": 2910, "y": 5481 }
+    ]
   ]
 }

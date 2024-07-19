@@ -10,6 +10,7 @@ public class MapBoundary {
     private int xMax;
     private int yMin;
     private int yMax;
+    private Integer z;
 
     public MapBoundary(int xMin, int xMax, int yMin, int yMax) {
         this.xMin = xMin;
@@ -20,6 +21,7 @@ public class MapBoundary {
 
     public boolean contains(MapCoordinate coordinate) {
         return coordinate.getX() >= xMin && coordinate.getX() <= xMax
-            && coordinate.getY() >= yMin && coordinate.getY() <= yMax;
+            && coordinate.getY() >= yMin && coordinate.getY() <= yMax
+            && (z == null || coordinate.getZ() == z.intValue());
     }
 }

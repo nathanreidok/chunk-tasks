@@ -75,14 +75,7 @@ public class ChunkTaskChecker {
     }
 
     public List<ChunkTask> checkEquipItemIdTasks() {
-        final ItemContainer itemContainer = client.getItemContainer(InventoryID.EQUIPMENT);
-        if (itemContainer == null)
-            return new ArrayList<>();
-
-        List<Integer> equipmentItemIds = Arrays.stream(itemContainer.getItems())
-                .mapToInt(Item::getId)
-                .boxed()
-                .collect(Collectors.toList());
+        List<Integer> equipmentItemIds = getInventoryItemIds(InventoryID.EQUIPMENT);
         if (equipmentItemIds.isEmpty())
             return new ArrayList<>();
 
@@ -90,13 +83,7 @@ public class ChunkTaskChecker {
     }
 
     public List<ChunkTask> checkEquipItemTasks() {
-        final ItemContainer itemContainer = client.getItemContainer(InventoryID.EQUIPMENT);
-        if (itemContainer == null)
-            return new ArrayList<>();
-
-        List<String> equipment = Arrays.stream(itemContainer.getItems())
-                .map(item -> sanitizeItemName(client.getItemDefinition(item.getId()).getName()))
-                .collect(Collectors.toList());
+        List<String> equipment = getInventoryItems(InventoryID.EQUIPMENT);
         if (equipment.isEmpty())
             return new ArrayList<>();
 
@@ -112,10 +99,7 @@ public class ChunkTaskChecker {
     }
 
     public List<ChunkTask> checkObtainItemIdTasks() {
-        List<Integer> inventoryItemIds = Arrays.stream(client.getItemContainer(InventoryID.INVENTORY).getItems())
-                .mapToInt(Item::getId)
-                .boxed()
-                .collect(Collectors.toList());
+        List<Integer> inventoryItemIds = getInventoryItemIds(InventoryID.INVENTORY);
         if (inventoryItemIds.isEmpty())
             return new ArrayList<>();
 
@@ -128,8 +112,21 @@ public class ChunkTaskChecker {
                 return false;
 
             MapBoundary locationRequirement = task.chatMessageConfig.getLocation();
-            if (locationRequirement != null && !locationRequirement.contains(mapManager.getCurrentLocation())) {
+            log.error("location req: " + locationRequirement.getZ() + " " + mapManager.getCurrentLocation().getZ());
+            if (locationRequirement != null && !locationRequirement.contains(mapManager.getCurrentLocation()))
                 return false;
+
+            HashMap<Skill, Integer> skillRequirements = task.chatMessageConfig.getSkills();
+            if (skillRequirements != null && !checkSkillRequirements(skillRequirements))
+                return false;
+
+            String item = task.chatMessageConfig.getItem();
+            if (item != null) {
+                String sanitizedItemName = sanitizeItemName(item);
+                List<String> inventoryItems = getInventoryItems(InventoryID.INVENTORY);
+                List<String> equippedItems = getInventoryItems(InventoryID.EQUIPMENT);
+                if (!inventoryItems.contains(sanitizedItemName) && !equippedItems.contains(sanitizedItemName))
+                    return false;
             }
             return chatMessage.getMessage().contains(task.chatMessageConfig.getMessage());
         });
@@ -150,21 +147,40 @@ public class ChunkTaskChecker {
             if (!itemObtained)
                 return false;
 
-            if (task.skills != null) {
-                boolean skillRequirementsMet = true;
-                for (Map.Entry<Skill, Integer> skillRequirement : task.skills.entrySet()) {
-                    int boostedSkillLevel = client.getBoostedSkillLevel(skillRequirement.getKey());
-                    int requiredSkillLevel = skillRequirement.getValue();
-                    if (boostedSkillLevel < requiredSkillLevel) {
-                        skillRequirementsMet = false;
-                        break;
-                    }
-                }
-                return skillRequirementsMet;
-            }
-
-            return true;
+            return task.skills == null || checkSkillRequirements(task.skills);
         });
+    }
+
+    private List<Integer> getInventoryItemIds(InventoryID inventoryID) {
+        final ItemContainer itemContainer = client.getItemContainer(inventoryID);
+        if (itemContainer == null)
+            return new ArrayList<>();
+
+        return Arrays.stream(itemContainer.getItems())
+                .mapToInt(Item::getId)
+                .boxed()
+                .collect(Collectors.toList());
+    }
+
+    private List<String> getInventoryItems(InventoryID inventoryID) {
+        final ItemContainer itemContainer = client.getItemContainer(inventoryID);
+        if (itemContainer == null)
+            return new ArrayList<>();
+
+        return Arrays.stream(itemContainer.getItems())
+                .map(item -> sanitizeItemName(client.getItemDefinition(item.getId()).getName()))
+                .collect(Collectors.toList());
+    }
+
+    private boolean checkSkillRequirements(HashMap<Skill, Integer> skills) {
+        for (Map.Entry<Skill, Integer> skillRequirement : skills.entrySet()) {
+            int boostedSkillLevel = client.getBoostedSkillLevel(skillRequirement.getKey());
+            int requiredSkillLevel = skillRequirement.getValue();
+            if (boostedSkillLevel < requiredSkillLevel) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<ChunkTask> checkTasks(TaskType taskType, Function<ChunkTask, Boolean> taskChecker) {

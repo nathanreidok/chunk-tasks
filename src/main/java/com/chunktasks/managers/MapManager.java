@@ -19,7 +19,7 @@ public class MapManager {
             return false;
         }
         movementHistory.add(coordinate);
-//        log.error(coordinate.getX() + "-" + coordinate.getY() + "-" + coordinate.getZ());
+        log.error(coordinate.getX() + "-" + coordinate.getY() + "-" + coordinate.getZ());
         if (movementHistory.size() > 10) {
             movementHistory.remove(0);
         }
