@@ -3,5 +3,8 @@
   "Wield a ~|decorative sword (gold)|~": [4508],
   "Wield a ~|decorative sword (red)|~": [4068],
   "Wield a ~|decorative sword (white)|~": [4503],
-  "Wield an ~|abyssal tentacle|~": [12006, 26484]
+  "Wield an ~|abyssal tentacle|~": [12006, 26484],
+  "Wield the ~|Eldritch nightmare staff|~": [24425],
+  "Wield the ~|Harmonised nightmare staff|~": [24423],
+  "Wield the ~|Volatile nightmare staff|~": [24424, 25517]
 }

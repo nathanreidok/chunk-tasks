@@ -1,11 +1,11 @@
 package com.chunktasks.types;
 
 public enum TaskType {
-    UNKONWN,
+    UNKNOWN,
     EQUIP_ITEM,
     OBTAIN_ITEM,
     SKILLING_ITEM,
-    QUEST_SKILL_REQUIREMENT,
+    SKILL_REQUIREMENT,
     MOVEMENT,
     LOCATION,
     INTERACTION,
@@ -14,5 +14,6 @@ public enum TaskType {
     PLAYER,
     OBTAIN_ITEM_ID,
     XP,
-    PRAYER
+    PRAYER,
+    FARMING_PATCH
 }

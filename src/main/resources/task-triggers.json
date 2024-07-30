@@ -4,5 +4,6 @@
   "^((Wield)|(Wear)).*~\\|.*\\|~": "EQUIP_ITEM",
   "^((Catch)|(Craft)|(Cook)|(Make)|(Bake)|(Fletch)|(Cut)|(Create)|(Brew)|(Mix)|(String)).*~\\|.*\\|~": "SKILLING_ITEM",
   "^((Smith)|(Churn)|(Prepare)|(Dissect)|(Chip)|(Mine)).*~\\|.*\\|~": "SKILLING_ITEM",
-  "^~\\|.*\\|~.*(skill requirement)$": "QUEST_SKILL_REQUIREMENT"
+  "^~\\|.*\\|~.*(skill requirement)$": "SKILL_REQUIREMENT",
+  "^(Unlock the best rewards bracket from ~\\|Tempoross\\|~)$": "SKILL_REQUIREMENT"
 }

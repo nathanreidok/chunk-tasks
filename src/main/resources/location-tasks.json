@@ -83,5 +83,59 @@
     "xMax": 2489,
     "yMin": 3515,
     "yMax": 3519
+  },
+  "Access the ~|Farming Guild#Beginner tier|~": {
+    "xMin": 1246,
+    "xMax": 1251,
+    "yMin": 3724,
+    "yMax": 3744
+  },
+  "Access the ~|Farming Guild#Intermediate tier|~": {
+    "xMin": 1241,
+    "xMax": 1243,
+    "yMin": 3729,
+    "yMax": 3730
+  },
+  "Access the ~|Farming Guild#Advanced tier|~": {
+    "xMin": 1248,
+    "xMax": 1249,
+    "yMin": 3745,
+    "yMax": 3747
+  },
+  "Access the ~|fishing guild|~": {
+    "xMin": 2611,
+    "xMax": 2611,
+    "yMin": 3394,
+    "yMax": 3394
+  },
+  "Access the ~|Tempoross|~": {
+    "xMin": 3134,
+    "xMax": 3134,
+    "yMin": 2840,
+    "yMax": 2840
+  },
+  "Access the ~|Wintertodt|~": {
+    "xMin": 1625,
+    "xMax": 1635,
+    "yMin": 3968,
+    "yMax": 3988
+  },
+  "Access the ~|Eagle transportation system|~": {
+    "xMin": 2019,
+    "xMax": 2029,
+    "yMin": 4957,
+    "yMax": 4965
+  },
+  "Access the ~|Hunter Guild|~": {
+    "xMin": 1557,
+    "xMax": 1558,
+    "yMin": 9451,
+    "yMax": 9451
+  },
+  "Access the ~|Wizards' Guild|~": {
+    "xMin": 2585,
+    "xMax": 2596,
+    "yMin": 3087,
+    "yMax": 3088
   }
 }

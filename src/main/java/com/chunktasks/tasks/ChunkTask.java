@@ -1,8 +1,5 @@
 package com.chunktasks.tasks;
 
-import com.chunktasks.tasks.ChatMessageConfig;
-import com.chunktasks.tasks.MapBoundary;
-import com.chunktasks.tasks.MapMovement;
 import com.chunktasks.types.TaskGroup;
 import com.chunktasks.types.TaskType;
 import net.runelite.api.Prayer;
@@ -19,7 +16,7 @@ public class ChunkTask {
     public List<String> items;
     public String output;
 
-    public TaskType taskType = TaskType.UNKONWN;
+    public TaskType taskType = TaskType.UNKNOWN;
     public boolean isCustom;
 
     public List<MapMovement> movementRequirement;
@@ -29,4 +26,5 @@ public class ChunkTask {
     public ChatMessageConfig chatMessageConfig;
     public XpTaskConfig xpTaskConfig;
     public Prayer prayer;
+    public FarmingPatchConfig farmingPatchConfig;
 }

@@ -12,5 +12,22 @@
   "Craft a ~|blood'n'tar snelm (pointed)|~": [3339],
   "Craft a ~|blood'n'tar snelm (round)|~": [3329],
   "Craft a ~|ochre snelm (pointed)|~": [3341],
-  "Craft a ~|ochre snelm (round)|~": [3331]
+  "Craft a ~|ochre snelm (round)|~": [3331],
+  "Rake a ~|farming patch|~": [6055],
+  "Rake weeds from a ~|farming patch|~": [6055],
+  "Pick a ~|star flower|~": [9017],
+  "Grow a ~|golovanova fruit|~": [13426],
+  "Grow a ~|bologano fruit|~": [13427],
+  "Grow a ~|logavano fruit|~": [13428],
+  "Build a ~|scarecrow|~": [6059],
+  "Pick from either mushroom in the ~|Duke Sucellus|~ fight": [28341, 28345],
+  "Mix an ~|unfinished potion (Rogue's Purse)|~": [4840],
+  "Add ~|raw rabbit|~ to a spit": [7224],
+  "Add ~|raw bird meat|~ to a spit": [9984],
+  "Add ~|raw beast meat|~ to a spit": [9992],
+  "Add ~|raw chompy|~ to a spit": [7230],
+  "Complete a novice ~|Hunters' Rumour|~": [29242],
+  "Complete an adept ~|Hunters' Rumour|~": [29244],
+  "Complete an expert ~|Hunters' Rumour|~": [29246],
+  "Complete a master ~|Hunters' Rumour|~": [29248]
 }

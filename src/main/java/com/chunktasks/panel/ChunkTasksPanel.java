@@ -1,19 +1,14 @@
 package com.chunktasks.panel;
 
 import com.chunktasks.*;
-import com.chunktasks.tasks.ChunkTask;
+import com.chunktasks.tasks.*;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.services.ChunkTaskNotifier;
-import com.chunktasks.tasks.ChatMessageConfig;
-import com.chunktasks.tasks.MapBoundary;
-import com.chunktasks.tasks.MapMovement;
-import com.chunktasks.tasks.XpTaskConfig;
 import com.chunktasks.types.TaskGroup;
 import com.chunktasks.types.TaskType;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.ItemID;
 import net.runelite.api.Prayer;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
@@ -28,7 +23,6 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -70,12 +64,12 @@ public class ChunkTasksPanel extends PluginPanel
         setBackground(ColorScheme.DARK_GRAY_COLOR);
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        add(createTopPanel(isLoggedIn), BorderLayout.NORTH);
+
         taskListPanel = new JPanel();
         taskListPanel.setLayout(new BoxLayout(taskListPanel, BoxLayout.Y_AXIS));
-        taskListPanel.add(createGeneralInfoLabel());
-
-        add(createTopPanel(isLoggedIn), BorderLayout.NORTH);
         add(taskListPanel, BorderLayout.CENTER);
+        redrawChunkTasks();
     }
 
     public void showHideImportButton(boolean isLoggedIn) {
@@ -90,7 +84,7 @@ public class ChunkTasksPanel extends PluginPanel
         List<ChunkTask> chunkTasks = chunkTasksManager.getChunkTasks();
         taskListPanel.removeAll();
 
-        if (chunkTasks.isEmpty()) {
+        if (chunkTasks == null || chunkTasks.isEmpty()) {
 
             taskListPanel.add(createGeneralInfoLabel());
         } else {
@@ -213,7 +207,7 @@ public class ChunkTasksPanel extends PluginPanel
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         panel.add(checkBox);
 
-        if (chunkTask.taskType == TaskType.UNKONWN) {
+        if (chunkTask.taskType == TaskType.UNKNOWN) {
             JLabel brokenLinkLabel = new JLabel(BROKEN_LINK_ICON);
             brokenLinkLabel.setToolTipText("Auto-detection of this chunk task is not available");
             panel.add(brokenLinkLabel);
@@ -256,7 +250,9 @@ public class ChunkTasksPanel extends PluginPanel
             Map<String, XpTaskConfig> xpTasks = loadFromFile("/xp-tasks.json", new TypeToken<>() {});
             //Prayer tasks
             Map<String, Prayer> prayerTasks = loadFromFile("/prayer-tasks.json", new TypeToken<>() {});
-            //Combat requirement tasks
+            //Farming Patch tasks
+            Map<String, FarmingPatchConfig> farmingPatchTasks = loadFromFile("/farming-patch-tasks.json", new TypeToken<>() {});
+            //Custom requirement tasks
             Map<String, TaskType> customTasks = loadFromFile("/custom-tasks.json", new TypeToken<>() {});
             //Set task types
             for (ChunkTask chunkTask : chunkTasks) {
@@ -305,6 +301,11 @@ public class ChunkTasksPanel extends PluginPanel
                 if (prayerTasks.containsKey(chunkTask.name)) {
                     chunkTask.taskType = TaskType.PRAYER;
                     chunkTask.prayer = prayerTasks.get(chunkTask.name);
+                }
+
+                if (farmingPatchTasks.containsKey(chunkTask.name)) {
+                    chunkTask.taskType = TaskType.FARMING_PATCH;
+                    chunkTask.farmingPatchConfig = farmingPatchTasks.get(chunkTask.name);
                 }
 
                 if (customTasks.containsKey(chunkTask.name)) {

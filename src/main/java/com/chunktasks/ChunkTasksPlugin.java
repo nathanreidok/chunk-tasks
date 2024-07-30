@@ -64,8 +64,9 @@ public class ChunkTasksPlugin extends Plugin {
 			SoundFileManager.downloadAllMissingSounds(okHttpClient);
 		});
 
+		boolean isLoggedIn = client.getGameState() == GameState.LOGGED_IN;
 		panel = injector.getInstance(ChunkTasksPanel.class);
-		panel.init(false);
+		panel.init(isLoggedIn);
 
 		final BufferedImage curvedBoneIcon = ImageUtil.loadImageResource(getClass(), "/curved_bone.png");
 		navButton = NavigationButton.builder()
@@ -139,7 +140,7 @@ public class ChunkTasksPlugin extends Plugin {
 			return;
 		}
 
-//		log.error("SOURCE: " + source.getName() + " | TARGET: " + target.getName());
+		log.debug("SOURCE: " + source.getName() + " | TARGET: " + target.getName());
 		List<ChunkTask> completedEquipTasks = chunkTaskChecker.checkInteractionTasks(target.getName());
 		if (!completedEquipTasks.isEmpty())
 			completeTasks(completedEquipTasks);
@@ -203,7 +204,7 @@ public class ChunkTasksPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-//		log.error(chatMessage.getType() + " - " + chatMessage.getMessage());
+		log.debug(chatMessage.getType() + " - " + chatMessage.getMessage());
 		List<ChunkTask> completedTasks = chunkTaskChecker.checkChatMessageTasks(chatMessage);
 		if (!completedTasks.isEmpty())
 			completeTasks(completedTasks);
@@ -212,6 +213,15 @@ public class ChunkTasksPlugin extends Plugin {
 	@Subscribe
 	public void onPlayerChanged(PlayerChanged playerChanged) {
 		List<ChunkTask> completedTasks = chunkTaskChecker.checkPlayerTasks();
+		if (!completedTasks.isEmpty())
+			completeTasks(completedTasks);
+	}
+
+	@Subscribe
+	public void onVarbitChanged(VarbitChanged varbitChanged) {
+		int varbitId = varbitChanged.getVarbitId();
+		int varbitValue = varbitChanged.getValue();
+		List<ChunkTask> completedTasks = chunkTaskChecker.checkFarmingPatchTasks(varbitId, varbitValue);
 		if (!completedTasks.isEmpty())
 			completeTasks(completedTasks);
 	}

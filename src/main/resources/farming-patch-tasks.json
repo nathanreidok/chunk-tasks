@@ -1,0 +1,461 @@
+{
+  "Grow a ~|potato|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 6, "max": 9 },
+      { "min": 70, "max": 73 }
+    ]
+  },
+  "Grow an ~|onion|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 13, "max": 16 },
+      { "min": 77, "max": 80 }
+    ]
+  },
+  "Grow a ~|cabbage|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 20, "max": 23 },
+      { "min": 84, "max": 87 }
+    ]
+  },
+  "Grow a ~|tomato|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 27, "max": 30 },
+      { "min": 91, "max": 94 }
+    ]
+  },
+  "Grow a ~|sweetcorn|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 34, "max": 39 },
+      { "min": 98, "max": 103 }
+    ]
+  },
+  "Grow a ~|strawberry|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 43, "max": 48 },
+      { "min": 107, "max": 112 }
+    ]
+  },
+  "Grow a ~|watermelon|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 52, "max": 59 },
+      { "min": 116, "max": 123 }
+    ]
+  },
+  "Grow a ~|snape grass|~": {
+    "patchType": "ALLOTMENT",
+    "varbitRanges": [
+      { "min": 63, "max": 69 },
+      { "min": 128, "max": 134 }
+    ]
+  },
+  "Grow a ~|grimy guam leaf|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 4, "max": 7 }
+    ]
+  },
+  "Grow a ~|grimy marrentill|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 11, "max": 14 }
+    ]
+  },
+  "Grow a ~|grimy tarromin|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 18, "max": 21 }
+    ]
+  },
+  "Grow a ~|grimy harralander|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 25, "max": 28 }
+    ]
+  },
+  "Grow a ~|grimy ranarr weed|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 32, "max": 35 }
+    ]
+  },
+  "Grow a ~|grimy toadflax|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 39, "max": 42 }
+    ]
+  },
+  "Grow a ~|grimy irit leaf|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 46, "max": 49 }
+    ]
+  },
+  "Grow a ~|grimy avantoe|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 53, "max": 56 }
+    ]
+  },
+  "Grow a ~|grimy kwuarm|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 68, "max": 71 }
+    ]
+  },
+  "Grow a ~|grimy snapdragon|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 75, "max": 78 }
+    ]
+  },
+  "Grow a ~|grimy cadantine|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 82, "max": 85 }
+    ]
+  },
+  "Grow a ~|grimy lantadyme|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 89, "max": 92 }
+    ]
+  },
+  "Grow a ~|grimy dwarf weed|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 96, "max": 99 }
+    ]
+  },
+  "Grow a ~|grimy torstol|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 103, "max": 106 }
+    ]
+  },
+  "Grow a ~|goutweed|~": {
+    "patchType": "HERB",
+    "varbitRanges": [
+      { "min": 192, "max": 195 }
+    ]
+  },
+  "Grow a ~|marigold|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 8, "max": 11 },
+      { "min": 72, "max": 75 }
+    ]
+  },
+  "Grow a ~|rosemary|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 13, "max": 16 },
+      { "min": 77, "max": 80 }
+    ]
+  },
+  "Grow a ~|nasturtium|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 18, "max": 21 },
+      { "min": 82, "max": 85 }
+    ]
+  },
+  "Grow a ~|woad leaf|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 23, "max": 26 },
+      { "min": 87, "max": 90 }
+    ]
+  },
+  "Grow a ~|limpwurt root|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 28, "max": 31 },
+      { "min": 92, "max": 95 }
+    ]
+  },
+  "Grow a ~|white lily|~": {
+    "patchType": "FLOWER",
+    "varbitRanges": [
+      { "min": 37, "max": 40 },
+      { "min": 101, "max": 104 }
+    ]
+  },
+  "Grow ~|redberries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 5, "max": 9 }
+    ]
+  },
+  "Grow ~|cadava berries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 15, "max": 20 }
+    ]
+  },
+  "Grow ~|dwellberries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 26, "max": 32 }
+    ]
+  },
+  "Grow ~|jangerberries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 38, "max": 45 }
+    ]
+  },
+  "Grow ~|white berries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 51, "max": 58 }
+    ]
+  },
+  "Grow ~|poison ivy berries|~": {
+    "patchType": "BUSH",
+    "varbitRanges": [
+      { "min": 197, "max": 204 }
+    ]
+  },
+  "Grow ~|barley|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 49, "max": 52 },
+      { "min": 113, "max": 116 }
+    ]
+  },
+  "Grow ~|hammerstone hops|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 4, "max": 7 },
+      { "min": 68, "max": 71 }
+    ]
+  },
+  "Grow ~|asgarnian hops|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 11, "max": 15 },
+      { "min": 75, "max": 79 }
+    ]
+  },
+  "Grow a ~|jute fibre|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 56, "max": 60 },
+      { "min": 120, "max": 124 }
+    ]
+  },
+  "Grow ~|yanillian hops|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 19, "max": 24 },
+      { "min": 83, "max": 88 }
+    ]
+  },
+  "Grow ~|krandorian hops|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 28, "max": 34 },
+      { "min": 92, "max": 98 }
+    ]
+  },
+  "Grow ~|wildblood hops|~": {
+    "patchType": "HOPS",
+    "varbitRanges": [
+      { "min": 38, "max": 35 },
+      { "min": 102, "max": 109 }
+    ]
+  },
+  "Grow an ~|oak tree|~": {
+    "patchType": "TREE",
+    "varbitRanges": [
+      { "min": 8, "max": 11 }
+    ]
+  },
+  "Grow a ~|willow tree|~": {
+    "patchType": "TREE",
+    "varbitRanges": [
+      { "min": 15, "max": 20 }
+    ]
+  },
+  "Grow a ~|maple tree|~": {
+    "patchType": "TREE",
+    "varbitRanges": [
+      { "min": 24, "max": 31 }
+    ]
+  },
+  "Grow a ~|yew tree|~": {
+    "patchType": "TREE",
+    "varbitRanges": [
+      { "min": 35, "max": 44 }
+    ]
+  },
+  "Grow a ~|magic tree|~": {
+    "patchType": "TREE",
+    "varbitRanges": [
+      { "min": 48, "max": 59 }
+    ]
+  },
+  "Grow a ~|apple tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 8, "max": 13 }
+    ]
+  },
+  "Grow a ~|banana tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 35, "max": 40 }
+    ]
+  },
+  "Grow an ~|orange tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 72, "max": 77 }
+    ]
+  },
+  "Grow a ~|curry tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 99, "max": 104 }
+    ]
+  },
+  "Grow a ~|pineapple plant|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 136, "max": 141 }
+    ]
+  },
+  "Grow a ~|papaya tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 163, "max": 168 }
+    ]
+  },
+  "Grow a ~|palm tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 200, "max": 205 }
+    ]
+  },
+  "Grow a ~|dragonfruit tree|~": {
+    "patchType": "FRUIT_TREE",
+    "varbitRanges": [
+      { "min": 227, "max": 232 }
+    ]
+  },
+  "Grow a ~|teak tree|~": {
+    "patchType": "HARDWOOD_TREE",
+    "varbitRanges": [
+      { "min": 8, "max": 14 }
+    ]
+  },
+  "Grow a ~|mahogany tree|~": {
+    "patchType": "HARDWOOD_TREE",
+    "varbitRanges": [
+      { "min": 30, "max": 37 }
+    ]
+  },
+  "Grow a ~|redwood tree|~": {
+    "patchType": "REDWOOD",
+    "varbitRanges": [
+      { "min": 8, "max": 17 }
+    ]
+  },
+  "Grow a ~|spirit tree|~":  {
+    "patchType": "SPIRIT_TREE",
+    "varbitRanges": [
+      { "min": 8, "max": 19 }
+    ]
+  },
+  "Grow a ~|celastrus tree|~":  {
+    "patchType": "CELASTRUS",
+    "varbitRanges": [
+      { "min": 8, "max": 12 }
+    ]
+  },
+  "Grow a ~|crystal tree|~":  {
+    "patchType": "CRYSTAL_TREE",
+    "varbitRanges": [
+      { "min": 8, "max": 13 }
+    ]
+  },
+  "Grow a ~|cactus spine|~": {
+    "patchType": "CACTUS",
+    "varbitRanges": [
+      { "min": 8, "max": 14 }
+    ]
+  },
+  "Grow a ~|potato cactus|~": {
+    "patchType": "CACTUS",
+    "varbitRanges": [
+      { "min": 32, "max": 38 }
+    ]
+  },
+  "Grow an ~|attas plant|~": {
+    "patchType": "ANIMA",
+    "varbitRanges": [
+      { "min": 8, "max": 16 }
+    ]
+  },
+  "Grow an ~|iasor plant|~": {
+    "patchType": "ANIMA",
+    "varbitRanges": [
+      { "min": 17, "max": 25 }
+    ]
+  },
+  "Grow a ~|kronos plant|~": {
+    "patchType": "ANIMA",
+    "varbitRanges": [
+      { "min": 26, "max": 34 }
+    ]
+  },
+  "Grow a ~|calquat tree|~": {
+    "patchType": "CALQUAT",
+    "varbitRanges": [
+      { "min": 4, "max": 11 }
+    ]
+  },
+  "Grow a ~|cave nightshade|~": {
+    "patchType": "BELLADONNA",
+    "varbitRanges": [
+      { "min": 4, "max": 7 }
+    ]
+  },
+  "Grow a ~|mushroom|~":  {
+    "patchType": "MUSHROOM",
+    "varbitRanges": [
+      { "min": 4, "max": 9 }
+    ]
+  },
+  "Grow ~|giant seaweed|~":  {
+    "patchType": "SEAWEED",
+    "varbitRanges": [
+      { "min": 4, "max": 7 }
+    ]
+  },
+  "Grow ~|grapes|~":  {
+    "patchType": "GRAPES",
+    "varbitRanges": [
+      { "min": 2, "max": 9 }
+    ]
+  },
+  "Grow ~|zamorak's grapes|~":  {
+    "patchType": "GRAPES",
+    "varbitRanges": [
+      { "min": 2, "max": 9 }
+    ]
+  },
+  "Grow ~|Hespori|~":  {
+    "patchType": "HESPORI",
+    "varbitRanges": [
+      { "min": 4, "max": 6 }
+    ]
+  }
+}

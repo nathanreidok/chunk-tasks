@@ -17,7 +17,7 @@ public interface ChunkTasksConfig extends Config
 			position = 0
 	)
 	default int volume() {
-		return 100;
+		return 50;
 	}
 
 	@ConfigItem(

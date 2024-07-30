@@ -4,6 +4,7 @@ public enum TaskGroup {
     SKILL ("Skill"),
     BIS ("Best in Slot"),
     QUEST ("Quest"),
+    DIARY ("Diary"),
     OTHER ("Other");
 
     private final String displayText;

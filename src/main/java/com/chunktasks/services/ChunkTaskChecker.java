@@ -1,11 +1,8 @@
 package com.chunktasks.services;
 
-import com.chunktasks.tasks.MapBoundary;
-import com.chunktasks.tasks.MapCoordinate;
-import com.chunktasks.tasks.MapMovement;
+import com.chunktasks.tasks.*;
 import com.chunktasks.types.TaskType;
 import com.chunktasks.managers.InventoryManager;
-import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.managers.MapManager;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +11,9 @@ import net.runelite.api.events.ChatMessage;
 
 import javax.inject.Inject;
 import java.util.*;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class ChunkTaskChecker {
@@ -57,15 +53,15 @@ public class ChunkTaskChecker {
     }
 
     public List<ChunkTask> checkQuestSkillRequirementTasks(Skill changedSkill) {
-        return checkTasks(TaskType.QUEST_SKILL_REQUIREMENT, (ChunkTask task) -> {
+        return checkTasks(TaskType.SKILL_REQUIREMENT, (ChunkTask task) -> {
             if (task.skills == null || !task.skills.containsKey(changedSkill))
                 return false;
 
             boolean skillRequirementsMet = true;
             for (Map.Entry<Skill, Integer> skillRequirement : task.skills.entrySet()) {
-                int boostedSkillLevel = client.getRealSkillLevel(skillRequirement.getKey());
+                int skillLevel = client.getRealSkillLevel(skillRequirement.getKey());
                 int requiredSkillLevel = skillRequirement.getValue();
-                if (boostedSkillLevel < requiredSkillLevel) {
+                if (skillLevel < requiredSkillLevel) {
                     skillRequirementsMet = false;
                     break;
                 }
@@ -147,6 +143,15 @@ public class ChunkTaskChecker {
                 return false;
 
             return task.skills == null || checkSkillRequirements(task.skills);
+        });
+    }
+
+    public List<ChunkTask> checkFarmingPatchTasks(int varbitId, int varbitValue) {
+        return checkTasks(TaskType.FARMING_PATCH, (ChunkTask task) -> {
+           if (IntStream.of(task.farmingPatchConfig.getPatchType().getVarbits()).noneMatch(id -> id == varbitId))
+               return false;
+
+           return task.farmingPatchConfig.getVarbitRanges().stream().anyMatch(range -> range.contains(varbitValue));
         });
     }
 

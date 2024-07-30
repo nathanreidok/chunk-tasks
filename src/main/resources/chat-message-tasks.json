@@ -353,17 +353,6 @@
     },
     "item": "Crystal felling axe"
   },
-  "Crack a ~|wall safe (lobby)|~ insde the Rogues' Den": {
-    "chatMessageType": "SPAM",
-    "message": "You get some loot.",
-    "location": {
-      "xMin": 3052,
-      "xMax": 3060,
-      "yMin": 4970,
-      "yMax": 4977,
-      "z": 1
-    }
-  },
   "Crack a ~|wall safe (lobby)|~ inside the Rogues' Den": {
     "chatMessageType": "SPAM",
     "message": "You get some loot.",
@@ -374,5 +363,117 @@
       "yMax": 4977,
       "z": 1
     }
+  },
+  "Pick herbs or fruit in the ~|Sorceress's Garden|~": {
+    "chatMessageType": "GAMEMESSAGE",
+    "message": "An elemental force emanating from the garden teleports you away."
+  },
+  "Pan at a ~|panning point~": {
+    "chatMessageType": "MESBOX",
+    "message": "You lift the full tray from the water.",
+    "location": {
+      "xMin": 3372,
+      "xMax": 3391,
+      "yMin": 3372,
+      "yMax": 3387
+    }
+  },
+  "Fish at a ~|fishing spot (cage, harpoon)#Miscellania|~": {
+    "chatMessageType": "SPAM",
+    "message": "and give it to Fisherman Frodi."
+  },
+  "Fish at a ~|fishing spot (Civitas illa Fortis)|~": {
+    "chatMessageType": "SPAM",
+    "message": "You cast out your net...",
+    "location": {
+      "xMin": 1738,
+      "xMax": 1738,
+      "yMin": 3100,
+      "yMax": 3100
+    }
+  },
+  "Clean a ~|grimy guam leaf|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy guam leaf."
+  },
+  "Clean a ~|grimy marrentill|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy marrentill."
+  },
+  "Clean a ~|grimy tarromin|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy tarromin."
+  },
+  "Clean a ~|grimy harralander|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy harralander."
+  },
+  "Clean a ~|grimy ranarr weed|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy ranarr weed."
+  },
+  "Clean a ~|grimy toadflax|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy toadflax."
+  },
+  "Clean a ~|grimy irit leaf|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy irit leaf."
+  },
+  "Clean a ~|grimy avantoe|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy avantoe."
+  },
+  "Clean a ~|grimy kwuarm|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy kwuarm."
+  },
+  "Clean a ~|grimy snapdragon|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy snapdragon."
+  },
+  "Clean a ~|grimy cadantine|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy cadantine."
+  },
+  "Clean a ~|grimy lantadyme|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy lantadyme."
+  },
+  "Clean a ~|grimy dwarf weed|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy dwarf weed."
+  },
+  "Clean a ~|grimy torstol|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy torstol."
+  },
+  "Clean a ~|grimy rogue's purse|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy rogue's purse."
+  },
+  "Clean a ~|grimy snake weed|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy snake weed."
+  },
+  "Clean a ~|grimy ardrigal|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy ardrigal."
+  },
+  "Clean a ~|grimy sito foil|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy sito foil."
+  },
+  "Clean a ~|grimy volencia moss|~": {
+    "chatMessageType": "SPAM",
+    "message": "You clean the Grimy volencia moss."
+  },
+  "Turn in books at the ~|Arceuus Library|~ for Magic xp": {
+    "chatMessageType": "MESBOX",
+    "message": "You learn some secrets of Magic."
+  },
+  "Turn in books at the ~|Arceuus Library|~ for Runecraft xp": {
+    "chatMessageType": "MESBOX",
+    "message": "You learn some secrets of Runecrafting."
   }
 }
