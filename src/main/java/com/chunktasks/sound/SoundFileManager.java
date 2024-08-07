@@ -58,7 +58,7 @@ public abstract class SoundFileManager {
 
             if (RAW_GITHUB == null) {
                 // Hush intellij, it's okay, the potential NPE can't hurt you now
-                log.error("Chunk Tasks could not download sounds due to an unexpected null RAW_GITHUB value");
+                log.debug("Chunk Tasks could not download sounds due to an unexpected null RAW_GITHUB value");
                 return;
             }
             HttpUrl soundUrl = RAW_GITHUB.newBuilder().addPathSegment(fileName).build();
@@ -67,15 +67,15 @@ public abstract class SoundFileManager {
                 if (res.body() != null)
                     Files.copy(new BufferedInputStream(res.body().byteStream()), outputPath, StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
-                log.error("Chunk Tasks could not download sounds", e);
+                log.debug("Chunk Tasks could not download sounds", e);
                 return;
             }
         }
 
         // filesPresent now contains only files in our directory that we weren't expecting
-        // (eg. old versions of sounds)
+        // (e.g. old versions of sounds)
         // We now delete them to avoid cluttering up disk space
-        // We leave dirs behind (filesPresent filters them out early on) as we aren't creating those anyway so they won't build up over time
+        // We leave dirs behind (filesPresent filters them out early on) as we aren't creating those anyway, so they won't build up over time
         for (String filename : filesPresent) {
             File toDelete = new File(DOWNLOAD_DIR, filename);
             //noinspection ResultOfMethodCallIgnored

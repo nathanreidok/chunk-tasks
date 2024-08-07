@@ -33,7 +33,7 @@ public class SoundEngine {
         return false;
     }
 
-    public void playClip(Sound sound) {
+    public void playClip(Sound sound, int gameVolume) {
         long currentMTime = System.currentTimeMillis();
         if (clip == null || currentMTime != lastClipMTime || !clip.isOpen()) {
             if (clip != null && clip.isOpen()) {
@@ -56,9 +56,8 @@ public class SoundEngine {
 
         // User configurable volume
         FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        float gain = 20f * (float) Math.log10(config.volume() / 100f);
-        gain = Math.min(gain, volume.getMaximum());
-        gain = Math.max(gain, volume.getMinimum());
+        float gain = 20f * (float) Math.log10(gameVolume / 100f);
+
         volume.setValue(gain);
 
         // From RuneLite base client Notifier class:

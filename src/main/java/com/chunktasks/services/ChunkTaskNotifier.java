@@ -61,11 +61,13 @@ public class ChunkTaskNotifier {
                 popupWidgetNode = client.openInterface(componentId, 660, WidgetModalMode.MODAL_CLICKTHROUGH);
                 client.runScript(3343, "Chunk Task Complete", message, -1);
 
-                soundEngine.playClip(Sound.CHUNK_TASK_COMPLETE);
+                int gameVolume = client.getPreferences().getSoundEffectVolume();
+
+                soundEngine.playClip(Sound.CHUNK_TASK_COMPLETE, gameVolume);
 
                 clientThread.invokeLater(this::tryClearMessage);
             } catch (IllegalStateException ex) {
-                log.error("Failed to show popup");
+                log.debug("Failed to show popup");
                 clientThread.invokeLater(this::tryClearMessage);
             }
         });
@@ -81,7 +83,7 @@ public class ChunkTaskNotifier {
         try {
             client.closeInterface(popupWidgetNode, true);
         } catch (Exception ex) {
-            log.error("Failed to clear message");
+            log.debug("Failed to clear message");
         }
         popupWidgetNode = null;
         queuedPopups.remove(0);
@@ -94,51 +96,4 @@ public class ChunkTaskNotifier {
         }
         return true;
     }
-
-//    private void showChunkTaskCompletePopup(String message) {
-//        log.error(message);
-//        log.error("popup widget node is" + (popupWidgetNode == null ? " not" : "") + " null");
-//        if (popupWidgetNode != null)
-//        {
-//            queuedPopups.add(message);
-//            return;
-//        }
-//
-//        try {
-//            clientThread.invokeLater(() -> {
-//                String cleanMessage = message.replace("~", "").replace("|", "");
-//                int componentId = client.isResized()
-//                        ? client.getVarbitValue(Varbits.SIDE_PANELS) == 1
-//                        ? ChunkTaskConstants.RESIZABLE_MODERN_LAYOUT
-//                        : ChunkTaskConstants.RESIZABLE_CLASSIC_LAYOUT
-//                        : ChunkTaskConstants.FIXED_CLASSIC_LAYOUT;
-//
-//                popupWidgetNode = client.openInterface(componentId, 660, WidgetModalMode.MODAL_CLICKTHROUGH);
-//                client.runScript(3343, "Chunk Task Complete", cleanMessage, -1);
-//
-//                client.addChatMessage(ChatMessageType.PUBLICCHAT, "Chunk Tasks", "Chunk Task Complete" + ": " + cleanMessage, null);
-//                soundEngine.playClip(Sound.CHUNK_TASK_COMPLETE);
-//
-//                clientThread.invokeLater(() -> {
-//                    Widget w = client.getWidget(660, 1);
-//
-//                    if (w == null || w.getWidth() > 0) {
-//                        return false;
-//                    }
-//
-//                    client.closeInterface(popupWidgetNode, true);
-//                    popupWidgetNode = null;
-//                    if (!queuedPopups.isEmpty()) {
-//                        clientThread.invokeLater(() -> {
-//                            showChunkTaskCompletePopup(queuedPopups.remove(0));
-//                            return true;
-//                        });
-//                    }
-//                    return true;
-//                });
-//            });
-//        } catch (IllegalStateException ex) {
-//            log.info("Client still on login page");
-//        }
-//    }
 }

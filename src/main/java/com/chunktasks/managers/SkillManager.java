@@ -1,6 +1,5 @@
 package com.chunktasks.managers;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Skill;
 

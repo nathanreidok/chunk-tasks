@@ -58,7 +58,7 @@ public class ChunkTasksPlugin extends Plugin {
 //	private static final int[] previous_exp = new int[Skill.values().length];
 
 	@Override
-	protected void startUp() throws Exception {
+	protected void startUp() {
 		executor.submit(() -> {
 			SoundFileManager.ensureDownloadDirectoryExists();
 			SoundFileManager.downloadAllMissingSounds(okHttpClient);
@@ -68,7 +68,7 @@ public class ChunkTasksPlugin extends Plugin {
 		panel = injector.getInstance(ChunkTasksPanel.class);
 		panel.init(isLoggedIn);
 
-		final BufferedImage curvedBoneIcon = ImageUtil.loadImageResource(getClass(), "/curved_bone.png");
+		final BufferedImage curvedBoneIcon = ImageUtil.loadImageResource(getClass(), "/images/curved_bone.png");
 		navButton = NavigationButton.builder()
 				.tooltip("Chunk Tasks")
 				.icon(curvedBoneIcon)
@@ -89,7 +89,7 @@ public class ChunkTasksPlugin extends Plugin {
 	}
 
 	@Override
-	protected void shutDown() throws Exception {
+	protected void shutDown() {
 		if (navButton != null) {
 			clientToolbar.removeNavigation(navButton);
 		}
@@ -97,7 +97,7 @@ public class ChunkTasksPlugin extends Plugin {
 
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged gameStateChanged) {
-		panel.showHideImportButton(gameStateChanged.getGameState() == GameState.LOGGED_IN);
+		panel.setLoggedIn(gameStateChanged.getGameState() == GameState.LOGGED_IN);
 		if (gameStateChanged.getGameState() == GameState.LOGGED_IN) {
 			chunkTasksManager.loadChunkTasksData();
 			panel.redrawChunkTasks();

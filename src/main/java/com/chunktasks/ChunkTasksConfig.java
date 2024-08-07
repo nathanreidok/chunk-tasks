@@ -8,23 +8,20 @@ import net.runelite.client.config.ConfigItem;
 public interface ChunkTasksConfig extends Config
 {
 	String CONFIG_GROUP = "chunk-tasks";
-	String CONFIG_KEY = "tasks";
 
 	@ConfigItem(
-			keyName = "volume",
-			name = "Volume",
-			description = "Adjust how loud the audio is played",
+			keyName = "mapCode",
+			name = "Chunk Picker Map Code",
+			description = "https://source-chunk.github.io/chunk-picker-v2",
 			position = 0
 	)
-	default int volume() {
-		return 50;
-	}
+	default String mapCode() { return ""; }
 
 	@ConfigItem(
 			keyName = "notifyOnManualCheck",
 			name = "Notify on Manual Check",
 			description = "Show popups when manually marking tasks as complete",
-			position = 1
+			position = 2
 	)
 	default boolean notifyOnManualCheck() { return true; }
 }

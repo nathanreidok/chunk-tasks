@@ -10,8 +10,6 @@ import net.runelite.client.config.ConfigManager;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,7 +71,7 @@ public class ChunkTasksManager {
         try {
             return GSON.fromJson(chunkTasksDataJson, new TypeToken<ArrayList<ChunkTask>>() {}.getType());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.getMessage());
         }
         return null;
     }

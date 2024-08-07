@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static net.runelite.http.api.RuneLiteAPI.GSON;
-
 @Getter
 @Singleton
 @Slf4j
