@@ -21,7 +21,7 @@ public interface ChunkTasksConfig extends Config
 			keyName = "notifyOnManualCheck",
 			name = "Notify on Manual Check",
 			description = "Show popups when manually marking tasks as complete",
-			position = 2
+			position = 1
 	)
 	default boolean notifyOnManualCheck() { return true; }
 }
