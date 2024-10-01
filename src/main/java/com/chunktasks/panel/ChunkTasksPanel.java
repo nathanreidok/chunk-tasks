@@ -341,6 +341,13 @@ public class ChunkTasksPanel extends PluginPanel
     }
 
     public void importChunkTasks() {
+        if (!config.allowApiConnections()) {
+            JOptionPane.showMessageDialog(this,
+                "Please enable Chunk Picker website connections in the plugin config",
+                "API Requests not Authorized",
+                JOptionPane.ERROR_MESSAGE);
+            return;
+        }
         String mapCode = config.mapCode();
 
         if (mapCode == null || mapCode.isBlank()) {
