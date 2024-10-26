@@ -33,4 +33,12 @@ public interface ChunkTasksConfig extends Config
 			position = 2
 	)
 	default boolean notifyOnManualCheck() { return true; }
+
+	@ConfigItem(
+			keyName = "showChunkTaskPrefix",
+			name = "Show Chunk Task Prefix",
+			description = "Shows reason for each task in the list",
+			position = 3
+	)
+	default boolean showChunkTaskPrefix() { return true; }
 }

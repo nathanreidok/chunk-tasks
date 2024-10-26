@@ -15,6 +15,7 @@ public class ChunkTask {
     public HashMap<Skill, Integer> skills;
     public List<String> items;
     public String output;
+    public String prefix;
 
     public TaskType taskType = TaskType.UNKNOWN;
     public boolean isCustom;
@@ -27,4 +28,8 @@ public class ChunkTask {
     public XpTaskConfig xpTaskConfig;
     public Prayer prayer;
     public FarmingPatchConfig farmingPatchConfig;
+
+    public String getNameWithPrefix() {
+        return (prefix != null ? prefix + " " : "") + name;
+    }
 }

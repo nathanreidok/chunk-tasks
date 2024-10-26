@@ -24,6 +24,7 @@ import net.runelite.api.events.*;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
+import net.runelite.client.events.ConfigChanged;
 import net.runelite.client.events.ProfileChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
@@ -92,6 +93,14 @@ public class ChunkTasksPlugin extends Plugin {
 	protected void shutDown() {
 		if (navButton != null) {
 			clientToolbar.removeNavigation(navButton);
+		}
+	}
+
+	@Subscribe
+	public void onConfigChanged(ConfigChanged configChanged) {
+		if (Objects.equals(configChanged.getKey(), "showChunkTaskPrefix")
+				&& !Objects.equals(configChanged.getOldValue(), configChanged.getNewValue())) {
+			panel.redrawChunkTasks();
 		}
 	}
 

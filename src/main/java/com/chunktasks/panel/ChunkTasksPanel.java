@@ -297,20 +297,22 @@ public class ChunkTasksPanel extends PluginPanel
     }
 
     private JPanel getTaskPanel(ChunkTask chunkTask) {
+
+        String taskName = config.showChunkTaskPrefix() ? chunkTask.getNameWithPrefix() : chunkTask.name;
         JCheckBox checkBox = new JCheckBox();
         checkBox.setLayout(new BorderLayout());
-        checkBox.setText(getTaskNameHtml(chunkTask.name, chunkTask.isComplete));
+        checkBox.setText(getTaskNameHtml(taskName, chunkTask.isComplete));
         checkBox.setSelected(chunkTask.isComplete);
         checkBox.addActionListener(e -> {
             JCheckBox cb = (JCheckBox)e.getSource();
             if (cb.isSelected()) {
-                cb.setText(getTaskNameHtml(chunkTask.name, true));
+                cb.setText(getTaskNameHtml(taskName, true));
                 clientThread.invokeLater(() -> {
                     chunkTaskNotifier.completeTask(chunkTask, config.notifyOnManualCheck());
                     redrawChunkTasks();
                 });
             } else {
-                cb.setText(getTaskNameHtml(chunkTask.name, false));
+                cb.setText(getTaskNameHtml(taskName, false));
                 chunkTasksManager.uncompleteTask(chunkTask);
                 redrawChunkTasks();
             }
@@ -358,7 +360,7 @@ public class ChunkTasksPanel extends PluginPanel
             return;
         }
 
-        String url = "https://chunkpicker.firebaseio.com/maps/" + mapCode + "/pluginOutput.json";
+        String url = "https://chunkpicker.firebaseio.com/maps/" + mapCode.toLowerCase() + "/pluginOutput.json";
 
         Request r = new Request.Builder()
                 .url(url)
