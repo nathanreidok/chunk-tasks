@@ -215,13 +215,13 @@ public class ChunkTasksPanel extends PluginPanel
 
     private JPanel getGeneralInfoPanel() {
         JPanel panel = new JPanel();
-        JLabel label = new JLabel("<html>Log in and enter map code in plugin"
-                + "<br/>config to load Chunk Tasks"
+        JLabel label = new JLabel("<html>Log in and enter map code in the"
+                + "<br/>plugin config to load Chunk Tasks"
                 + "<br/><br/>Please submit any issues here:"
                 + "<br/>github.com/nathanreidok/chunk-tasks"
                 + "<br/><br/>For general questions, message me:"
-                + "<br/>-> In game (FortisChunk)"
-                + "<br/>-> On discord (@FortisChunk)</html>");
+                + "<br/>-> In game (BurnerChunk)"
+                + "<br/>-> On discord (@BurnerChunk)</html>");
         panel.add(label);
         return panel;
     }

@@ -50,6 +50,9 @@ public abstract class SoundFileManager {
         // Download any sounds that are not yet present but exist in Sound enum
         Sound[] allSounds = Sound.values();
         for (Sound sound : allSounds) {
+            if (sound == Sound.NONE)
+                continue;
+
             String fileName = sound.getResourceName();
             if (filesPresent.contains(fileName)) {
                 filesPresent.remove(fileName);

@@ -1,6 +1,7 @@
 package com.chunktasks.services;
 
 import com.chunktasks.ChunkTaskConstants;
+import com.chunktasks.ChunkTasksConfig;
 import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.panel.ChunkTasksPanel;
@@ -26,6 +27,7 @@ public class ChunkTaskNotifier {
     @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private ChunkTasksPanel panel;
     @Inject private SoundEngine soundEngine;
+    @Inject private ChunkTasksConfig config;
 
     private WidgetNode popupWidgetNode;
     private final List<String> queuedPopups = new ArrayList<>();
@@ -63,7 +65,9 @@ public class ChunkTaskNotifier {
 
                 int gameVolume = client.getPreferences().getSoundEffectVolume();
 
-                soundEngine.playClip(Sound.CHUNK_TASK_COMPLETE, gameVolume);
+                if (config.taskCompletedSound() != Sound.NONE) {
+                    soundEngine.playClip(config.taskCompletedSound(), gameVolume);
+                }
 
                 clientThread.invokeLater(this::tryClearMessage);
             } catch (IllegalStateException ex) {

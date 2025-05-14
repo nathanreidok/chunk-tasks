@@ -1,5 +1,6 @@
 package com.chunktasks;
 
+import com.chunktasks.sound.Sound;
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
@@ -41,4 +42,13 @@ public interface ChunkTasksConfig extends Config
 			position = 3
 	)
 	default boolean showChunkTaskPrefix() { return true; }
+
+	@ConfigItem(
+			keyName = "taskCompleteSound",
+			name = "Sound Effect",
+			description =
+					"The sound effect to play when completing a chunk task",
+			position = 4
+	)
+	default Sound taskCompletedSound() { return Sound.LEAGUES_TASK; }
 }
