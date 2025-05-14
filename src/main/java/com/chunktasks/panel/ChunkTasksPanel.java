@@ -220,8 +220,8 @@ public class ChunkTasksPanel extends PluginPanel
                 + "<br/><br/>Please submit any issues here:"
                 + "<br/>github.com/nathanreidok/chunk-tasks"
                 + "<br/><br/>For general questions, message me:"
-                + "<br/>-> In game (BurnerChunk)"
-                + "<br/>-> On discord (@BurnerChunk)</html>");
+                + "<br/>-> In game (Burner Chunk)"
+                + "<br/>-> On discord (@Burner Chunk)</html>");
         panel.add(label);
         return panel;
     }
