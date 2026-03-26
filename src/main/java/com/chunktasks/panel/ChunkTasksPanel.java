@@ -360,7 +360,7 @@ public class ChunkTasksPanel extends PluginPanel
             return;
         }
 
-        String url = "https://chunkpicker.firebaseio.com/maps/" + mapCode.toLowerCase() + "/pluginOutput.json";
+        String url = "https://getpluginoutput-hfy4fvnsxa-uc.a.run.app/?mapcode=" + mapCode.toLowerCase();
 
         Request r = new Request.Builder()
                 .url(url)
