@@ -87,6 +87,6 @@ public abstract class SoundFileManager {
     }
 
     public static InputStream getSoundStream(Sound sound) throws FileNotFoundException {
-        return new FileInputStream(new File(DOWNLOAD_DIR, sound.getResourceName()));
+        return new BufferedInputStream(new FileInputStream(new File(DOWNLOAD_DIR, sound.getResourceName())));
     }
 }
