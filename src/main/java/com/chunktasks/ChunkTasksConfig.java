@@ -51,4 +51,13 @@ public interface ChunkTasksConfig extends Config
 			position = 4
 	)
 	default Sound taskCompletedSound() { return Sound.LEAGUES_TASK; }
+
+	@ConfigItem(
+			keyName = "chunkPickerPassword",
+			name = "Chunk Picker Password",
+			description = "Password for your Chunk Picker map (needed for syncing completed tasks back to the server)",
+			secret = true,
+			position = 5
+	)
+	default String chunkPickerPassword() { return ""; }
 }

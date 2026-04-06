@@ -4,6 +4,7 @@ import com.chunktasks.*;
 import com.chunktasks.tasks.*;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.services.ChunkTaskNotifier;
+import com.chunktasks.services.ChunkTasksSyncService;
 import com.chunktasks.types.TaskGroup;
 import com.chunktasks.types.TaskType;
 import com.google.gson.JsonSyntaxException;
@@ -29,8 +30,13 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -42,8 +48,10 @@ public class ChunkTasksPanel extends PluginPanel
     @Inject private ChunkTasksConfig config;
     @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private ChunkTaskNotifier chunkTaskNotifier;
+    @Inject private ChunkTasksSyncService chunkTasksSyncService;
     @Inject private ClientThread clientThread;
     @Inject private OkHttpClient okHttpClient;
+    @Inject private ScheduledExecutorService executor;
 
     private boolean isLoggedIn;
     private JPanel tasksPanel;
@@ -52,6 +60,8 @@ public class ChunkTasksPanel extends PluginPanel
 
     private static final ImageIcon REFRESH_ICON;
     private static final ImageIcon REFRESH_HOVER_ICON;
+    private static final ImageIcon UPLOAD_ICON;
+    private static final ImageIcon UPLOAD_HOVER_ICON;
     private static final ImageIcon EYE_ICON;
     private static final ImageIcon EYE_HOVER_ICON;
     private static final ImageIcon EYE_SLASH_ICON;
@@ -69,6 +79,7 @@ public class ChunkTasksPanel extends PluginPanel
     static
     {
         final BufferedImage refreshIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/refresh_icon.png");
+        final BufferedImage uploadIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/upload_icon.png");
         final BufferedImage eyeIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/eye_icon.png");
         final BufferedImage eyeSlashIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/eye_slash_icon.png");
         final BufferedImage brokenLinkIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/broken_link_icon.png");
@@ -76,6 +87,8 @@ public class ChunkTasksPanel extends PluginPanel
         final BufferedImage collapsedIcon = ImageUtil.loadImageResource(ChunkTasksPlugin.class, "/images/collapsed_icon.png");
         REFRESH_ICON = new ImageIcon(refreshIcon);
         REFRESH_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(refreshIcon, 0.53f));
+        UPLOAD_ICON = new ImageIcon(uploadIcon);
+        UPLOAD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(uploadIcon, 0.53f));
         EYE_ICON = new ImageIcon(eyeIcon);
         EYE_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(eyeIcon, 0.53f));
         EYE_SLASH_ICON = new ImageIcon(eyeSlashIcon);
@@ -124,6 +137,7 @@ public class ChunkTasksPanel extends PluginPanel
         topPanelButtons = new JPanel();
         topPanelButtons.setLayout(new BoxLayout(topPanelButtons, BoxLayout.LINE_AXIS));
         topPanelButtons.add(getShowHideButton());
+        topPanelButtons.add(getSyncButton());
         topPanelButtons.add(getRefreshButton());
 
         topPanel.add(titleLabel, BorderLayout.WEST);
@@ -183,6 +197,32 @@ public class ChunkTasksPanel extends PluginPanel
             }
         });
         return refreshButton;
+    }
+
+    private JLabel getSyncButton() {
+        JLabel syncButton = new JLabel(UPLOAD_ICON);
+        syncButton.setToolTipText("Sync completed tasks to Chunk Picker");
+        syncButton.setBorder(new EmptyBorder(0,5,0,0));
+        syncButton.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    syncCompletedTasks();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                syncButton.setIcon(UPLOAD_HOVER_ICON);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                syncButton.setIcon(UPLOAD_ICON);
+            }
+        });
+        return syncButton;
     }
 
     private void addTasksPanel() {
@@ -396,6 +436,132 @@ public class ChunkTasksPanel extends PluginPanel
                 else {
                     log.debug("Get request unsuccessful");
                 }
+            }
+        });
+    }
+
+    /**
+     * Syncs completed tasks to the Chunk Picker server.
+     * Flow:
+     * 1. Authenticate with Firebase
+     * 2. Fetch fresh tasks from server (to avoid overwriting other completions)
+     * 3. Merge: keep tasks complete if complete locally OR on server
+     * 4. Push newly completed tasks to Firebase (checkedChallenges + pluginOutput)
+     * 5. Save merged state locally and redraw
+     */
+    public void syncCompletedTasks() {
+        if (!config.allowApiConnections()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enable Chunk Picker website connections in the plugin config",
+                    "API Requests not Authorized",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String mapCode = config.mapCode();
+        if (mapCode == null || mapCode.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter your Chunk Picker map code in the plugin config",
+                    "Missing Map Code",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        String password = config.chunkPickerPassword();
+        if (password == null || password.isBlank()) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter your Chunk Picker password in the plugin config to sync completed tasks",
+                    "Missing Password",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Capture locally completed task names before async work
+        List<ChunkTask> localTasks = chunkTasksManager.getChunkTasks();
+        if (localTasks == null || localTasks.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No tasks loaded. Import tasks first.",
+                    "No Tasks",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        Set<String> locallyCompletedNames = localTasks.stream()
+                .filter(t -> t.isComplete)
+                .map(t -> t.name)
+                .collect(Collectors.toSet());
+
+        executor.submit(() -> {
+            try {
+                // Step 1: Authenticate
+                String authToken = chunkTasksSyncService.authenticate();
+
+                // Step 2: Fetch fresh tasks from server
+                String pluginOutputJson = chunkTasksSyncService.readPluginOutput(authToken);
+                if (pluginOutputJson == null || pluginOutputJson.equals("null") || pluginOutputJson.isEmpty()) {
+                    SwingUtilities.invokeLater(() -> promptUserToRefreshChunkPicker());
+                    return;
+                }
+
+                Type type = new TypeToken<ArrayList<ChunkTask>>() {}.getType();
+                List<ChunkTask> serverTasks = GSON.fromJson(pluginOutputJson, type);
+
+                // Step 3: Merge completion status
+                Map<String, Set<String>> newlyCompletedBySkill = new HashMap<>();
+
+                for (ChunkTask serverTask : serverTasks) {
+                    boolean locallyComplete = locallyCompletedNames.contains(serverTask.name);
+                    boolean serverComplete = serverTask.isComplete;
+
+                    if (locallyComplete && !serverComplete) {
+                        serverTask.isComplete = true;
+                        String skill = ChunkTasksSyncService.getCheckedChallengesKey(serverTask);
+                        newlyCompletedBySkill
+                                .computeIfAbsent(skill, k -> new HashSet<>())
+                                .add(serverTask.name);
+                    }
+                }
+
+                if (!newlyCompletedBySkill.isEmpty()) {
+                    // Step 4a: Push updated checkedChallenges to Firebase
+                    chunkTasksSyncService.patchCheckedChallenges(authToken, newlyCompletedBySkill);
+
+                    // Step 4b: Push updated pluginOutput to Firebase
+                    chunkTasksSyncService.writePluginOutput(authToken, serverTasks);
+
+                    int totalSynced = newlyCompletedBySkill.values().stream().mapToInt(Set::size).sum();
+                    log.info("Synced {} completed task(s) to Chunk Picker", totalSynced);
+                } else {
+                    log.info("No new completed tasks to sync");
+                }
+
+                // Step 5: Re-match task types and save locally
+                matchTaskType(serverTasks);
+                chunkTasksManager.importTasks(serverTasks);
+
+                SwingUtilities.invokeLater(() -> {
+                    redrawChunkTasks();
+                    int totalSynced = newlyCompletedBySkill.values().stream().mapToInt(Set::size).sum();
+                    if (totalSynced > 0) {
+                        JOptionPane.showMessageDialog(this,
+                                "Successfully synced " + totalSynced + " completed task(s) to Chunk Picker",
+                                "Sync Complete",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                                "All tasks are already in sync with Chunk Picker",
+                                "Sync Complete",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                });
+
+            } catch (Exception e) {
+                log.error("Error syncing completed tasks", e);
+                SwingUtilities.invokeLater(() ->
+                        JOptionPane.showMessageDialog(this,
+                                "Failed to sync tasks: " + e.getMessage(),
+                                "Sync Error",
+                                JOptionPane.ERROR_MESSAGE));
             }
         });
     }
