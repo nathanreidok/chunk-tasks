@@ -73,6 +73,7 @@ public class ChunkTasksPanel extends PluginPanel
     private static final ImageIcon COLLAPSED_HOVER_ICON;
 
     private final List<TaskGroup> collapsedTaskGroups = new ArrayList<>();
+    private boolean backlogCollapsed = false;
 
     private boolean hideCompletedTasks = false;
 
@@ -239,13 +240,22 @@ public class ChunkTasksPanel extends PluginPanel
         if (!isLoggedIn || chunkTasks == null || chunkTasks.isEmpty()) {
             tasksPanel.add(getGeneralInfoPanel());
         } else {
+            // Active tasks (non-backlogged) grouped by TaskGroup
             for (TaskGroup taskGroup : TaskGroup.values()) {
                 List<ChunkTask> taskGroupTasks = chunkTasks.stream()
-                        .filter(t -> t.taskGroup == taskGroup)
+                        .filter(t -> t.taskGroup == taskGroup && !t.isBacklogged)
                         .collect(Collectors.toList());
                 if (!taskGroupTasks.isEmpty()) {
                     tasksPanel.add(getTaskGroupPanel(taskGroup, taskGroupTasks));
                 }
+            }
+
+            // Backlogged tasks section
+            List<ChunkTask> backloggedTasks = chunkTasks.stream()
+                    .filter(t -> t.isBacklogged)
+                    .collect(Collectors.toList());
+            if (!backloggedTasks.isEmpty()) {
+                tasksPanel.add(getBacklogPanel(backloggedTasks));
             }
         }
 
@@ -282,6 +292,78 @@ public class ChunkTasksPanel extends PluginPanel
         }
 
         return taskGroupPanel;
+    }
+
+    private JPanel getBacklogPanel(List<ChunkTask> backloggedTasks) {
+        JPanel backlogPanel = new JPanel();
+        backlogPanel.setLayout(new BoxLayout(backlogPanel, BoxLayout.PAGE_AXIS));
+        backlogPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        backlogPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+        backlogPanel.add(getBacklogHeader(backloggedTasks));
+        if (!backlogCollapsed) {
+            for (ChunkTask task : backloggedTasks) {
+                backlogPanel.add(getBacklogTaskPanel(task));
+            }
+        }
+
+        return backlogPanel;
+    }
+
+    private JPanel getBacklogHeader(List<ChunkTask> backloggedTasks) {
+        String headerText = "Backlogged (" + backloggedTasks.size() + ")";
+        JLabel headerLabel = new JLabel(headerText);
+        headerLabel.setForeground(Color.WHITE);
+        headerLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
+
+        JLabel expandCollapseButton = new JLabel(backlogCollapsed ? COLLAPSED_ICON : EXPANDED_ICON);
+        expandCollapseButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    backlogCollapsed = !backlogCollapsed;
+                    redrawChunkTasks();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                expandCollapseButton.setIcon(backlogCollapsed ? COLLAPSED_HOVER_ICON : EXPANDED_HOVER_ICON);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                expandCollapseButton.setIcon(backlogCollapsed ? COLLAPSED_ICON : EXPANDED_ICON);
+            }
+        });
+
+        JPanel headerContent = new JPanel();
+        headerContent.setLayout(new BoxLayout(headerContent, BoxLayout.LINE_AXIS));
+        headerContent.setForeground(Color.WHITE);
+        headerContent.add(expandCollapseButton);
+        headerContent.add(headerLabel);
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BorderLayout());
+        headerPanel.add(headerContent, BorderLayout.WEST);
+        headerPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+        return headerPanel;
+    }
+
+    private JPanel getBacklogTaskPanel(ChunkTask task) {
+        String taskName = config.showChunkTaskPrefix() ? task.getNameWithPrefix() : task.name;
+        String sanitized = taskName.replace("~", "").replace("|", "");
+        JLabel label = new JLabel("<html><i>" + sanitized + "</i></html>");
+        label.setForeground(ColorScheme.LIGHT_GRAY_COLOR);
+        label.setBorder(new EmptyBorder(2, 5, 2, 0));
+
+        JPanel taskPanel = new JPanel();
+        taskPanel.setLayout(new BoxLayout(taskPanel, BoxLayout.LINE_AXIS));
+        taskPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+        taskPanel.add(label);
+
+        return taskPanel;
     }
 
     private JPanel getTaskGroupHeader(TaskGroup taskGroup, List<ChunkTask> chunkTasks) {
@@ -425,6 +507,10 @@ public class ChunkTasksPanel extends PluginPanel
                         }
 
                         List<ChunkTask> chunkTasks = GSON.fromJson(tasksJson, type);
+
+                        // Fetch backlog data if password is configured
+                        fetchAndApplyBacklog(chunkTasks);
+
                         matchTaskType(chunkTasks);
                         chunkTasksManager.importTasks(chunkTasks);
                         redrawChunkTasks();
@@ -507,6 +593,13 @@ public class ChunkTasksPanel extends PluginPanel
                 List<ChunkTask> serverTasks = GSON.fromJson(pluginOutputJson, type);
 
                 // Step 3: Merge completion status
+                // Build a map of server tasks by name for quick lookup
+                Map<String, ChunkTask> serverTaskMap = new LinkedHashMap<>();
+                for (ChunkTask task : serverTasks) {
+                    serverTaskMap.put(task.name, task);
+                }
+
+                // Track newly completed tasks (complete locally but not on server)
                 Map<String, Set<String>> newlyCompletedBySkill = new HashMap<>();
 
                 for (ChunkTask serverTask : serverTasks) {
@@ -514,12 +607,16 @@ public class ChunkTasksPanel extends PluginPanel
                     boolean serverComplete = serverTask.isComplete;
 
                     if (locallyComplete && !serverComplete) {
+                        // Newly completed: need to push to server
                         serverTask.isComplete = true;
                         String skill = ChunkTasksSyncService.getCheckedChallengesKey(serverTask);
                         newlyCompletedBySkill
                                 .computeIfAbsent(skill, k -> new HashSet<>())
                                 .add(serverTask.name);
+                    } else if (serverComplete && !locallyComplete) {
+                        // Server has it complete, keep it (already true on serverTask)
                     }
+                    // If both complete or both incomplete, no change needed
                 }
 
                 if (!newlyCompletedBySkill.isEmpty()) {
@@ -535,7 +632,8 @@ public class ChunkTasksPanel extends PluginPanel
                     log.info("No new completed tasks to sync");
                 }
 
-                // Step 5: Re-match task types and save locally
+                // Step 5: Fetch backlog and re-match task types, save locally
+                fetchAndApplyBacklog(serverTasks, authToken);
                 matchTaskType(serverTasks);
                 chunkTasksManager.importTasks(serverTasks);
 
@@ -571,6 +669,96 @@ public class ChunkTasksPanel extends PluginPanel
                 "Please refresh tasks on the Chunk Picker website and try again.",
                 "Chunk Picker Refresh Needed",
                 JOptionPane.ERROR_MESSAGE);
+    }
+
+    /**
+     * Fetches backlog data from Firebase (authenticating if needed) and marks
+     * matching tasks as backlogged. Also creates backlog-only ChunkTask entries
+     * for tasks that are in the backlog but not in pluginOutput.
+     */
+    private void fetchAndApplyBacklog(List<ChunkTask> tasks) {
+        String password = config.chunkPickerPassword();
+        if (password == null || password.isBlank()) {
+            return; // Can't fetch backlog without password
+        }
+        try {
+            String authToken = chunkTasksSyncService.authenticate();
+            fetchAndApplyBacklog(tasks, authToken);
+        } catch (IOException e) {
+            log.debug("Failed to fetch backlog data: {}", e.getMessage());
+        }
+    }
+
+    /**
+     * Fetches backlog data from Firebase using an existing auth token and marks
+     * matching tasks as backlogged. Also creates backlog-only ChunkTask entries
+     * for tasks that are in the backlog but not in pluginOutput.
+     */
+    private void fetchAndApplyBacklog(List<ChunkTask> tasks, String authToken) {
+        try {
+            Map<String, Set<String>> backlog = chunkTasksSyncService.readBacklog(authToken);
+            if (backlog.isEmpty()) {
+                return;
+            }
+
+            // Build a set of all backlogged task names across all skills
+            Set<String> allBackloggedNames = new HashSet<>();
+            for (Set<String> names : backlog.values()) {
+                allBackloggedNames.addAll(names);
+            }
+
+            // Mark existing tasks as backlogged if their name matches
+            Set<String> matchedNames = new HashSet<>();
+            for (ChunkTask task : tasks) {
+                if (allBackloggedNames.contains(task.name)) {
+                    task.isBacklogged = true;
+                    matchedNames.add(task.name);
+                }
+            }
+
+            // Create ChunkTask entries for backlogged tasks not in pluginOutput.
+            // Use a dedicated set to avoid adding duplicates (same task under multiple skills).
+            Set<String> addedBacklogNames = new HashSet<>();
+            for (Map.Entry<String, Set<String>> entry : backlog.entrySet()) {
+                String skill = entry.getKey();
+                for (String taskName : entry.getValue()) {
+                    if (!matchedNames.contains(taskName) && !addedBacklogNames.contains(taskName)) {
+                        ChunkTask backlogTask = new ChunkTask();
+                        backlogTask.name = taskName;
+                        backlogTask.isBacklogged = true;
+                        backlogTask.isComplete = false;
+                        backlogTask.taskGroup = resolveTaskGroup(skill);
+                        backlogTask.prefix = resolveBacklogPrefix(skill);
+                        tasks.add(backlogTask);
+                        addedBacklogNames.add(taskName);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            log.debug("Failed to fetch backlog data: {}", e.getMessage());
+        }
+    }
+
+    private static TaskGroup resolveTaskGroup(String skill) {
+        switch (skill) {
+            case "Quest": return TaskGroup.QUEST;
+            case "Diary": return TaskGroup.DIARY;
+            case "BiS": return TaskGroup.BIS;
+            case "Extra": return TaskGroup.OTHER;
+            default: return TaskGroup.SKILL; // skill names like Mining, Attack, etc.
+        }
+    }
+
+    private static String resolveBacklogPrefix(String skill) {
+        switch (skill) {
+            case "Quest":
+            case "Diary":
+            case "BiS":
+            case "Extra":
+                return "[" + skill + "]";
+            default:
+                return "[" + skill + "]";
+        }
     }
 
     private void matchTaskType(List<ChunkTask> chunkTasks) {

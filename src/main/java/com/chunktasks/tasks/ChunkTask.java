@@ -11,6 +11,7 @@ import java.util.List;
 public class ChunkTask {
     public String name;
     public boolean isComplete;
+    public boolean isBacklogged;
     public TaskGroup taskGroup;
     public HashMap<Skill, Integer> skills;
     public List<String> items;

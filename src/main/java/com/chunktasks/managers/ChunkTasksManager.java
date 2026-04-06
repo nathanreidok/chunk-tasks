@@ -49,7 +49,7 @@ public class ChunkTasksManager {
     }
 
     public List<ChunkTask> getActiveChunkTasksByType(TaskType taskType) {
-        return chunkTasks.stream().filter(t -> !t.isComplete && t.taskType == taskType).collect(Collectors.toList());
+        return chunkTasks.stream().filter(t -> !t.isComplete && !t.isBacklogged && t.taskType == taskType).collect(Collectors.toList());
     }
 
     public void completeTask(ChunkTask task) {
