@@ -402,8 +402,8 @@ public class ChunkTasksPanel extends PluginPanel
 
     private void promptUserToRefreshChunkPicker() {
         JOptionPane.showMessageDialog(this,
-                "Please refresh tasks on the Chunk Picker website and try again.",
-                "Chunk Picker Refresh Needed",
+                "On the Chunk Picker website settings, please opt-in to generate data used in the Chunk Tasks plugin and refresh tasks then try again.",
+                "Chunk Picker Opt-in or Refresh Needed",
                 JOptionPane.ERROR_MESSAGE);
     }
 
