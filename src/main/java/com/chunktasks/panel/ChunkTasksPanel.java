@@ -29,8 +29,11 @@ import java.io.Reader;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -63,6 +66,7 @@ public class ChunkTasksPanel extends PluginPanel
     private static final ImageIcon COLLAPSED_HOVER_ICON;
 
     private final List<TaskGroup> collapsedTaskGroups = new ArrayList<>();
+    private final Set<String> collapsedCustomSections = new HashSet<>();
 
     private boolean hideCompletedTasks = false;
 
@@ -203,7 +207,13 @@ public class ChunkTasksPanel extends PluginPanel
                 List<ChunkTask> taskGroupTasks = chunkTasks.stream()
                         .filter(t -> t.taskGroup == taskGroup)
                         .collect(Collectors.toList());
-                if (!taskGroupTasks.isEmpty()) {
+                if (taskGroupTasks.isEmpty()) {
+                    continue;
+                }
+
+                if (taskGroup == TaskGroup.OTHER) {
+                    addOtherTaskSections(taskGroupTasks);
+                } else {
                     tasksPanel.add(getTaskGroupPanel(taskGroup, taskGroupTasks));
                 }
             }
@@ -211,6 +221,125 @@ public class ChunkTasksPanel extends PluginPanel
 
         revalidate();
         repaint();
+    }
+
+    /**
+     * Splits OTHER tasks into separate sections:
+     * - Regular "Other Tasks" (anything not Kill X or Every Drop)
+     * - "Kill X" section
+     * - "Every Drop: {Monster}" sections (one per monster)
+     */
+    private void addOtherTaskSections(List<ChunkTask> otherTasks) {
+        List<ChunkTask> regularOther = new ArrayList<>();
+        List<ChunkTask> killXTasks = new ArrayList<>();
+        Map<String, List<ChunkTask>> everyDropByMonster = new LinkedHashMap<>();
+
+        for (ChunkTask task : otherTasks) {
+            String prefix = task.prefix != null ? task.prefix : "";
+            if (prefix.startsWith("[Kill X]")) {
+                killXTasks.add(task);
+            } else if (prefix.startsWith("[Every Drop]")) {
+                String monster = extractMonsterName(task.name);
+                everyDropByMonster.computeIfAbsent(monster, k -> new ArrayList<>()).add(task);
+            } else {
+                regularOther.add(task);
+            }
+        }
+
+        if (!regularOther.isEmpty()) {
+            tasksPanel.add(getTaskGroupPanel(TaskGroup.OTHER, regularOther));
+        }
+
+        if (!killXTasks.isEmpty()) {
+            tasksPanel.add(getCustomSectionPanel("Kill X", killXTasks));
+        }
+
+        for (Map.Entry<String, List<ChunkTask>> entry : everyDropByMonster.entrySet()) {
+            String sectionName = "Every Drop: " + entry.getKey();
+            tasksPanel.add(getCustomSectionPanel(sectionName, entry.getValue()));
+        }
+    }
+
+    /**
+     * Extracts the monster name from an Every Drop task name.
+     * E.g. "Air elemental: Air rune (1/42.67)" -> "Air elemental"
+     */
+    private static String extractMonsterName(String taskName) {
+        String cleaned = taskName.replace("~", "").replace("|", "");
+        int colonIdx = cleaned.indexOf(':');
+        if (colonIdx > 0) {
+            String monster = cleaned.substring(0, colonIdx).trim();
+            int hashIdx = monster.indexOf('#');
+            if (hashIdx > 0) {
+                monster = monster.substring(0, hashIdx).trim();
+            }
+            return monster;
+        }
+        return cleaned;
+    }
+
+    /**
+     * Creates a collapsible section panel with a custom string key for collapse tracking.
+     */
+    private JPanel getCustomSectionPanel(String sectionName, List<ChunkTask> tasks) {
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        panel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+        boolean isCollapsed = collapsedCustomSections.contains(sectionName);
+
+        String headerText = sectionName + " (" + tasks.stream().filter(t -> t.isComplete).count() + "/" + tasks.size() + ")";
+        JLabel headerLabel = new JLabel(headerText);
+        headerLabel.setForeground(Color.WHITE);
+        headerLabel.setBorder(new EmptyBorder(0, 5, 0, 0));
+
+        JLabel expandCollapseBtn = new JLabel(isCollapsed ? COLLAPSED_ICON : EXPANDED_ICON);
+        expandCollapseBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isLeftMouseButton(e)) {
+                    if (collapsedCustomSections.contains(sectionName)) {
+                        collapsedCustomSections.remove(sectionName);
+                    } else {
+                        collapsedCustomSections.add(sectionName);
+                    }
+                    redrawChunkTasks();
+                }
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                expandCollapseBtn.setIcon(collapsedCustomSections.contains(sectionName) ? COLLAPSED_HOVER_ICON : EXPANDED_HOVER_ICON);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                expandCollapseBtn.setIcon(collapsedCustomSections.contains(sectionName) ? COLLAPSED_ICON : EXPANDED_ICON);
+            }
+        });
+
+        JPanel headerContent = new JPanel();
+        headerContent.setLayout(new BoxLayout(headerContent, BoxLayout.LINE_AXIS));
+        headerContent.add(expandCollapseBtn);
+        headerContent.add(headerLabel);
+
+        JPanel headerPanel = new JPanel();
+        headerPanel.setLayout(new BorderLayout());
+        headerPanel.add(headerContent, BorderLayout.WEST);
+        headerPanel.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+        panel.add(headerPanel);
+
+        if (!isCollapsed) {
+            for (ChunkTask task : tasks) {
+                if (!hideCompletedTasks || !task.isComplete) {
+                    panel.add(getTaskPanel(task));
+                }
+            }
+        }
+
+        return panel;
     }
 
     private JPanel getGeneralInfoPanel() {
