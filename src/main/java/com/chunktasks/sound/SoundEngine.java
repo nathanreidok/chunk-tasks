@@ -17,6 +17,9 @@ public class SoundEngine {
     private AudioPlayer audioPlayer;
 
     public void playClip(Sound sound, int gameVolume) {
+        if (sound == Sound.LEAGUES_TASK) {
+            gameVolume = (int)Math.floor(gameVolume * 0.2);
+        }
         float gain = 20f * (float) Math.log10(gameVolume / 100f);
 
         try {
