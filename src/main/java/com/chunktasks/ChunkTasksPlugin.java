@@ -1,23 +1,16 @@
 package com.chunktasks;
 
-import com.chunktasks.managers.InventoryManager;
-import com.chunktasks.managers.SkillManager;
-import com.chunktasks.tasks.ChunkTask;
-import com.chunktasks.managers.ChunkTasksManager;
-import com.chunktasks.managers.MapManager;
+import com.chunktasks.input.MouseManager;
+import com.chunktasks.managers.*;
 import com.chunktasks.panel.ChunkTasksPanel;
 import com.chunktasks.services.ChunkTaskChecker;
 import com.chunktasks.services.ChunkTaskNotifier;
 import com.chunktasks.sound.SoundFileManager;
+import com.chunktasks.tasks.ChunkTask;
+import com.chunktasks.ui.InterfaceManager;
+import com.google.inject.Injector;
 import com.google.inject.Provides;
-
-import java.awt.image.BufferedImage;
-import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import javax.inject.Inject;
-
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.*;
@@ -29,10 +22,21 @@ import net.runelite.client.events.ProfileChanged;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.ui.ClientToolbar;
+import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 import okhttp3.OkHttpClient;
+import net.runelite.api.gameval.InventoryID;
+
+import javax.inject.Inject;
+import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @PluginDescriptor(
@@ -52,17 +56,29 @@ public class ChunkTasksPlugin extends Plugin {
 	@Inject private ChunkTaskNotifier chunkTaskNotifier;
 	@Inject private MapManager mapManager;
 	@Inject private SkillManager skillManager;
+	@Inject private MouseManager mouseManager;
+	@Inject private InterfaceManager interfaceManager;
 
 	private ChunkTasksPanel panel;
 	private NavigationButton navButton;
+
+
+	@Getter
+	private static Injector staticInjector;
 
 //	private static final int[] previous_exp = new int[Skill.values().length];
 
 	@Override
 	protected void startUp() {
+		ChunkTasksPlugin.staticInjector = getInjector();
+
+		mouseManager.startUp();
+		interfaceManager.startUp();
 		executor.submit(() -> {
 			SoundFileManager.ensureDownloadDirectoryExists();
 			SoundFileManager.downloadAllMissingSounds(okHttpClient);
+			JsonFileManager.ensureDownloadDirectoryExists();
+			JsonFileManager.downloadJsonFiles(okHttpClient);
 		});
 
 		boolean isLoggedIn = client.getGameState() == GameState.LOGGED_IN;
@@ -94,6 +110,9 @@ public class ChunkTasksPlugin extends Plugin {
 		if (navButton != null) {
 			clientToolbar.removeNavigation(navButton);
 		}
+
+		mouseManager.shutDown();
+		interfaceManager.shutDown();
 	}
 
 	@Subscribe
@@ -158,14 +177,14 @@ public class ChunkTasksPlugin extends Plugin {
 	@Subscribe
 	public void onItemContainerChanged(ItemContainerChanged itemContainerChanged) {
 		int containerId = itemContainerChanged.getContainerId();
-		if (containerId == InventoryID.INVENTORY.getId())
+		if (containerId == InventoryID.INV)
 			onInventoryChanged();
-		else if (containerId == InventoryID.EQUIPMENT.getId())
+		else if (containerId == InventoryID.WORN)
 			onEquipmentChanged();
 	}
 
 	private void onInventoryChanged() {
-		final ItemContainer itemContainer = client.getItemContainer(InventoryID.INVENTORY);
+		final ItemContainer itemContainer = client.getItemContainer(InventoryID.INV);
 		if (itemContainer == null)
 			return;
 
@@ -213,7 +232,6 @@ public class ChunkTasksPlugin extends Plugin {
 
 	@Subscribe
 	public void onChatMessage(ChatMessage chatMessage) {
-		log.debug(chatMessage.getType() + " - " + chatMessage.getMessage());
 		List<ChunkTask> completedTasks = chunkTaskChecker.checkChatMessageTasks(chatMessage);
 		if (!completedTasks.isEmpty())
 			completeTasks(completedTasks);

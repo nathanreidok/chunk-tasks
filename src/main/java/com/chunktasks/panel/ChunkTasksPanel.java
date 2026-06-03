@@ -1,43 +1,30 @@
 package com.chunktasks.panel;
 
-import com.chunktasks.*;
-import com.chunktasks.tasks.*;
+import com.chunktasks.ChunkTasksConfig;
+import com.chunktasks.ChunkTasksPlugin;
+import com.chunktasks.events.ChunkTasksEventBus;
+import com.chunktasks.events.ChunkTasksEventType;
 import com.chunktasks.managers.ChunkTasksManager;
 import com.chunktasks.services.ChunkTaskNotifier;
+import com.chunktasks.tasks.ChunkTask;
 import com.chunktasks.types.TaskGroup;
 import com.chunktasks.types.TaskType;
-import com.google.gson.JsonSyntaxException;
-import com.google.gson.reflect.TypeToken;
 import com.google.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
-import net.runelite.api.Prayer;
 import net.runelite.client.callback.ClientThread;
 import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.util.ImageUtil;
-import okhttp3.*;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static net.runelite.http.api.RuneLiteAPI.GSON;
 
 @Slf4j
 public class ChunkTasksPanel extends PluginPanel
@@ -46,7 +33,7 @@ public class ChunkTasksPanel extends PluginPanel
     @Inject private ChunkTasksManager chunkTasksManager;
     @Inject private ChunkTaskNotifier chunkTaskNotifier;
     @Inject private ClientThread clientThread;
-    @Inject private OkHttpClient okHttpClient;
+    @Inject private ChunkTasksEventBus eventBus;
 
     private boolean isLoggedIn;
     private JPanel tasksPanel;
@@ -101,6 +88,12 @@ public class ChunkTasksPanel extends PluginPanel
         addTasksPanel();
 
         redrawChunkTasks();
+
+        eventBus.subscribe(ChunkTasksEventType.TASKS_IMPORTED, (success) -> {
+            if ((boolean)success) {
+                redrawChunkTasks();
+            }
+        });
     }
 
     public void setLoggedIn(boolean isLoggedIn) {
@@ -172,7 +165,7 @@ public class ChunkTasksPanel extends PluginPanel
             @Override
             public void mousePressed(MouseEvent e) {
                 if (SwingUtilities.isLeftMouseButton(e)) {
-                    importChunkTasks();
+                    chunkTasksManager.importChunkTasks();
                 }
             }
 
@@ -469,168 +462,5 @@ public class ChunkTasksPanel extends PluginPanel
         return isComplete
                 ? "<html><strike>" + sanitizedTaskName + "</strike></html>"
                 : "<html>" + sanitizedTaskName + "</html>";
-    }
-
-    public void importChunkTasks() {
-        if (!config.allowApiConnections()) {
-            JOptionPane.showMessageDialog(this,
-                "Please enable Chunk Picker website connections in the plugin config",
-                "API Requests not Authorized",
-                JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        String mapCode = config.mapCode();
-
-        if (mapCode == null || mapCode.isBlank()) {
-            JOptionPane.showMessageDialog(this,
-                    "Please enter you Chunk Picker map code in the plugin config",
-                    "Missing Map Code",
-                    JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-
-        String url = "https://getpluginoutput-hfy4fvnsxa-uc.a.run.app/?mapcode=" + mapCode.toLowerCase();
-
-        Request r = new Request.Builder()
-                .url(url)
-                .build();
-        okHttpClient.newCall(r).enqueue(new Callback()
-        {
-            @Override
-            public void onFailure( Call call,  IOException e) {
-                log.debug("Error retrieving chunk tasks", e);
-            }
-
-            @Override
-            public void onResponse( Call call,  Response response) {
-                if (response.isSuccessful()) {
-                    try {
-                        Type type = new TypeToken<ArrayList<ChunkTask>>() {}.getType();
-                        ResponseBody body = response.body();
-                        String tasksJson = body == null ? "" : body.string();
-                        if (tasksJson.equals("null") || tasksJson.isEmpty()) {
-                            promptUserToRefreshChunkPicker();
-                            return;
-                        }
-
-                        List<ChunkTask> chunkTasks = GSON.fromJson(tasksJson, type);
-                        matchTaskType(chunkTasks);
-                        chunkTasksManager.importTasks(chunkTasks);
-                        redrawChunkTasks();
-                    }
-                    catch (IOException | JsonSyntaxException e) {
-                        log.debug(e.getMessage());
-                    }
-                }
-                else {
-                    log.debug("Get request unsuccessful");
-                }
-            }
-        });
-    }
-
-    private void promptUserToRefreshChunkPicker() {
-        JOptionPane.showMessageDialog(this,
-                "On the Chunk Picker website settings, please opt-in to generate data used in the Chunk Tasks plugin and refresh tasks then try again.",
-                "Chunk Picker Opt-in or Refresh Needed",
-                JOptionPane.ERROR_MESSAGE);
-    }
-
-    private void matchTaskType(List<ChunkTask> chunkTasks) {
-        //Load task triggers
-        Map<String, TaskType> taskTriggers = loadFromFile("/task-triggers.json", new TypeToken<>() {});
-        //Load interaction tasks
-        Map<String, String> interactionTasks = loadFromFile("/interaction-tasks.json", new TypeToken<>() {});
-        //Load movement tasks
-        Map<String, ArrayList<MapMovement>> movementTasks = loadFromFile("/movement-tasks.json", new TypeToken<>() {});
-        //Load location tasks
-        Map<String, MapBoundary> locationTasks = loadFromFile("/location-tasks.json", new TypeToken<>() {});
-        //Obtain Item Id tasks
-        Map<String, ArrayList<Integer>> obtainIdTasks = loadFromFile("/obtain-id-tasks.json", new TypeToken<>() {});
-        //Equip Item Id tasks
-        Map<String, ArrayList<Integer>> equipIdTasks = loadFromFile("/equip-id-tasks.json", new TypeToken<>() {});
-        //Chat message tasks
-        Map<String, ChatMessageConfig> chatMessageTasks = loadFromFile("/chat-message-tasks.json", new TypeToken<>() {});
-        //Xp tasks
-        Map<String, XpTaskConfig> xpTasks = loadFromFile("/xp-tasks.json", new TypeToken<>() {});
-        //Prayer tasks
-        Map<String, Prayer> prayerTasks = loadFromFile("/prayer-tasks.json", new TypeToken<>() {});
-        //Farming Patch tasks
-        Map<String, FarmingPatchConfig> farmingPatchTasks = loadFromFile("/farming-patch-tasks.json", new TypeToken<>() {});
-        //Custom requirement tasks
-        Map<String, TaskType> customTasks = loadFromFile("/custom-tasks.json", new TypeToken<>() {});
-        //Set task types
-        for (ChunkTask chunkTask : chunkTasks) {
-            if (interactionTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.INTERACTION;
-                chunkTask.targetRequirement = interactionTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (movementTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.MOVEMENT;
-                chunkTask.movementRequirement = movementTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (locationTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.LOCATION;
-                chunkTask.locationRequirement = locationTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (obtainIdTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.OBTAIN_ITEM_ID;
-                chunkTask.itemIds = obtainIdTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (equipIdTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.EQUIP_ITEM_ID;
-                chunkTask.itemIds = equipIdTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (chatMessageTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.CHAT_MESSAGE;
-                chunkTask.chatMessageConfig = chatMessageTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (xpTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.XP;
-                chunkTask.xpTaskConfig = xpTasks.get(chunkTask.name);
-                continue;
-            }
-
-            if (prayerTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.PRAYER;
-                chunkTask.prayer = prayerTasks.get(chunkTask.name);
-            }
-
-            if (farmingPatchTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = TaskType.FARMING_PATCH;
-                chunkTask.farmingPatchConfig = farmingPatchTasks.get(chunkTask.name);
-            }
-
-            if (customTasks.containsKey(chunkTask.name)) {
-                chunkTask.taskType = customTasks.get(chunkTask.name);
-                chunkTask.isCustom = true;
-                continue;
-            }
-
-            for (Map.Entry<String, TaskType> entry : taskTriggers.entrySet()) {
-                if (Pattern.matches(entry.getKey(), chunkTask.name)) {
-                    chunkTask.taskType = entry.getValue();
-                    break;
-                }
-            }
-        }
-    }
-
-    private <T> T loadFromFile(String resourceName, TypeToken<T> tokenType) {
-        InputStream stream = ChunkTasksPanel.class.getResourceAsStream(resourceName);
-        Reader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        return GSON.fromJson(reader, tokenType.getType());
     }
 }
